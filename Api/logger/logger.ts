@@ -1,15 +1,6 @@
 import { createLogger, format, transports } from "winston";
-import DailyRotateFile from "winston-daily-rotate-file";
-const { combine, timestamp, label, printf, prettyPrint } = format;
+const { combine, timestamp, prettyPrint } = format;
 
-const customFormat = printf(({ level, message, label, timestamp }) => {
-  return `${timestamp} [${label}] ${level}: ${message}`;
-});
-const fileRotateTransport = new DailyRotateFile({
-  filename: "logs/rotate-%DATE%.log",
-  datePattern: "YYYY-MM-DD",
-  maxFiles: "14d",
-});
 export const logger = createLogger({
   level: "debug",
   format: combine(
@@ -27,6 +18,5 @@ export const logger = createLogger({
       level: "error",
       filename: "logs/error.log",
     }),
-    fileRotateTransport,
   ],
 });
