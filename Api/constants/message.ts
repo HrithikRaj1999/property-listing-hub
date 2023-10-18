@@ -4,3 +4,9 @@ export const MESSAGES = {
   MONGO_CON_ERROR: "Error while connecting mongodb",
   MONGO_CONNECTED: "Mongo DB Connected Successfully",
 };
+
+export const SIGNUP = {
+  MISSING_PARA: "All Fields Are Required",
+  EMAIL_USED: "Email Already Used",
+  SUCCESS: "User Registered Successfully",
+};

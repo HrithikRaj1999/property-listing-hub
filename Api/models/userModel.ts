@@ -10,7 +10,6 @@ const userSchema = new Schema<UserType>(
     username: {
       type: String,
       required: true,
-      unique: true,
     },
     email: {
       type: String,
@@ -24,4 +23,4 @@ const userSchema = new Schema<UserType>(
   },
   { timestamps: true }
 );
-const User = mongoose.model<UserType>("User", userSchema);
+export default mongoose.model<UserType>("User", userSchema);
