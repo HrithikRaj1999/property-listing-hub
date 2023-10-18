@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
+import { SIGNUP } from "../constants/api_message";
 import { customResponse } from "../constants/customResponse";
-import { SIGNUP } from "../constants/message";
 import userModel from "../models/userModel";
 interface SignUpBodyType {
   username?: string;

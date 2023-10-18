@@ -1,3 +1,4 @@
+import { Eye, EyeOff } from "react-feather";
 import { Link } from "react-router-dom";
 import useSignUp from "../hooks/useSignUp";
 
@@ -27,18 +28,33 @@ const SignUp = () => {
             dispatch({ type: "SET_EMAIL", payload: e.target.value })
           }
         />
-        <input
-          className="border p-3 rounded-lg"
-          type="password"
-          id="password"
-          placeholder="Password"
-          value={state.password}
-          onChange={(e) =>
-            dispatch({ type: "SET_PASSWORD", payload: e.target.value })
-          }
-        />
+        <div className="relative">
+          <input
+            className="border p-3 w-full rounded-lg"
+            type={state.passwordVisible ? "text" : "password"}
+            id="password"
+            placeholder="Password"
+            value={state.password}
+            onChange={(e) =>
+              dispatch({ type: "SET_PASSWORD", payload: e.target.value })
+            }
+          />
+          <span
+            className="absolute inset-y-0 right-5 flex items-center text-black"
+            onClick={() =>
+              dispatch({
+                type: "TOGGLE_PASSWORD_VISIBILITY",
+                payload: !state.passwordVisible,
+              })
+            }
+          >
+            {state.passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
+          </span>
+        </div>
+
         <button
           type="submit"
+          disabled={state.error}
           className="bg-slate-700 text-white p-4 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
         >
           Sign Up

@@ -9,6 +9,7 @@ export const customResponse: CustomResponseType = (
   object = {}
 ) => {
   return res.status(code).send({
+    success: code === 200 || code === 201 || code === 202,
     message,
     object,
   });

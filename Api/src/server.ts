@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MESSAGES } from "../constants/message";
+import { MESSAGES } from "../constants/api_message";
 import { logger } from "../logger/logger";
 import cleanEnv from "../util/validateEnv";
 import app from "./app";
