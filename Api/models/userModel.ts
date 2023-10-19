@@ -1,9 +1,9 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
 interface UserType {
-  username: string;
-  email: string;
-  password: string;
+  username: string
+  email: string
+  password: string
 }
 const userSchema = new Schema<UserType>(
   {
@@ -22,5 +22,5 @@ const userSchema = new Schema<UserType>(
     },
   },
   { timestamps: true }
-);
-export default mongoose.model<UserType>("User", userSchema);
+)
+export default mongoose.model<UserType>('User', userSchema)

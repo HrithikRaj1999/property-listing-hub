@@ -1,6 +1,5 @@
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
-import { customResponse } from "../constants/customResponse";
 import { authRouter } from "../routes/auth_routes";
 import { userRouter } from "../routes/user_routes";
 const app = express();
@@ -20,6 +19,9 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   //console.error(error);
   const statusCode = error.statusCode || 500;
   const message = error.message || "Internal Server Error";
-  return customResponse(res, statusCode, message);
+  return res.status(statusCode).send({
+    success: false,
+    message,
+  });
 });
 export default app;
