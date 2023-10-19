@@ -1,8 +1,12 @@
 import cors from "cors";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
+import createHttpError from "http-errors";
+import morgan from "morgan";
 import { authRouter } from "../routes/auth_routes";
 import { userRouter } from "../routes/user_routes";
+import errorHandler from "../util/error";
 const app = express();
+app.use(morgan("dev"));
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -13,15 +17,9 @@ app.use(
 app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
-
-// all the middle ware executes in sequence thus error middle ware must be at the bottom
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-  //console.error(error);
-  const statusCode = error.statusCode || 500;
-  const message = error.message || "Internal Server Error";
-  return res.status(statusCode).send({
-    success: false,
-    message,
-  });
+app.use((req, res, next) => {
+  next(createHttpError(404, "Endpoint Not Found"));
 });
+app.use(errorHandler);
+
 export default app;

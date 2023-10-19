@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import useSignUp from "../hooks/useSignUp";
 
 const SignUp = () => {
-  const { handleSubmit, state, reducer, dispatch } = useSignUp();
+  const { handleSubmit, state, dispatch } = useSignUp();
   return (
     <div className="max-w-sm p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign Up</h1>
@@ -55,14 +55,14 @@ const SignUp = () => {
         <button
           type="submit"
           disabled={state.error}
-          className="bg-slate-700 text-white p-4 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
+          className="bg-slate-900 text-white p-4 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
         >
-          Sign Up
+          {state.loading ? "Loading...." : "Sign Up"}
         </button>
       </form>
       <div className="my-4 gap-3">
-        <p className="text-slate-500">Have an account?</p>
-        <Link className="text-blue-600 font-semibold" to="/sign-in">
+        <p className="text-slate-700">Have an account?</p>
+        <Link className="text-blue-600 font-semibold" to="/signin">
           Sign in
         </Link>
       </div>

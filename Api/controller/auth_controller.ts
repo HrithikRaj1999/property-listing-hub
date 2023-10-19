@@ -25,9 +25,9 @@ export const SignUpController: RequestHandler<
   const { username, email, password } = req.body;
   try {
     if (!username || !email || !password)
-      throw createHttpError(400, SIGNUP.MISSING_PARA);
+      return next(createHttpError(400, SIGNUP.MISSING_PARA));
     const existingUser = await userModel.findOne({ email });
-    if (existingUser) throw createHttpError(409, SIGNUP.EMAIL_USED);
+    if (existingUser) return next(createHttpError(409, SIGNUP.EMAIL_USED));
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await userModel.create({
       username,
@@ -50,12 +50,13 @@ export const SignInController: RequestHandler<
 > = async (req, res, next) => {
   const JWT_SECRET = process.env.JWT_SECRET!;
   const { email, password } = req.body;
-  if (!email || !password) throw createHttpError(400, SIGNUP.MISSING_PARA);
+  if (!email || !password)
+    return next(createHttpError(400, SIGNUP.MISSING_PARA));
   try {
     const exitingUser = await userModel.findOne({ email });
-    if (!exitingUser) return createHttpError(401, SIGN_IN.FAILED); // to avoid brute force attack
-    const isPassValid = bcrypt.compare(password, exitingUser.password);
-    if (!isPassValid) return createHttpError(401, SIGN_IN.FAILED); // to avoid brute force attack
+    if (!exitingUser) return next(createHttpError(401, SIGN_IN.FAILED)); // to avoid brute force attack
+    const isPassValid = await bcrypt.compare(password, exitingUser.password);
+    if (!isPassValid) return next(createHttpError(401, SIGN_IN.FAILED)); // to avoid brute force attack
     const token = jwt.sign({ id: exitingUser._id }, JWT_SECRET);
     return res
       .cookie("access_token", token, { httpOnly: true })
