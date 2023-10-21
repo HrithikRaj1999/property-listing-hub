@@ -1,21 +1,29 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import dotenv from "dotenv";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
+import { SIGNIN } from "../../client/src/constants/client_message";
 import { SIGNUP, SIGN_IN } from "../constants/api_message";
+import { HTTP_STATUS_CODES } from "../constants/codes";
+import { logger } from "../logger/logger";
 import userModel from "../models/userModel";
+
 // get config vars
 dotenv.config();
+
 interface SignUpBodyType {
   username?: string;
   email?: string;
   password?: string;
 }
+
 interface SignInBodyType {
   email?: string;
   password?: string;
 }
+
 export const SignUpController: RequestHandler<
   unknown,
   unknown,
@@ -34,9 +42,11 @@ export const SignUpController: RequestHandler<
       email,
       password: hashedPassword,
     });
-    return res
-      .status(201)
-      .send({ success: true, message: SIGNUP.SUCCESS, newUser });
+    return res.status(201).send({
+      success: true,
+      message: SIGNUP.SUCCESS,
+      user: { ...newUser.toObject(), password: undefined },
+    });
   } catch (error) {
     next(error);
   }
@@ -54,15 +64,76 @@ export const SignInController: RequestHandler<
     return next(createHttpError(400, SIGNUP.MISSING_PARA));
   try {
     const exitingUser = await userModel.findOne({ email });
-    if (!exitingUser) return next(createHttpError(401, SIGN_IN.FAILED)); // to avoid brute force attack
+    if (!exitingUser) return next(createHttpError(401, SIGN_IN.FAILED)); // to avoid brute force attack send a general message
     const isPassValid = await bcrypt.compare(password, exitingUser.password);
-    if (!isPassValid) return next(createHttpError(401, SIGN_IN.FAILED)); // to avoid brute force attack
+    if (!isPassValid) return next(createHttpError(401, SIGN_IN.FAILED)); // to avoid brute force attack send a general message
     const token = jwt.sign({ id: exitingUser._id }, JWT_SECRET);
+
     return res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
-      .send({ success: true, message: SIGN_IN.SUCCESS, user: exitingUser });
+      .send({
+        success: true,
+        message: SIGN_IN.SUCCESS,
+        user: {
+          ...exitingUser.toObject(),
+          password: undefined, //we don't want to send password to client side
+          __v: undefined,
+        },
+      });
   } catch (error) {
+    next(error);
+  }
+};
+interface GoogleSignInControllerBodyType {
+  name: string;
+  email: string;
+  photoUrl: string;
+}
+
+export const GoogleController: RequestHandler<
+  unknown,
+  unknown,
+  GoogleSignInControllerBodyType,
+  unknown
+> = async (req, res, next) => {
+  const { name, email, photoUrl } = req.body;
+  const user = await userModel.findOne({ email });
+  const JWT_SECRET = process.env.JWT_SECRET!;
+  //if user Exists then simple log in with new token
+  try {
+    if (user) {
+      const token = jwt.sign({ id: user._id }, JWT_SECRET);
+      return res
+        .status(HTTP_STATUS_CODES.OK)
+        .cookie("access_token", token, { httpOnly: true })
+        .send({
+          success: true,
+          message: SIGNIN.SUCCESS,
+          user: { ...user.toObject(), password: undefined, __v: undefined },
+        });
+    }
+    //if user doesnt Exists then store in mongo db and return that user.
+    else {
+      const customPassword = crypto.randomBytes(16).toString("hex");
+      const newUser = await userModel.create({
+        username: name,
+        email: email,
+        password: customPassword,
+        avatar: photoUrl,
+      });
+      const token = jwt.sign({ id: newUser._id }, JWT_SECRET);
+      return res
+        .status(HTTP_STATUS_CODES.CREATED)
+        .cookie("access_token", token, { httpOnly: true })
+        .send({
+          success: true,
+          message: SIGNUP.SUCCESS,
+          user: { ...newUser.toObject(), password: undefined, __v: undefined },
+        });
+    }
+  } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
