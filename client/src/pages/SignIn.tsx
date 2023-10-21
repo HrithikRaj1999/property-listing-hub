@@ -60,7 +60,7 @@ const SignIn = () => {
       </form>
       <div className="flex  justify-between items-start  flex-wrap my-4 gap-2">
         <div>
-          <p className="text-sm text-slate-700">D{LABELS.NO_AC}</p>
+          <p className="text-sm text-slate-700">{LABELS.NO_AC}</p>
           <Link className="text-blue-600 font-semibold" to="/signup">
             {LABELS.SIGN_UP}
           </Link>
