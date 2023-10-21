@@ -26,6 +26,7 @@ const useSignUp = () => {
       navigate("/signin");
       dispatch({ type: "SET_LOADING", payload: false });
     } catch (error: any) {
+      dispatch({ type: "SET_LOADING", payload: false });
       return toast.error(error.response.data.message, {
         toastId: error.response.data.message,
       });

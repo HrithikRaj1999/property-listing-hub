@@ -61,7 +61,7 @@ export const SignInController: RequestHandler<
     return res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
-      .send({ success: true, message: SIGN_IN.SUCCESS });
+      .send({ success: true, message: SIGN_IN.SUCCESS, user: exitingUser });
   } catch (error) {
     next(error);
   }

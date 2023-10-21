@@ -1,9 +1,10 @@
 import { Eye, EyeOff } from "react-feather";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 import useSignIn from "../hooks/useSignIn";
-
 const SignIn = () => {
-  const { handleSubmit, state, dispatch } = useSignIn();
+  const { handleSubmit, loading, error, state, dispatch } = useSignIn();
+
   return (
     <div className="max-w-sm p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign In</h1>
@@ -44,10 +45,10 @@ const SignIn = () => {
 
         <button
           type="submit"
-          disabled={state.error}
+          disabled={loading}
           className="bg-slate-900 text-white p-4 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
         >
-          {state.loading ? "Loading...." : "Sign In"}
+          {loading ? <Spinner /> : "Sign In"}
         </button>
       </form>
       <div className="flex  justify-between items-start  flex-wrap my-4 gap-2">

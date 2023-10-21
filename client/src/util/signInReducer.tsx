@@ -2,26 +2,17 @@
 interface State {
   email: string;
   password: string;
-  loading: boolean;
-  error: any;
   passwordVisible: boolean;
 }
 
 interface Action {
-  type:
-    | "SET_EMAIL"
-    | "SET_PASSWORD"
-    | "SET_LOADING"
-    | "SET_ERROR"
-    | "TOGGLE_PASSWORD_VISIBILITY";
+  type: "SET_EMAIL" | "SET_PASSWORD" | "TOGGLE_PASSWORD_VISIBILITY";
   payload: any;
 }
 
 const initialState: State = {
   email: "",
   password: "",
-  loading: false,
-  error: null,
   passwordVisible: false,
 };
 
@@ -31,10 +22,7 @@ function reducer(state: State, action: Action): State {
       return { ...state, email: action.payload };
     case "SET_PASSWORD":
       return { ...state, password: action.payload };
-    case "SET_LOADING":
-      return { ...state, loading: action.payload };
-    case "SET_ERROR":
-      return { ...state, error: action.payload };
+
     case "TOGGLE_PASSWORD_VISIBILITY":
       return { ...state, passwordVisible: action.payload };
     default:

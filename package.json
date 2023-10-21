@@ -43,6 +43,7 @@
     "express-logger": "^0.0.3",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "mongoose": "^7.6.3",
     "morgan": "^1.10.0",
     "react-feather": "^2.0.10",

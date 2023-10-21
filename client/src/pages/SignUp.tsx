@@ -1,7 +1,7 @@
 import { Eye, EyeOff } from "react-feather";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 import useSignUp from "../hooks/useSignUp";
-
 const SignUp = () => {
   const { handleSubmit, state, dispatch } = useSignUp();
   return (
@@ -57,7 +57,7 @@ const SignUp = () => {
           disabled={state.error}
           className="bg-slate-900 text-white p-4 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
         >
-          {state.loading ? "Loading...." : "Sign Up"}
+          {state.loading ? <Spinner /> : "Sign Up"}
         </button>
       </form>
       <div className="my-4 gap-3">
