@@ -1,6 +1,8 @@
 import { Eye, EyeOff } from "react-feather";
 import { Link } from "react-router-dom";
+import GoogleAuth from "../components/GoogleAuth";
 import Spinner from "../components/Spinner";
+import { LABELS } from "../constants/labels";
 import useSignIn from "../hooks/useSignIn";
 const SignIn = () => {
   const { handleSubmit, loading, error, state, dispatch } = useSignIn();
@@ -8,7 +10,11 @@ const SignIn = () => {
   return (
     <div className="max-w-sm p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign In</h1>
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <form
+        id="signInForm"
+        className="flex flex-col gap-5"
+        onSubmit={handleSubmit}
+      >
         <input
           className="border p-3 rounded-lg"
           type="email"
@@ -46,21 +52,22 @@ const SignIn = () => {
         <button
           type="submit"
           disabled={loading}
-          className="bg-slate-900 text-white p-4 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
+          className="bg-slate-900 text-white p-2 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
         >
           {loading ? <Spinner /> : "Sign In"}
         </button>
+        <GoogleAuth />
       </form>
       <div className="flex  justify-between items-start  flex-wrap my-4 gap-2">
         <div>
-          <p className="text-sm text-slate-700">Don't have an account?</p>
+          <p className="text-sm text-slate-700">D{LABELS.NO_AC}</p>
           <Link className="text-blue-600 font-semibold" to="/signup">
-            Sign up
+            {LABELS.SIGN_UP}
           </Link>
         </div>
 
         <Link className="text-sm  text-blue-600 font-semibold" to="/signin">
-          <p className="text-slate-700">Forgot Password?</p>
+          <p className="text-slate-700">{LABELS.FORGOT_PASS}</p>
         </Link>
       </div>
     </div>
