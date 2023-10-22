@@ -1,7 +1,7 @@
 import { LogOut, UserX } from "react-feather";
 import Spinner from "../components/Spinner";
+import { LABELS } from "../constants/labels";
 import useProfile from "../hooks/profile/useProfile";
-
 export const Profile = () => {
   const {
     currentUser,
@@ -13,6 +13,7 @@ export const Profile = () => {
     state,
     loading,
     error,
+    profilePic,
     passwordShowIcon,
     dispatch,
     handlePicClick,
@@ -40,7 +41,7 @@ export const Profile = () => {
           alt="profile-pic"
           title="Click to change"
           onClick={handlePicClick}
-          src={formData?.avatar || currentUser?.avatar}
+          src={profilePic}
         />
         {/* {fileUploadError?<span>{fileUploadError.error}</span>:filePercentage<0 && filePercentage>100?<span>File Uploaded {filePercentage} %</span> */}
       </div>
@@ -92,7 +93,7 @@ export const Profile = () => {
           type="button"
           className="bg-green-800 text-white p-2 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
         >
-          Create Listing
+          {LABELS.CREATE_LISTING}
         </button>
       </form>
       <div className="min-w-fit max-w-sm flex justify-between">
@@ -101,9 +102,8 @@ export const Profile = () => {
           className=" text-sm hover:shadow-sm hover:bg-red-600 hover:text-white  hover:text-md rounded-full flex gap-3 p-2"
           onClick={handleUserDelete}
         >
-          {" "}
+          {LABELS.DELETE_USER}
           <UserX />
-          Delete Account{" "}
         </button>
         <button
           type="button"
@@ -111,7 +111,7 @@ export const Profile = () => {
           onClick={handleSignOut}
         >
           <LogOut />
-          Sign out
+          {LABELS.SIGN_OUT}
         </button>
       </div>
     </div>

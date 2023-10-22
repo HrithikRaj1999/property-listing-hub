@@ -34,10 +34,11 @@ const useProfile = () => {
     handlePassView,
     dispatch,
   } = useInputHandling(formData, setFormData);
-
+  const profilePic = formData?.avatar || currentUser?.avatar;
   return {
     currentUser,
     fileRef,
+    profilePic,
     file,
     formData,
     filePercentage,
