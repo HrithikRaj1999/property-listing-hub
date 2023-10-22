@@ -138,3 +138,19 @@ export const GoogleController: RequestHandler<
     next(error);
   }
 };
+
+export const SignOutController: RequestHandler<
+  unknown,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res, next) => {
+  try {
+    res.clearCookie("access_token");
+    res
+      .status(HTTP_STATUS_CODES.OK)
+      .send({ success: true, message: MESSAGES.SUCCESS_LOGOUT });
+  } catch (error) {
+    next(error);
+  }
+};

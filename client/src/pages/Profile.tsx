@@ -1,6 +1,6 @@
 import { LogOut, UserX } from "react-feather";
 import Spinner from "../components/Spinner";
-import useProfile from "../hooks/useProfile";
+import useProfile from "../hooks/profile/useProfile";
 
 export const Profile = () => {
   const {
@@ -8,20 +8,21 @@ export const Profile = () => {
     fileRef,
     file,
     formData,
-    handlePicClick,
-    handlePicUpload,
     filePercentage,
     fileUploadError,
-    handleInputChange,
     state,
-    dispatch,
-    handleUpdateSubmit,
     loading,
     error,
-    handlePassView,
     passwordShowIcon,
+    dispatch,
+    handlePicClick,
+    handlePicUpload,
+    handleInputChange,
+    handleUpdateSubmit,
+    handlePassView,
+    handleUserDelete,
+    handleSignOut,
   } = useProfile();
-  console.log(currentUser, formData?.avatar || currentUser?.avatar);
   return (
     <div className=" max-w-sm min-w-fit p-5 mx-auto  flex flex-col  gap-5  ">
       <h1 className="text-3xl font-bold text-center my-4">Profile</h1>
@@ -70,7 +71,7 @@ export const Profile = () => {
             type={state.passwordVisible ? "text" : "password"}
             id="password"
             placeholder="Password"
-            defaultValue={""}
+            defaultValue=""
             onChange={handleInputChange}
           />
           <span
@@ -98,7 +99,7 @@ export const Profile = () => {
         <button
           type="button"
           className=" text-sm hover:shadow-sm hover:bg-red-600 hover:text-white  hover:text-md rounded-full flex gap-3 p-2"
-          onClick={() => {}}
+          onClick={handleUserDelete}
         >
           {" "}
           <UserX />
@@ -107,7 +108,7 @@ export const Profile = () => {
         <button
           type="button"
           className=" text-sm hover:shadow-sm hover:bg-red-600 hover:text-white  hover:text-md rounded-full flex gap-3 p-2"
-          onClick={() => {}}
+          onClick={handleSignOut}
         >
           <LogOut />
           Sign out

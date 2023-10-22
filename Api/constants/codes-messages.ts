@@ -54,4 +54,6 @@ export const MESSAGES = {
   SUCCESS_REGISTERED: "User Registered Successfully",
   FAILED_SIGNIN: " Kindly enter correct password and email ",
   SUCCESS_SIGNIN: "User Signed In Successfully",
+  SUCCESS_DELETE: "User Deleted Successfully",
+  SUCCESS_LOGOUT: "User Logged Out Successfully",
 };

@@ -4,6 +4,7 @@ import createHttpError from "http-errors";
 import {
   HTTP_STATUS_CODES,
   HTTP_STATUS_MESSAGE,
+  MESSAGES,
 } from "../constants/codes-messages";
 import userModel from "../models/userModel";
 
@@ -67,6 +68,31 @@ export const updateUserController: RequestHandler<
         __v: undefined,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUserController: RequestHandler<
+  { id: string },
+  unknown,
+  { tokenUserId: string },
+  unknown
+> = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { tokenUserId } = req.body;
+    if (tokenUserId !== id)
+      return next(
+        createHttpError(
+          HTTP_STATUS_CODES.UNAUTHORIZED,
+          HTTP_STATUS_MESSAGE.UNAUTHORIZED
+        )
+      );
+    await userModel.findByIdAndDelete(id);
+    return res
+      .status(HTTP_STATUS_CODES.OK)
+      .send({ success: true, message: MESSAGES.SUCCESS_DELETE });
   } catch (error) {
     next(error);
   }
