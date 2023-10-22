@@ -5,4 +5,7 @@ export const LABELS = {
   NO_AC: `Don't have an Account?`,
   YES_AC: `Have an Account`,
   FORGOT_PASS: `Forgot Password?`,
+  CREATE_LISTING: "Create Listing",
+  DELETE_USER: "Delete Account",
+  SIGN_OUT: " Sign out",
 };
