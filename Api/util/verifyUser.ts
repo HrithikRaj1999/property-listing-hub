@@ -6,7 +6,7 @@ import {
   HTTP_STATUS_MESSAGE,
 } from "../constants/codes-messages";
 interface JwtPayload {
-  userId: string; // Assuming 'userId' is a property in the JWT payload
+  id: string; // Assuming 'userId' is a property in the JWT payload
   iat: number;
   // Add other properties you expect in the JWT payload
 }
@@ -23,7 +23,7 @@ export const verifyToken = (
   jwt.verify(
     token,
     process.env.JWT_SECRET!,
-    (err: jwt.VerifyErrors | null, payload: s) => {
+    (err: jwt.VerifyErrors | null, payload: any) => {
       if (err) {
         return next(
           createHttpError(
@@ -41,8 +41,8 @@ export const verifyToken = (
         );
       }
       const user = payload as JwtPayload; // Cast the payload to your JwtPayload type
-      console.log(user.userId);
-      req.body.tokenUserId = user.userId; // Attach the user to the request object
+      console.log(user.id);
+      req.body.tokenUserId = user.id; // Attach the user to the request object
       next();
     }
   );

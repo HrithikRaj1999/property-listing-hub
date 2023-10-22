@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../config/customApi";
-import { SIGNIN } from "../constants/clientMessage";
+import { CLIENT_MESSAGE } from "../constants/clientMessage";
 import { RootState } from "../redux/store";
 import {
   signInFailure,
@@ -32,9 +32,9 @@ const useSignIn = () => {
         },
         { withCredentials: true }
       );
-      userDispatch(signInSuccess(res.data));
-      toast.success(SIGNIN.SUCCESS, {
-        toastId: SIGNIN.SUCCESS,
+      userDispatch(signInSuccess(res.data.user));
+      toast.success(CLIENT_MESSAGE.SUCCESS_SIGNIN, {
+        toastId: CLIENT_MESSAGE.SUCCESS_SIGNIN,
       });
       navigate("/");
     } catch (error: any) {

@@ -1,9 +1,27 @@
 import { LogOut, UserX } from "react-feather";
+import Spinner from "../components/Spinner";
 import useProfile from "../hooks/useProfile";
 
 export const Profile = () => {
-  const { currentUser, fileRef, handlePicClick, handlePicUpload, formData } =
-    useProfile();
+  const {
+    currentUser,
+    fileRef,
+    file,
+    formData,
+    handlePicClick,
+    handlePicUpload,
+    filePercentage,
+    fileUploadError,
+    handleInputChange,
+    state,
+    dispatch,
+    handleUpdateSubmit,
+    loading,
+    error,
+    handlePassView,
+    passwordShowIcon,
+  } = useProfile();
+  console.log(currentUser, formData?.avatar || currentUser?.avatar);
   return (
     <div className=" max-w-sm min-w-fit p-5 mx-auto  flex flex-col  gap-5  ">
       <h1 className="text-3xl font-bold text-center my-4">Profile</h1>
@@ -17,52 +35,57 @@ export const Profile = () => {
           onChange={handlePicUpload}
         />
         <img
-          className={`rounded-full w-[150px] h-[150px] align-items-center object-cover`}
+          className={`rounded-full w-[200px] h-[200px] align-items-center object-cover`}
           alt="profile-pic"
           title="Click to change"
           onClick={handlePicClick}
-          src={formData ? formData.avatar : currentUser?.avatar}
+          src={formData?.avatar || currentUser?.avatar}
         />
         {/* {fileUploadError?<span>{fileUploadError.error}</span>:filePercentage<0 && filePercentage>100?<span>File Uploaded {filePercentage} %</span> */}
       </div>
-      <form id="profile-form" className="flex flex-col gap-5">
+      <form
+        id="profile-form"
+        className="flex flex-col gap-5"
+        onSubmit={handleUpdateSubmit}
+      >
         <input
           className="bg-indigo-50 border p-3 rounded-lg"
-          id="name"
+          id="username"
           title="name"
-          value={currentUser?.username}
+          defaultValue={currentUser?.username}
           placeholder="new name"
-          onChange={() => {}}
+          onChange={handleInputChange}
         ></input>
         <input
           className=" bg-indigo-50 border p-3 rounded-lg"
           id="email"
-          value={currentUser?.email}
+          defaultValue={currentUser?.email}
           title="email"
           placeholder="new email"
-          onChange={() => {}}
+          onChange={handleInputChange}
         ></input>
         <div className="relative">
           <input
             className="bg-indigo-50 border p-3 w-full rounded-lg"
-            // type={state.passwordVisible ? "text" : "password"}
+            type={state.passwordVisible ? "text" : "password"}
             id="password"
             placeholder="Password"
-            value={""}
-            onChange={(e) => {}}
+            defaultValue={""}
+            onChange={handleInputChange}
           />
           <span
             className="absolute inset-y-0 right-5 flex items-center text-black"
-            onClick={() => {}}
+            onClick={handlePassView}
           >
-            {/* {state.passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />} */}
+            {passwordShowIcon}
           </span>
         </div>
         <button
           type="submit"
+          disabled={loading}
           className="bg-slate-900 text-white p-2 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
         >
-          Update
+          {loading ? <Spinner /> : "Update"}
         </button>
         <button
           type="button"

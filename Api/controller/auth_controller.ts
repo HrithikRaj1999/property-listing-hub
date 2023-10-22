@@ -68,7 +68,7 @@ export const SignInController: RequestHandler<
     const token = jwt.sign({ id: exitingUser._id }, JWT_SECRET);
 
     return res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, { httpOnly: true, secure: true })
       .status(200)
       .send({
         success: true,
@@ -104,7 +104,10 @@ export const GoogleController: RequestHandler<
       const token = jwt.sign({ id: user._id }, JWT_SECRET);
       return res
         .status(HTTP_STATUS_CODES.OK)
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, {
+          httpOnly: true,
+          secure: true, // set to true if your client and server communicate over HTTPS
+        })
         .send({
           success: true,
           message: MESSAGES.SUCCESS_SIGNIN,

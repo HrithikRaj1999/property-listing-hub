@@ -2,7 +2,7 @@ import React, { useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../config/customApi";
-import { SIGNUP } from "../constants/clientMessage";
+import { CLIENT_MESSAGE } from "../constants/clientMessage";
 import { initialState, reducer } from "../util/signUpReducer";
 
 const useSignUp = () => {
@@ -20,8 +20,8 @@ const useSignUp = () => {
         password,
       });
 
-      toast.success(SIGNUP.SUCCESS_SIGNED_UP, {
-        toastId: SIGNUP.SUCCESS_SIGNED_UP,
+      toast.success(CLIENT_MESSAGE.SUCCESS_SIGNED_UP, {
+        toastId: CLIENT_MESSAGE.SUCCESS_SIGNED_UP,
       });
       navigate("/signin");
       dispatch({ type: "SET_LOADING", payload: false });

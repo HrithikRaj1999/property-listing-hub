@@ -42,8 +42,9 @@ export const updateUserController: RequestHandler<
         )
       );
     }
+    let hashedPassword = undefined;
     if (password) {
-      req.body.password = await bcrypt.hash(password, 10);
+      hashedPassword = await bcrypt.hash(password, 10);
     }
     const updatedUser = await userModel.findByIdAndUpdate(
       id,
@@ -51,7 +52,7 @@ export const updateUserController: RequestHandler<
         $set: {
           username,
           email,
-          password,
+          password: hashedPassword,
           avatar,
         },
       },
@@ -60,7 +61,7 @@ export const updateUserController: RequestHandler<
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: HTTP_STATUS_MESSAGE.OK,
-      updatedUser: {
+      user: {
         ...updatedUser?.toObject(),
         password: undefined,
         __v: undefined,
