@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
+import PrivateRoute from "./components/PrivateRoute";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import { Profile } from "./pages/Profile";
@@ -15,7 +16,11 @@ function App() {
         <Route path="/about" element={<About />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
+
+        {/*These are Private Route Sign in or Login is Must */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/profile" element={<Profile />}></Route>
+        </Route>
       </Routes>
     </>
   );

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../config/customApi";
-import { SIGNIN } from "../constants/client_message";
+import { SIGNIN } from "../constants/clientMessage";
 import { RootState } from "../redux/store";
 import {
   signInFailure,

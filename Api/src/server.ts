@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { MESSAGES } from "../constants/api_message";
 import { logger } from "../logger/logger";
 import app from "./app";
+import { MESSAGES } from "../constants/codes-messages";
 dotenv.config();
 
 (async () => {

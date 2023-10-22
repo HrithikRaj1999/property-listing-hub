@@ -1,5 +1,6 @@
-import express from 'express'
-import { testUserApiController } from '../controller/user_controller'
-export const userRouter = express.Router()
+import express from "express";
+import { updateUserController } from "../controller/user_controller";
+import { verifyToken } from "../util/verifyUser";
+export const userRouter = express.Router();
 
-userRouter.get('/test', testUserApiController)
+userRouter.post("/update/:id", verifyToken, updateUserController);

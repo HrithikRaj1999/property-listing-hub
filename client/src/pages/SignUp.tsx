@@ -6,7 +6,7 @@ import useSignUp from "../hooks/useSignUp";
 const SignUp = () => {
   const { handleSubmit, state, dispatch } = useSignUp();
   return (
-    <div className="max-w-sm p-5 mx-auto min-w-sm">
+    <div className="max-w-sm mix-w-fit p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign Up</h1>
       <form
         id="signUpFrom"
@@ -14,7 +14,7 @@ const SignUp = () => {
         onSubmit={handleSubmit}
       >
         <input
-          className="border p-3 rounded-lg"
+          className="bg-indigo-50  border p-3 rounded-lg"
           type="text"
           id="username"
           placeholder="Username"
@@ -24,7 +24,7 @@ const SignUp = () => {
           }
         />
         <input
-          className="border p-3 rounded-lg"
+          className=" bg-indigo-50  border p-3 rounded-lg"
           type="email"
           id="email"
           placeholder="Email"
@@ -35,7 +35,7 @@ const SignUp = () => {
         />
         <div className="relative">
           <input
-            className="border p-3 w-full rounded-lg"
+            className=" bg-indigo-50  border p-3 w-full rounded-lg"
             type={state.passwordVisible ? "text" : "password"}
             id="password"
             placeholder="Password"

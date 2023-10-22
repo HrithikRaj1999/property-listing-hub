@@ -2,7 +2,7 @@ import React, { useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../config/customApi";
-import { SIGNUP } from "../constants/client_message";
+import { SIGNUP } from "../constants/clientMessage";
 import { initialState, reducer } from "../util/signUpReducer";
 
 const useSignUp = () => {

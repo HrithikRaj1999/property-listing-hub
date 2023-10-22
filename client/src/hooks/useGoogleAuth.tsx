@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../config/customApi";
-import { SIGNIN } from "../constants/client_message";
+import { SIGNIN } from "../constants/clientMessage";
 import { app } from "../firebase/firebase";
 import { signInSuccess } from "../redux/user/userSlice";
 
@@ -15,12 +15,12 @@ export const useGoogleAuth = () => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const res = await signInWithPopup(auth, provider);
-      const data = await api.post("/auth/google", {
+      const backendRes = await api.post("/auth/google", {
         name: res.user.displayName,
         email: res.user.email,
         photoUrl: res.user.photoURL,
       });
-      userDispatch(signInSuccess(data));
+      userDispatch(signInSuccess(backendRes.data.user));
       toast.success(SIGNIN.SUCCESS);
       navigate("/");
     } catch (error: any) {

@@ -4,9 +4,7 @@ import dotenv from "dotenv";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
-import { SIGNIN } from "../../client/src/constants/client_message";
-import { SIGNUP, SIGN_IN } from "../constants/api_message";
-import { HTTP_STATUS_CODES } from "../constants/codes";
+import { HTTP_STATUS_CODES, MESSAGES } from "../constants/codes-messages";
 import { logger } from "../logger/logger";
 import userModel from "../models/userModel";
 
@@ -33,9 +31,9 @@ export const SignUpController: RequestHandler<
   const { username, email, password } = req.body;
   try {
     if (!username || !email || !password)
-      return next(createHttpError(400, SIGNUP.MISSING_PARA));
+      return next(createHttpError(400, MESSAGES.MISSING_PARAMETERS));
     const existingUser = await userModel.findOne({ email });
-    if (existingUser) return next(createHttpError(409, SIGNUP.EMAIL_USED));
+    if (existingUser) return next(createHttpError(409, MESSAGES.EMAIL_USED));
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await userModel.create({
       username,
@@ -44,7 +42,7 @@ export const SignUpController: RequestHandler<
     });
     return res.status(201).send({
       success: true,
-      message: SIGNUP.SUCCESS,
+      message: MESSAGES.SUCCESS_REGISTERED,
       user: { ...newUser.toObject(), password: undefined },
     });
   } catch (error) {
@@ -61,12 +59,12 @@ export const SignInController: RequestHandler<
   const JWT_SECRET = process.env.JWT_SECRET!;
   const { email, password } = req.body;
   if (!email || !password)
-    return next(createHttpError(400, SIGNUP.MISSING_PARA));
+    return next(createHttpError(400, MESSAGES.MISSING_PARAMETERS));
   try {
     const exitingUser = await userModel.findOne({ email });
-    if (!exitingUser) return next(createHttpError(401, SIGN_IN.FAILED)); // to avoid brute force attack send a general message
+    if (!exitingUser) return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
     const isPassValid = await bcrypt.compare(password, exitingUser.password);
-    if (!isPassValid) return next(createHttpError(401, SIGN_IN.FAILED)); // to avoid brute force attack send a general message
+    if (!isPassValid) return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
     const token = jwt.sign({ id: exitingUser._id }, JWT_SECRET);
 
     return res
@@ -74,7 +72,7 @@ export const SignInController: RequestHandler<
       .status(200)
       .send({
         success: true,
-        message: SIGN_IN.SUCCESS,
+        message: MESSAGES.SUCCESS_SIGNIN,
         user: {
           ...exitingUser.toObject(),
           password: undefined, //we don't want to send password to client side
@@ -109,7 +107,7 @@ export const GoogleController: RequestHandler<
         .cookie("access_token", token, { httpOnly: true })
         .send({
           success: true,
-          message: SIGNIN.SUCCESS,
+          message: MESSAGES.SUCCESS_SIGNIN,
           user: { ...user.toObject(), password: undefined, __v: undefined },
         });
     }
@@ -128,7 +126,7 @@ export const GoogleController: RequestHandler<
         .cookie("access_token", token, { httpOnly: true })
         .send({
           success: true,
-          message: SIGNUP.SUCCESS,
+          message: MESSAGES.SUCCESS_SIGNIN,
           user: { ...newUser.toObject(), password: undefined, __v: undefined },
         });
     }

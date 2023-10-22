@@ -8,7 +8,7 @@ const SignIn = () => {
   const { handleSubmit, loading, error, state, dispatch } = useSignIn();
 
   return (
-    <div className="max-w-sm p-5 mx-auto min-w-sm">
+    <div className="max-w-sm min-w-fit p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign In</h1>
       <form
         id="signInForm"
@@ -16,7 +16,7 @@ const SignIn = () => {
         onSubmit={handleSubmit}
       >
         <input
-          className="border p-3 rounded-lg"
+          className="bg-indigo-50  border p-3 rounded-lg"
           type="email"
           id="email"
           placeholder="Email"
@@ -27,7 +27,7 @@ const SignIn = () => {
         />
         <div className="relative">
           <input
-            className="border p-3 w-full rounded-lg"
+            className="bg-indigo-50  border p-3 w-full rounded-lg"
             type={state.passwordVisible ? "text" : "password"}
             id="password"
             placeholder="Password"

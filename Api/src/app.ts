@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import createHttpError from "http-errors";
@@ -15,6 +16,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use((req, res, next) => {
