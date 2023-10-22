@@ -21,10 +21,8 @@ const useProfile = () => {
     handlePicClick,
     handlePicUpload,
   } = useFileManagement(formData, setFormData);
-
   const { currentUser, handleSignOut, handleUserDelete, handleUpdateSubmit } =
     useUserActions(formData, setFormData);
-
   const {
     state,
     loading,

@@ -31,12 +31,10 @@ const useFileManagement = (
 
   const handlePicUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
-      console.log("file not upload done");
       toast.error(CLIENT_MESSAGE.PHOTO_NOT_UPLOADED);
       return;
     }
     try {
-      console.log("file upload done");
       const newUploadedFile = e.target.files[0];
       const storage = getStorage(app);
       const fileName = newUploadedFile.name + new Date().getTime();
@@ -79,6 +77,7 @@ const useFileManagement = (
       setFile(newUploadedFile);
     } catch (error: any) {
       toast.error(error);
+      console.error(error);
     }
   };
   return {

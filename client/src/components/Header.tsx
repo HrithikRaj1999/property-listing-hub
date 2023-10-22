@@ -1,3 +1,4 @@
+import { Home } from "react-feather";
 import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,10 +8,13 @@ import { RootState } from "../redux/store";
 const Header = () => {
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
   return (
-    <header className="bg-slate-200 shadow-lg">
+    <header className="bg-slate-300 shadow-lg">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-4 ">
-        <h1 className="font-bold text-sm sm:text-xl flex flex-wrap ">
-          <span className="text-slate-500">Property</span>
+        <h1 className="font-bold text-sm sm:text-xl flex flex-wrap  ">
+          <span className="text-slate-500 flex ">
+            <Home />
+            Property
+          </span>
           <span className="text-slate-800">Hub</span>
         </h1>
         <form className="bg-slate-100 p-3 rounded-lg flex items-center">
