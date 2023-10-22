@@ -20,6 +20,7 @@ interface SignUpBodyType {
 interface SignInBodyType {
   email?: string;
   password?: string;
+  keepMeSignedIn?: boolean;
 }
 
 export const SignUpController: RequestHandler<
@@ -57,16 +58,23 @@ export const SignInController: RequestHandler<
   unknown
 > = async (req, res, next) => {
   const JWT_SECRET = process.env.JWT_SECRET!;
-  const { email, password } = req.body;
+  const { email, password, keepMeSignedIn } = req.body;
   if (!email || !password)
     return next(createHttpError(400, MESSAGES.MISSING_PARAMETERS));
   try {
-    const exitingUser = await userModel.findOne({ email });
-    if (!exitingUser) return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
-    const isPassValid = await bcrypt.compare(password, exitingUser.password);
+    const existingUser = await userModel.findOne({ email });
+    if (!existingUser)
+      return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
+    const isPassValid = await bcrypt.compare(password, existingUser.password);
     if (!isPassValid) return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
-    const token = jwt.sign({ id: exitingUser._id }, JWT_SECRET);
+    const token = jwt.sign({ id: existingUser._id }, JWT_SECRET);
 
+    // token will be only saved when keep me signed in will be enabled
+    // else no token
+    if (keepMeSignedIn) {
+      existingUser.token = token; // Assign token to existingUser if keep me sign in is used
+      await existingUser.save(); // Save changes to MongoDB
+    }
     return res
       .cookie("access_token", token, { httpOnly: true, secure: true })
       .status(200)
@@ -74,9 +82,10 @@ export const SignInController: RequestHandler<
         success: true,
         message: MESSAGES.SUCCESS_SIGNIN,
         user: {
-          ...exitingUser.toObject(),
+          ...existingUser.toObject(),
           password: undefined, //we don't want to send password to client side
           __v: undefined,
+          token: keepMeSignedIn ? token : undefined,
         },
       });
   } catch (error) {
@@ -124,6 +133,7 @@ export const GoogleController: RequestHandler<
         avatar: photoUrl,
       });
       const token = jwt.sign({ id: newUser._id }, JWT_SECRET);
+
       return res
         .status(HTTP_STATUS_CODES.CREATED)
         .cookie("access_token", token, { httpOnly: true })
@@ -140,12 +150,19 @@ export const GoogleController: RequestHandler<
 };
 
 export const SignOutController: RequestHandler<
-  unknown,
+  { id: string },
   unknown,
   unknown,
   unknown
 > = async (req, res, next) => {
   try {
+    const { id } = req.params;
+    const user = await userModel.findById(id);
+    if (user?.token) {
+      await userModel.findByIdAndUpdate(id, { $unset: { token: 1 } });
+    }
+
+    console.log(user);
     res.clearCookie("access_token");
     res
       .status(HTTP_STATUS_CODES.OK)
@@ -155,21 +172,32 @@ export const SignOutController: RequestHandler<
   }
 };
 
-export const CookieCheckController: RequestHandler<
+export const GetTokenController: RequestHandler<
+  { id: string },
   unknown,
   unknown,
-  { tokenUserId: string },
   unknown
 > = async (req, res, next) => {
-  const { tokenUserId } = req.body;
+  const JWT_SECRET = process.env.JWT_SECRET!;
   try {
-    if (!tokenUserId)
+    const { id } = req.params;
+    const user = await userModel.findById(id);
+    if (!user)
       return next(
-        createHttpError(HTTP_STATUS_CODES.BAD_GATEWAY, "User token Expired")
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No User Found")
       );
+    const token = user?.token;
+    if (!token)
+      return next(
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No Token Found")
+      );
+    const newToken = jwt.sign({ id: user._id }, JWT_SECRET);
+    user.token = newToken; // Assign a new token to existingUser if keep me sign in is used
+    await user.save();
     return res
+      .cookie("access_token", newToken, { httpOnly: true, secure: true })
       .status(HTTP_STATUS_CODES.OK)
-      .send({ success: true, message: "Token exists" });
+      .send({ success: true, message: "Cookie Generated" });
   } catch (error) {
     next(error);
   }

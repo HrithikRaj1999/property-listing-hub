@@ -7,6 +7,7 @@ import { RootState } from "../redux/store";
 
 const Header = () => {
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
+
   return (
     <header className="bg-slate-300 shadow-lg">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-4 ">

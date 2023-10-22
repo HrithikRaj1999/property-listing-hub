@@ -41,7 +41,7 @@ const useUserActions = (
   const handleSignOut = async () => {
     try {
       userDispatch(signOutUserStart());
-      const res = await api.get(`auth/signout`, {
+      const res = await api.get(`auth/signout/${currentUser?._id}`, {
         withCredentials: true,
       });
       userDispatch(signOutUserSuccess(res.data.message));

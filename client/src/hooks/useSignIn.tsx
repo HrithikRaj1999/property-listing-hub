@@ -30,10 +30,11 @@ const useSignIn = () => {
         {
           email,
           password,
+          keepMeSignedIn,
         },
         { withCredentials: true }
       );
-      console.log(keepMeSignedIn);
+      sessionStorage.setItem("status", "user is active on same instance");
       userDispatch(signInSuccess(res.data.user));
       toast.success(CLIENT_MESSAGE.SUCCESS_SIGNIN, {
         toastId: CLIENT_MESSAGE.SUCCESS_SIGNIN,

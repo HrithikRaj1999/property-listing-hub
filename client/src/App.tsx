@@ -1,8 +1,7 @@
-import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import CheckCookie from "./components/CheckCookie";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
-import api from "./config/customApi";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import { Profile } from "./pages/Profile";
@@ -20,8 +19,10 @@ function App() {
         <Route path="/signup" element={<SignUp />}></Route>
 
         {/*These are Private Route Sign in or Login is Must */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/profile" element={<Profile />}></Route>
+        <Route element={<CheckCookie />}>
+          <Route element={<PrivateRoute />}>
+            <Route path="/profile" element={<Profile />}></Route>
+          </Route>
         </Route>
       </Routes>
     </>
