@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
+import api from "./config/customApi";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import { Profile } from "./pages/Profile";

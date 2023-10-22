@@ -15,12 +15,14 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
+
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/*", (req, res, next) => {
-  next(createHttpError(404, "Endpoint Not Found"));
+  next(createHttpError(404, "There is no Route ,Endpoint Not Found"));
 });
 app.use(errorHandler);
 

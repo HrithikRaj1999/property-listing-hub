@@ -20,7 +20,9 @@ const useUserActions = (
   formData: FormDataType | null,
   setFormData: React.Dispatch<React.SetStateAction<FormDataType | null>>
 ) => {
-  const { currentUser } = useSelector((state: RootState) => state.userReducer);
+  const { currentUser, keepMeSignedIn } = useSelector(
+    (state: RootState) => state.userReducer
+  );
   const userDispatch = useDispatch();
   const handleUpdateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

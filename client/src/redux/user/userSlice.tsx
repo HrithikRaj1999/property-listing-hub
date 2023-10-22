@@ -12,12 +12,14 @@ interface UserSliceType {
   currentUser: userType | null;
   error: any;
   loading: boolean;
+  keepMeSignedIn: boolean;
 }
 
 const initialState: UserSliceType = {
   currentUser: null,
   error: null,
   loading: false,
+  keepMeSignedIn: false,
 };
 
 const userSlice = createSlice({
@@ -27,6 +29,9 @@ const userSlice = createSlice({
   reducers: {
     signInStart: (state) => {
       state.loading = true;
+    },
+    setKeepMeSignedIn: (state, action) => {
+      state.keepMeSignedIn = action.payload;
     },
     signInSuccess: (state, action) => {
       state.currentUser = action.payload;
@@ -68,10 +73,17 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       state.error = null;
+      state.keepMeSignedIn = false;
     },
     signOutUserFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    clearUserData: (state) => {
+      state.currentUser = null;
+      state.loading = false;
+      state.error = null;
+      state.keepMeSignedIn = false;
     },
   },
 });
@@ -89,5 +101,7 @@ export const {
   signOutUserStart,
   signOutUserSuccess,
   signOutUserFailure,
+  setKeepMeSignedIn,
+  clearUserData,
 } = userSlice.actions;
 export default userSlice.reducer;

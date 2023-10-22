@@ -6,6 +6,7 @@ import api from "../config/customApi";
 import { CLIENT_MESSAGE } from "../constants/clientMessage";
 import { RootState } from "../redux/store";
 import {
+  setKeepMeSignedIn,
   signInFailure,
   signInStart,
   signInSuccess,
@@ -16,7 +17,7 @@ const useSignIn = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
   const userDispatch = useDispatch(); //It allows you to send (or "dispatch") actions to your Redux store, which in turn triggers changes in your application's state.
-  const { loading, error } = useSelector(
+  const { loading, error, keepMeSignedIn } = useSelector(
     (state: RootState) => state.userReducer
   ); //useSelector in a Redux-based application is to access and manage the application's state stored in the Redux store ir. user Store
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,6 +33,7 @@ const useSignIn = () => {
         },
         { withCredentials: true }
       );
+      console.log(keepMeSignedIn);
       userDispatch(signInSuccess(res.data.user));
       toast.success(CLIENT_MESSAGE.SUCCESS_SIGNIN, {
         toastId: CLIENT_MESSAGE.SUCCESS_SIGNIN,
@@ -44,6 +46,10 @@ const useSignIn = () => {
       });
     }
   };
+  const handleKeepMeSignIn = (event: React.ChangeEvent<HTMLInputElement>) => {
+    userDispatch(setKeepMeSignedIn(event.target.checked));
+  };
+  console.log({ state });
 
   return {
     handleSubmit,
@@ -52,6 +58,7 @@ const useSignIn = () => {
     dispatch,
     loading,
     error,
+    handleKeepMeSignIn,
   };
 };
 

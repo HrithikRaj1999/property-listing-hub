@@ -154,3 +154,23 @@ export const SignOutController: RequestHandler<
     next(error);
   }
 };
+
+export const CookieCheckController: RequestHandler<
+  unknown,
+  unknown,
+  { tokenUserId: string },
+  unknown
+> = async (req, res, next) => {
+  const { tokenUserId } = req.body;
+  try {
+    if (!tokenUserId)
+      return next(
+        createHttpError(HTTP_STATUS_CODES.BAD_GATEWAY, "User token Expired")
+      );
+    return res
+      .status(HTTP_STATUS_CODES.OK)
+      .send({ success: true, message: "Token exists" });
+  } catch (error) {
+    next(error);
+  }
+};

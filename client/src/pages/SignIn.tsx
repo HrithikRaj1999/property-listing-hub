@@ -5,8 +5,8 @@ import Spinner from "../components/Spinner";
 import { LABELS } from "../constants/labels";
 import useSignIn from "../hooks/useSignIn";
 const SignIn = () => {
-  const { handleSubmit, loading, error, state, dispatch } = useSignIn();
-
+  const { handleSubmit, handleKeepMeSignIn, loading, error, state, dispatch } =
+    useSignIn();
   return (
     <div className="max-w-sm min-w-fit p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign In</h1>
@@ -48,7 +48,16 @@ const SignIn = () => {
             {state.passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
           </span>
         </div>
-
+        <div className="flex gap-4 items-center">
+          <input
+            className="w-4 h-4 rounded-full"
+            id="keep-me-sign-in"
+            title="keep-me-sign-in"
+            type="checkbox"
+            onChange={handleKeepMeSignIn}
+          />
+          <span className="text-sm from-neutral-50">Keep me Sign In</span>
+        </div>
         <button
           type="submit"
           disabled={loading}

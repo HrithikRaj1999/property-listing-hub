@@ -16,6 +16,7 @@ export const verifyToken = (
   next: NextFunction
 ) => {
   const token = req.cookies.access_token;
+  console.log(token);
   if (!token) {
     return next(createHttpError(401, "Unauthorized"));
   }
