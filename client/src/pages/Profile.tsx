@@ -20,11 +20,12 @@ export const Profile = () => {
     passwordShowIcon,
     showImageOptionsDiv,
     divRef,
+    modalConditions,
+    showModal,
+    navigate,
     openModal,
     closeModal,
-    modalConditions,
     setShowImageOptionsDiv,
-    showModal,
     setShowModal,
     handleViewPicture,
     dispatch,
@@ -140,6 +141,7 @@ export const Profile = () => {
           <button
             type="button"
             className="bg-green-800 text-white p-2 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
+            onClick={() => navigate("/create-listing")}
           >
             {LABELS.CREATE_LISTING}
           </button>

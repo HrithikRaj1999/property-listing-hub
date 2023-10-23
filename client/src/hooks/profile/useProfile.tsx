@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
 import useFileManagement from "./useFileManagement";
 import useImageModal from "./useImageModal";
 import { useInputHandling } from "./useInputHandling";
@@ -16,6 +17,7 @@ const useProfile = () => {
   const [formData, setFormData] = useState<FormDataType | null>(null);
   const { openModal, closeModal, modalConditions } = useModal();
   const { showModal, setShowModal } = useImageModal();
+  const navigate = useNavigate();
   const {
     handlePicClick,
     handlePicSelect,
@@ -60,6 +62,7 @@ const useProfile = () => {
     modalConditions,
     setShowImageOptionsDiv,
     showModal,
+    navigate,
     setShowModal,
     handleViewPicture,
     dispatch,

@@ -6,7 +6,7 @@ interface modalPropsType {
 const ImageViewer = ({ src, alt, onClose }: modalPropsType) => {
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full flex z-50 items-center justify-center bg-black bg-opacity-100"
+      className="fixed top-0 left-0 w-full h-full flex z-50 items-center justify-center bg-black bg-opacity-80 backdrop-blur-md"
       onClick={onClose}
     >
       <img

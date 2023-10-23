@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import { CookieProvider } from "./context/Cookie";
 import About from "./pages/About";
+import CreateListing from "./pages/CreateListing";
 import Home from "./pages/Home";
 import { Profile } from "./pages/Profile";
 import SignIn from "./pages/SignIn";
@@ -21,9 +22,8 @@ function App() {
         {/*These are Private Route Sign in or Login is Must */}
 
         <Route element={<PrivateRoute />}>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/about" element={<About />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/create-listing" element={<CreateListing />}></Route>
         </Route>
       </Routes>
     </CookieProvider>
