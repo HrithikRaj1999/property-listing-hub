@@ -85,7 +85,7 @@ export const SignInController: RequestHandler<
           ...existingUser.toObject(),
           password: undefined, //we don't want to send password to client side
           __v: undefined,
-          token: keepMeSignedIn ? token : undefined,
+          token: undefined,
         },
       });
   } catch (error) {
@@ -120,7 +120,12 @@ export const GoogleController: RequestHandler<
         .send({
           success: true,
           message: MESSAGES.SUCCESS_SIGNIN,
-          user: { ...user.toObject(), password: undefined, __v: undefined },
+          user: {
+            ...user.toObject(),
+            password: undefined,
+            __v: undefined,
+            token: undefined,
+          },
         });
     }
     //if user doesnt Exists then store in mongo db and return that user.
@@ -140,7 +145,12 @@ export const GoogleController: RequestHandler<
         .send({
           success: true,
           message: MESSAGES.SUCCESS_SIGNIN,
-          user: { ...newUser.toObject(), password: undefined, __v: undefined },
+          user: {
+            ...newUser.toObject(),
+            password: undefined,
+            __v: undefined,
+            token: undefined,
+          },
         });
     }
   } catch (error) {
