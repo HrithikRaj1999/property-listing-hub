@@ -16,7 +16,7 @@ const SignIn = () => {
         onSubmit={handleSubmit}
       >
         <input
-          className="bg-indigo-50  border p-3 rounded-lg"
+          className="bg-indigo-50 border-2 hover:border-blue-500 p-3 rounded-lg"
           type="email"
           id="email"
           placeholder="Email"
@@ -27,7 +27,7 @@ const SignIn = () => {
         />
         <div className="relative">
           <input
-            className="bg-indigo-50  border p-3 w-full rounded-lg"
+            className="bg-indigo-50 border-2 hover:border-blue-500 p-3 w-full rounded-lg"
             type={state.passwordVisible ? "text" : "password"}
             id="password"
             placeholder="Password"
