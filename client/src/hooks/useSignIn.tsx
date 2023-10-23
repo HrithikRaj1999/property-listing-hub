@@ -41,9 +41,10 @@ const useSignIn = () => {
       });
       navigate("/");
     } catch (error: any) {
-      userDispatch(signInFailure(error.response.data.message));
-      return toast.error(error.response.data.message, {
-        toastId: error.response.data.message,
+      const errorMessage = error?.response?.data?.message || "Server Not Ready";
+      userDispatch(signInFailure(errorMessage));
+      return toast.error(errorMessage, {
+        toastId: errorMessage,
       });
     }
   };

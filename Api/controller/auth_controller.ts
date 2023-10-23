@@ -6,7 +6,7 @@ import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
 import { HTTP_STATUS_CODES, MESSAGES } from "../constants/codes-messages";
 import { logger } from "../logger/logger";
-import userModel from "../models/userModel";
+import { User } from "../models/userModel";
 
 // get config vars
 dotenv.config();
@@ -33,10 +33,10 @@ export const SignUpController: RequestHandler<
   try {
     if (!username || !email || !password)
       return next(createHttpError(400, MESSAGES.MISSING_PARAMETERS));
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) return next(createHttpError(409, MESSAGES.EMAIL_USED));
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await userModel.create({
+    const newUser = await User.create({
       username,
       email,
       password: hashedPassword,
@@ -62,7 +62,7 @@ export const SignInController: RequestHandler<
   if (!email || !password)
     return next(createHttpError(400, MESSAGES.MISSING_PARAMETERS));
   try {
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (!existingUser)
       return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
     const isPassValid = await bcrypt.compare(password, existingUser.password);
@@ -105,7 +105,7 @@ export const GoogleController: RequestHandler<
   unknown
 > = async (req, res, next) => {
   const { name, email, photoUrl } = req.body;
-  const user = await userModel.findOne({ email });
+  const user = await User.findOne({ email });
   const JWT_SECRET = process.env.JWT_SECRET!;
   //if user Exists then simple log in with new token
   try {
@@ -131,7 +131,7 @@ export const GoogleController: RequestHandler<
     //if user doesnt Exists then store in mongo db and return that user.
     else {
       const customPassword = crypto.randomBytes(16).toString("hex");
-      const newUser = await userModel.create({
+      const newUser = await User.create({
         username: name,
         email: email,
         password: customPassword,
@@ -167,9 +167,9 @@ export const SignOutController: RequestHandler<
 > = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await userModel.findById(id);
+    const user = await User.findById(id);
     if (user?.token) {
-      await userModel.findByIdAndUpdate(id, { $unset: { token: 1 } });
+      await User.findByIdAndUpdate(id, { $unset: { token: 1 } });
     }
 
     res.clearCookie("access_token");
@@ -190,7 +190,7 @@ export const GetTokenController: RequestHandler<
   const JWT_SECRET = process.env.JWT_SECRET!;
   try {
     const { id } = req.params;
-    const user = await userModel.findById(id);
+    const user = await User.findById(id);
     if (!user)
       return next(
         createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No User Found")

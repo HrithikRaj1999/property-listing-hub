@@ -6,7 +6,7 @@ import {
   HTTP_STATUS_MESSAGE,
   MESSAGES,
 } from "../constants/codes-messages";
-import userModel from "../models/userModel";
+import { User } from "../models/userModel";
 
 export const testUserApiController: RequestHandler<
   unknown,
@@ -47,7 +47,7 @@ export const updateUserController: RequestHandler<
     if (password) {
       hashedPassword = await bcrypt.hash(password, 10);
     }
-    const updatedUser = await userModel.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -89,7 +89,7 @@ export const deleteUserController: RequestHandler<
           HTTP_STATUS_MESSAGE.UNAUTHORIZED
         )
       );
-    await userModel.findByIdAndDelete(id);
+    await User.findByIdAndDelete(id);
     return res
       .status(HTTP_STATUS_CODES.OK)
       .send({ success: true, message: MESSAGES.SUCCESS_DELETE });
@@ -115,7 +115,7 @@ export const removeUserPicController: RequestHandler<
         createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.FORBIDDEN)
       );
 
-    const updatedUser = await userModel.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       id,
       { avatar },
       { new: true }
@@ -156,7 +156,7 @@ export const updateUserPicController: RequestHandler<
       return next(
         createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.FORBIDDEN)
       );
-    const updatedUser = await userModel.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       id,
       { avatar },
       { new: true }

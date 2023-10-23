@@ -59,4 +59,6 @@ export const MESSAGES = {
   SUCCESS_DELETE: "User Deleted Successfully",
   SUCCESS_LOGOUT: "User Logged Out Successfully",
   SUCCESS_UPDATE: "User Updated Successfully",
+  ENDPOINT_NOT_FOUND: "There is no Route ,  Endpoint Not Found",
+  SUCCESS_LISTING: "User cist created Successfully",
 };
