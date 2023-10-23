@@ -4,10 +4,19 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import api from "../../config/customApi";
 import { CLIENT_MESSAGE, TOAST_ID } from "../../constants/clientMessage";
+import { REACT_APP_DEFAULT_PROFILE_IMAGE } from "../../constants/link";
 import { app } from "../../firebase/firebase";
+import { RootState } from "../../redux/store";
+import {
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+} from "../../redux/user/userSlice";
 import { FormDataType } from "./useProfile";
 //firebase storage
 //   allow read;
@@ -19,17 +28,57 @@ const useFileManagement = (
   formData: FormDataType | null,
   setFormData: React.Dispatch<React.SetStateAction<FormDataType | null>>
 ) => {
+  const userDispatch = useDispatch();
+  const { currentUser } = useSelector((state: RootState) => state.userReducer);
+  const [showImageOptionsDiv, setShowImageOptionsDiv] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [filePercentage, setFilePercentage] = useState<number>(0);
+  const divRef = useRef<HTMLDivElement>(null);
   const [fileUploadError, setFileUploadError] = useState<object | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
-  const handlePicClick = () => {
-    if (fileRef.current) {
-      fileRef.current.click();
+  const handlePicRemove = async () => {
+    try {
+      userDispatch(updateUserStart());
+      const res = await api.put(
+        `user/removePic/${currentUser?._id}`,
+        { avatar: REACT_APP_DEFAULT_PROFILE_IMAGE },
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success(res.data.message);
+      userDispatch(updateUserSuccess(res.data.user));
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      userDispatch(updateUserFailure(error.response.data.message));
     }
   };
-
-  const handlePicUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePicClick = () => {
+    
+    if (fileRef.current) {
+      fileRef.current.click();
+      setShowImageOptionsDiv(false);
+    }
+  };
+  const handleViewPicture = () => {
+    setShowImageOptionsDiv(false);
+  };
+  const handlePictureUpload = async (downloadUrl: string) => {
+    userDispatch(updateUserStart());
+    try {
+      const res = await api.put(
+        `user/updatePic/${currentUser?._id}`,
+        { avatar: downloadUrl },
+        { withCredentials: true }
+      );
+      userDispatch(updateUserSuccess(res.data.user));
+      toast.success(res.data.message);
+    } catch (error: any) {
+      userDispatch(updateUserFailure(error.response.data.message));
+      toast.error(error.response.data.message);
+    }
+  };
+  const handlePicSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       toast.error(CLIENT_MESSAGE.PHOTO_NOT_UPLOADED);
       return;
@@ -67,11 +116,12 @@ const useFileManagement = (
           setFilePercentage(100); // Set the percentage to 100 on success
           setFileUploadError(null);
           toast.dismiss(TOAST_ID);
-          toast.success(CLIENT_MESSAGE.SUCCESS_PHOTO_UPLOAD);
           setFormData((prevFormData) => ({
             ...prevFormData,
             avatar: downloadUrl,
           }));
+          
+          handlePictureUpload(downloadUrl);
         }
       );
       setFile(newUploadedFile);
@@ -80,13 +130,31 @@ const useFileManagement = (
       console.error(error);
     }
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (divRef.current && !divRef.current.contains(event.target as Node)) {
+        setShowImageOptionsDiv(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setShowImageOptionsDiv]);
   return {
     handlePicClick,
-    handlePicUpload,
+    handlePicSelect,
+    handleViewPicture,
     filePercentage,
     fileUploadError,
     file,
     fileRef,
+    handlePicRemove,
+    showImageOptionsDiv,
+    setShowImageOptionsDiv,
+    divRef,
   };
 };
 

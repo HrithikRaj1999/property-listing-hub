@@ -33,7 +33,7 @@ export const updateUserController: RequestHandler<
 > = async (req, res, next) => {
   const { id } = req.params;
   const { username, email, password, avatar, tokenUserId } = req.body;
-  console.log({ username, email, password, avatar, tokenUserId, id });
+
   try {
     if (tokenUserId !== id) {
       return next(
@@ -93,6 +93,87 @@ export const deleteUserController: RequestHandler<
     return res
       .status(HTTP_STATUS_CODES.OK)
       .send({ success: true, message: MESSAGES.SUCCESS_DELETE });
+  } catch (error) {
+    next(error);
+  }
+};
+export const removeUserPicController: RequestHandler<
+  { id: string },
+  unknown,
+  { avatar: string },
+  unknown
+> = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id)
+      return next(
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.WRONG_ID)
+      );
+    const { avatar } = req.body;
+    if (!avatar)
+      return next(
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.FORBIDDEN)
+      );
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      id,
+      { avatar },
+      { new: true }
+    );
+
+    if (!updatedUser)
+      return next(
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.USER_NOT_FOUND)
+      );
+    return res.status(HTTP_STATUS_CODES.OK).send({
+      success: true,
+      message: MESSAGES.SUCCESS_UPDATE,
+      user: {
+        ...updatedUser.toObject(),
+        password: undefined,
+        __v: undefined,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUserPicController: RequestHandler<
+  { id: string },
+  unknown,
+  { avatar: string },
+  unknown
+> = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id)
+      return next(
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.WRONG_ID)
+      );
+    const { avatar } = req.body;
+    if (!avatar)
+      return next(
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.FORBIDDEN)
+      );
+    const updatedUser = await userModel.findByIdAndUpdate(
+      id,
+      { avatar },
+      { new: true }
+    );
+    if (!updatedUser)
+      return next(
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.USER_NOT_FOUND)
+      );
+    return res.status(HTTP_STATUS_CODES.OK).send({
+      success: true,
+      message: MESSAGES.SUCCESS_UPDATE,
+      user: {
+        ...updatedUser.toObject(),
+        password: undefined,
+        __v: undefined,
+      },
+    });
   } catch (error) {
     next(error);
   }

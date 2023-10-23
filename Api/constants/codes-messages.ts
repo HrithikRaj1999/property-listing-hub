@@ -43,9 +43,11 @@ export const HTTP_STATUS_MESSAGE = {
 };
 
 export const MESSAGES = {
+  WRONG_ID: "Id is null or Wrong",
   SERVER_RUNNING: "Server is running on port : ",
   SERVER_RES: "HELLO SERVER IS CONNECTED HAVE FUN",
   MONGO_CON_ERROR: "Error while connecting mongodb",
+  USER_NOT_FOUND: "User Does not exits",
   MONGO_CONNECTED: "Mongo DB Connected Successfully",
   UNAUTHORIZED: "Unauthorized",
   FORBIDDEN: "FORBIDDEN",
@@ -56,4 +58,5 @@ export const MESSAGES = {
   SUCCESS_SIGNIN: "User Signed In Successfully",
   SUCCESS_DELETE: "User Deleted Successfully",
   SUCCESS_LOGOUT: "User Logged Out Successfully",
+  SUCCESS_UPDATE: "User Updated Successfully",
 };

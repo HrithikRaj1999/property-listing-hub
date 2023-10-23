@@ -7,7 +7,6 @@ import { clearUserData } from "../redux/user/userSlice"; // Importing the action
 
 // Define the CheckCookie component
 const useCookie = () => {
-  console.log("cookie hook is runn");
   // Using the useSelector hook to extract currentUser and keepMeSignedIn from the Redux store
   const { currentUser, keepMeSignedIn } = useSelector(
     (state: RootState) => state.userReducer
@@ -26,7 +25,6 @@ const useCookie = () => {
       });
       // If the API call is successful and the cookie exists, render the Outlet component
       if (res.data.success) {
-        console.log("heelo");
       }
     } catch (error) {
       // If an error occurs while making the API call

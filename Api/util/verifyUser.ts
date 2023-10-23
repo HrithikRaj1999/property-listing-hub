@@ -16,7 +16,7 @@ export const verifyToken = (
   next: NextFunction
 ) => {
   const token = req.cookies.access_token;
-  console.log(token);
+
   if (!token) {
     return next(createHttpError(401, "Unauthorized"));
   }
@@ -42,7 +42,7 @@ export const verifyToken = (
         );
       }
       const user = payload as JwtPayload; // Cast the payload to your JwtPayload type
-      console.log(user.id);
+
       req.body.tokenUserId = user.id; // Attach the user to the request object
       next();
     }

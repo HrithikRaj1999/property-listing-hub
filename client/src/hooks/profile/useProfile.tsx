@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 import useFileManagement from "./useFileManagement";
+import useImageModal from "./useImageModal";
 import { useInputHandling } from "./useInputHandling";
+import useModal from "./useModal";
 import useUserActions from "./useUserActions";
 export interface FormDataType {
   username?: string;
@@ -12,14 +14,20 @@ export interface FormDataType {
 
 const useProfile = () => {
   const [formData, setFormData] = useState<FormDataType | null>(null);
-
+  const { openModal, closeModal, modalConditions } = useModal();
+  const { showModal, setShowModal } = useImageModal();
   const {
+    handlePicClick,
+    handlePicSelect,
+    handleViewPicture,
     filePercentage,
     fileUploadError,
     file,
     fileRef,
-    handlePicClick,
-    handlePicUpload,
+    divRef,
+    showImageOptionsDiv,
+    handlePicRemove,
+    setShowImageOptionsDiv,
   } = useFileManagement(formData, setFormData);
   const { currentUser, handleSignOut, handleUserDelete, handleUpdateSubmit } =
     useUserActions(formData, setFormData);
@@ -45,9 +53,19 @@ const useProfile = () => {
     loading,
     error,
     passwordShowIcon,
+    showImageOptionsDiv,
+    divRef,
+    openModal,
+    closeModal,
+    modalConditions,
+    setShowImageOptionsDiv,
+    showModal,
+    setShowModal,
+    handleViewPicture,
     dispatch,
     handlePicClick,
-    handlePicUpload,
+    handlePicRemove,
+    handlePicSelect,
     handleInputChange,
     handleUpdateSubmit,
     handlePassView,

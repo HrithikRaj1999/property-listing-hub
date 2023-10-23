@@ -1,29 +1,46 @@
 import { LogOut, UserX } from "react-feather";
 import CustomModal from "../components/CustomModal";
+import ImageViewer from "../components/ImageViewer";
 import Spinner from "../components/Spinner";
 import { LABELS } from "../constants/labels";
-import useModal from "../hooks/profile/useModal";
 import useProfile from "../hooks/profile/useProfile";
+
 export const Profile = () => {
-  const { openModal, closeModal, modalConditions } = useModal();
   const {
     currentUser,
     fileRef,
+    profilePic,
+    file,
+    formData,
+    filePercentage,
+    fileUploadError,
     state,
     loading,
-    profilePic,
+    error,
     passwordShowIcon,
+    showImageOptionsDiv,
+    divRef,
+    openModal,
+    closeModal,
+    modalConditions,
+    setShowImageOptionsDiv,
+    showModal,
+    setShowModal,
+    handleViewPicture,
+    dispatch,
     handlePicClick,
-    handlePicUpload,
+    handlePicRemove,
+    handlePicSelect,
     handleInputChange,
     handleUpdateSubmit,
     handlePassView,
     handleUserDelete,
     handleSignOut,
   } = useProfile();
+
   return (
     <>
-      <div className=" max-w-sm min-w-fit p-5 mx-auto  flex flex-col  gap-5  ">
+      <div className=" max-w-sm  min-w-fit p-5 mx-auto  flex flex-col  gap-5  ">
         <h1 className="text-3xl font-bold text-center my-4">Profile</h1>
         <div className="flex justify-center">
           <input
@@ -32,16 +49,49 @@ export const Profile = () => {
             hidden={true}
             id="choose-profile-pic"
             type="file"
-            onChange={handlePicUpload}
+            onChange={handlePicSelect}
           />
-          <img
-            className={`rounded-full w-[200px] h-[200px] align-items-center object-cover`}
-            alt="profile-pic"
-            title="Click to change"
-            onClick={handlePicClick}
-            src={profilePic}
-          />
+
+          {showModal ? (
+            <ImageViewer
+              src={profilePic}
+              alt="profile"
+              onClose={() => setShowModal(false)}
+            />
+          ) : null}
+          <div className="relative" ref={divRef}>
+            {showImageOptionsDiv ? (
+              <div className="absolute top-11 left-[13rem] border border-blue-400 flex flex-col max-w-lg min-w-fit bg-white rounded-xl font-medium">
+                <span
+                  className="cursor-pointer  border-b-4 p-3 hover:font-bold"
+                  onClick={handlePicRemove}
+                >
+                  Remove
+                </span>
+                <span
+                  className="cursor-pointer border-b-4 p-3 hover:font-bold"
+                  onClick={handlePicClick}
+                >
+                  Upload
+                </span>
+                <span
+                  className="cursor-pointer  p-3 hover:font-bold"
+                  onClick={() => setShowModal(true)}
+                >
+                  View
+                </span>
+              </div>
+            ) : null}
+            <img
+              className="rounded-full w-[200px] h-[200px] object-cover"
+              alt="profile-pic"
+              title="Click to view or change"
+              onClick={() => setShowImageOptionsDiv(true)}
+              src={profilePic}
+            />
+          </div>
         </div>
+
         <form
           id="profile-form"
           className="flex flex-col gap-5"
@@ -63,6 +113,7 @@ export const Profile = () => {
             placeholder="new email"
             onChange={handleInputChange}
           ></input>
+
           <div className="relative">
             <input
               className="bg-indigo-50 border p-3 w-full rounded-lg"
@@ -97,7 +148,7 @@ export const Profile = () => {
           <button
             type="button"
             title="Delete Account"
-            className=" text-sm hover:shadow-sm hover:bg-red-600 hover:text-white  hover:rounded-xl hover:text-md flex gap-3 p-2"
+            className=" min-w-fit text-sm hover:shadow-sm hover:bg-red-600 hover:text-white  hover:rounded-xl hover:text-md flex gap-3 p-2"
             onClick={() =>
               openModal(
                 "Warning : You are Deleting the Account permanently",
@@ -110,7 +161,7 @@ export const Profile = () => {
           </button>
           <button
             type="button"
-            className=" text-sm hover:shadow-sm hover:bg-red-600 hover:text-white  hover:text-md  hover:rounded-xl flex gap-3 p-2"
+            className="min-w-fit text-sm hover:shadow-sm hover:bg-red-600 hover:text-white  hover:text-md  hover:rounded-xl flex gap-3 p-2"
             onClick={() => openModal("Sign out", handleSignOut)}
           >
             <LogOut />

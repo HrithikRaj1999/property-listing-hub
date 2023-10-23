@@ -9,7 +9,6 @@ export const useInputHandling = (
   formData: FormDataType | null,
   setFormData: React.Dispatch<React.SetStateAction<FormDataType | null>>
 ) => {
-  console.log(formData);
   const { loading, error } = useSelector(
     (state: RootState) => state.userReducer
   );

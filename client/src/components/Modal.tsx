@@ -7,25 +7,29 @@ interface ModalPropsType {
   cancelLabel?: string;
   showCancelLabel?: boolean;
   children?: React.ReactNode;
+  showHeader?: boolean;
+  showFooter?: boolean;
   setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
   onOk?: () => void;
   onCancel?: () => void;
 }
 const Modal = (props: ModalPropsType) => {
-  console.log("i am rendered");
   const {
     showModal = false,
-    title,
-    info,
+    title = "",
+    info = "",
     okLabel = "ok",
-    showOkLabel,
-    setShowModal,
+    showOkLabel = "",
+    setShowModal = () => {},
     cancelLabel = "cancel",
-    showCancelLabel,
+    showCancelLabel = "",
     children,
-    onOk,
-    onCancel,
+    onOk = () => {},
+    onCancel = () => {},
+    showHeader = "",
+    showFooter = "",
   } = props;
+
   return showModal ? (
     <dialog className="modal">
       <div className="modal-box">

@@ -162,7 +162,6 @@ export const SignOutController: RequestHandler<
       await userModel.findByIdAndUpdate(id, { $unset: { token: 1 } });
     }
 
-    console.log(user);
     res.clearCookie("access_token");
     res
       .status(HTTP_STATUS_CODES.OK)

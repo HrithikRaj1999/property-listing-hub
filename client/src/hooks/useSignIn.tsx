@@ -50,7 +50,6 @@ const useSignIn = () => {
   const handleKeepMeSignIn = (event: React.ChangeEvent<HTMLInputElement>) => {
     userDispatch(setKeepMeSignedIn(event.target.checked));
   };
-  console.log({ state });
 
   return {
     handleSubmit,
