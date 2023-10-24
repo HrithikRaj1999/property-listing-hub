@@ -6,8 +6,8 @@ const ListingFacilities = () => {
   const { handleChange } = useFormikContext();
 
   return (
-    <div className="flex  justify-start gap-2">
-      <label>Facilities:</label>
+    <div className="flex flex-col border p-2 rounded-md justify-start gap-2">
+      <label className="font-bold text-sm sm:text-lg">Facilities:</label>
       <div className="flex flex-wrap gap-3 flex-row">
         <div className="flex  gap-2 ">
           <Field

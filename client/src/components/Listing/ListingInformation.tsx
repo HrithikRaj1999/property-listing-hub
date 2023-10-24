@@ -3,7 +3,8 @@ import { ErrorMessage, Field, useFormikContext } from "formik";
 const ListingInformation = () => {
   const { handleChange } = useFormikContext();
   return (
-    <>
+    <div className="border-2 p-4 rounded-xl mb-3 border-black">
+      <label className="text-base font-bold">Name</label>
       <Field
         name="name"
         type="text"
@@ -12,10 +13,10 @@ const ListingInformation = () => {
         minLength={10}
         required
         onChange={handleChange}
-        className="bg-indigo-50 text-black border p-3 w-full rounded-lg"
+        className="bg-indigo-50 text-black border p-2 w-full rounded-lg"
       />
-      <ErrorMessage name="name" component="div" />
-
+      <ErrorMessage name="name" className="text-red-600" component="div" />
+      <label className="text-base font-bold">Address</label>
       <Field
         name="address"
         type="text"
@@ -24,8 +25,8 @@ const ListingInformation = () => {
         onChange={handleChange}
         className="bg-indigo-50 text-black before:border p-3 w-full rounded-lg"
       />
-      <ErrorMessage name="address" component="div" />
-
+      <ErrorMessage name="name" className="text-red-600" component="div" />
+      <label className="text-base font-bold">Description</label>
       <Field
         name="description"
         as="textarea"
@@ -34,8 +35,8 @@ const ListingInformation = () => {
         onChange={handleChange}
         className="bg-indigo-50  text-black border p-3 w-full rounded-lg"
       />
-      <ErrorMessage name="description" component="div" />
-    </>
+      <ErrorMessage name="name" className="text-red-600" component="div" />
+    </div>
   );
 };
 

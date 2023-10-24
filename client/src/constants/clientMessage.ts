@@ -8,8 +8,9 @@ export const CLIENT_MESSAGE = {
   INVALID_PHOTO:
     "Invalid, photo must be less than 5 mb or select the correct type",
   SUCCESS_PHOTO_UPLOAD: "Profile Picture Uploaded Successfully",
-  SUCCESS_LISTING_PHOTO_UPLOAD: "All Pictures Uploaded successfully",
+  SUCCESS_LISTING_CREATED: "Listing created Successfully",
   FAILED_LISTING_PHOTO_UPLOAD: "Only 6 Images can be uploaded",
+  NO_PHOTO_SELECTED: "Kindly, upload some photos",
 };
 
 export const TOAST_ID = "upload";

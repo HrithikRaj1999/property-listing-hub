@@ -4,12 +4,15 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import { CLIENT_MESSAGE, TOAST_ID } from "../../constants/clientMessage";
 import { app } from "../../firebase/firebase";
 import * as Yup from "yup";
-import { useFormikContext } from "formik";
+import api from "../../config/customApi";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
+import _ from "lodash";
 
 interface FacilitiesType {
   parkingSpot: boolean;
@@ -32,7 +35,7 @@ export interface ListingFormDataType {
   type: string;
   specifications: SpecificationsType;
   facilities: FacilitiesType;
-  imageUrls: string[];
+  imageUrls: File[];
 }
 const inititalFormikData: ListingFormDataType = {
   name: "",
@@ -56,7 +59,6 @@ const inititalFormikData: ListingFormDataType = {
   },
   imageUrls: [],
 };
-
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(10).max(62).required("Required"),
   address: Yup.string().required("Required"),
@@ -68,43 +70,56 @@ const validationSchema = Yup.object().shape({
     parkingSpot: Yup.boolean(),
     swimmingPool: Yup.boolean(),
     furnished: Yup.boolean(),
-    semifurnished: Yup.boolean(),
+    semiFurnished: Yup.boolean(),
     unfurnished: Yup.boolean(),
   }),
   specifications: Yup.object().shape({
+    bathroom: Yup.number().min(1).max(10).required(),
     bedrooms: Yup.number().min(1).max(10).required(),
-    baths: Yup.number().min(1).max(10).required(),
     hall: Yup.number().min(1).max(5).required(),
-    regularprice: Yup.number().min(1).required(),
+    regularPrice: Yup.number().min(1).required(),
     discountedPrice: Yup.number().min(1).required(),
   }),
 });
 const useListing = () => {
-  const [files, setFiles] = useState<FileList | []>([]);
-
+  const navigate = useNavigate();
+  const { currentUser } = useSelector((state: RootState) => state.userReducer);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  const updatedPictureList = (id: number, values: ListingFormDataType) => {
+    const img = Array.from(values.imageUrls);
+    img.splice(id, 1);
+
+    return img;
+  };
   const handleImagesSubmit = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     values: ListingFormDataType,
     setFieldValue: (arg0: string, arg1: string[]) => void
   ) => {
-    if (
-      files &&
-      files.length > 0 &&
-      files.length + values.imageUrls.length < 6
-    ) {
+    if (_.isEmpty(values.imageUrls))
+      toast.error(CLIENT_MESSAGE.NO_PHOTO_SELECTED);
+    else if (values.imageUrls.length > 0 && values.imageUrls.length < 7) {
       const promises = [];
-      for (let i = 0; i < files.length; i++) {
-        promises.push(storageImage(files[i] as File));
+      for (let i = 0; i < values.imageUrls.length; i++) {
+        promises.push(storageImage(values.imageUrls[i] as File));
       }
       try {
         const urls: string[] = await Promise.all(promises);
-        toast.success(CLIENT_MESSAGE.SUCCESS_LISTING_PHOTO_UPLOAD);
-        setFieldValue("imageUrls", [...values.imageUrls, ...urls]);
+        const res = await api.post(
+          "/listing/create",
+          {
+            ...values,
+            imageUrls: [...urls],
+            userRef: currentUser?._id,
+          },
+          { withCredentials: true }
+        );
+        navigate(`/listing/${res.data.listing._id}`);
+        toast.success(CLIENT_MESSAGE.SUCCESS_LISTING_CREATED);
         toast.dismiss(TOAST_ID);
-      } catch (error) {
+      } catch (error: any) {
+        setFieldValue("imageUrls", []);
         toast.dismiss(TOAST_ID);
-        toast.error(CLIENT_MESSAGE.INVALID_PHOTO);
+        toast.error(error.response.data.message);
       }
     } else {
       toast.error(CLIENT_MESSAGE.FAILED_LISTING_PHOTO_UPLOAD);
@@ -143,9 +158,9 @@ const useListing = () => {
   return {
     inititalFormikData,
     validationSchema,
-    setFiles,
     handleImagesSubmit,
     handleChange,
+    updatedPictureList,
   };
 };
 

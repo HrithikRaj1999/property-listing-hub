@@ -17,6 +17,7 @@ interface ListingFormDataType {
   type: string;
   specifications: SpecificationsType;
   facilities: FacilitiesType;
+  userRef: string;
 }
 interface FacilitiesType {
   parkingSpot: boolean;
@@ -56,10 +57,10 @@ const listingSchema = new Schema<ListingFormDataType>(
       type: [String],
       required: true,
     },
-    // userRef: {
-    //   type: String,
-    //   required: true,
-    // },
+    userRef: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
