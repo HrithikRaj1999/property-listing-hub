@@ -1,21 +1,32 @@
 import mongoose, { Schema } from "mongoose";
-interface Listing {
+
+/// Client Side types
+
+interface SpecificationsType {
+  bathroom: number;
+  bedrooms: number;
+  hall: number;
+  regularPrice: number;
+  discountedPrice: number;
+}
+interface ListingFormDataType {
+  imageUrls: string[];
   name: string;
   description: string;
   address: string;
-  regularPrice: number;
-  discountPrice: number;
-  bathrooms: number;
-  bedrooms: number;
-  furnished: boolean;
-  parking: boolean;
   type: string;
-  offer: boolean;
-  imageUrls: string[];
-  userRef: string;
+  specifications: SpecificationsType;
+  facilities: FacilitiesType;
+}
+interface FacilitiesType {
+  parkingSpot: boolean;
+  furnished: boolean;
+  semiFurnished: boolean;
+  unfurnished: boolean;
+  swimmingPool: boolean;
 }
 
-const listingSchema = new Schema<Listing>(
+const listingSchema = new Schema<ListingFormDataType>(
   {
     name: {
       type: String,
@@ -29,48 +40,31 @@ const listingSchema = new Schema<Listing>(
       type: String,
       required: true,
     },
-    regularPrice: {
-      type: Number,
+    facilities: {
+      type: Object,
       required: true,
     },
-    discountPrice: {
-      type: Number,
-      required: true,
-    },
-    bathrooms: {
-      type: Number,
-      required: true,
-    },
-    bedrooms: {
-      type: Number,
-      required: true,
-    },
-    furnished: {
-      type: Boolean,
-      required: true,
-    },
-    parking: {
-      type: Boolean,
+    specifications: {
+      type: Object,
       required: true,
     },
     type: {
       type: String,
       required: true,
     },
-    offer: {
-      type: Boolean,
-      required: true,
-    },
     imageUrls: {
       type: [String],
       required: true,
     },
-    userRef: {
-      type: String,
-      required: true,
-    },
+    // userRef: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   { timestamps: true }
 );
 
-export const Listing = mongoose.model<Listing>("Listing", listingSchema); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))
+export const Listing = mongoose.model<ListingFormDataType>(
+  "Listing",
+  listingSchema
+); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))
