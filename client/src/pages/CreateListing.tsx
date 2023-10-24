@@ -9,7 +9,7 @@ const CreateListing = () => {
       </h1>
       <form
         id="listing-form"
-        className="flex flex-col sm:flex-row gap-20 m-2 p-14 rounded-lg bg-black"
+        className="flex flex-col sm:flex-row gap-20 m-2 p-14 rounded-lg bg-slate-500"
       >
         <div className="flex flex-col text-white gap-4 flex-1">
           <input
