@@ -34,7 +34,6 @@ export const createListing: RequestHandler<
 > = async (req, res, next) => {
   try {
     const listing = await Listing.create({ ...req.body });
-    console.log(listing);
     return res
       .status(HTTP_STATUS_CODES.OK)
       .send({ success: true, message: MESSAGES.SUCCESS_LISTING, listing });

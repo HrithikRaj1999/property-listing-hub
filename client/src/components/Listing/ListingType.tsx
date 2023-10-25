@@ -4,8 +4,7 @@ import React from "react";
 const ListingType = () => {
   const { handleChange } = useFormikContext();
   return (
-    <div className="flex flex-wrap justify-start gap-2">
-      <label>Type:</label>
+    <div className="m-3 flex flex-wrap justify-start gap-2">
       <div className="flex gap-2 ">
         <Field
           name="type"
@@ -15,7 +14,7 @@ const ListingType = () => {
           className="w-5 "
           onChange={handleChange}
         />
-        <span>Sell</span>
+        <span>Sell House</span>
       </div>
       <div className="flex gap-2">
         <Field
@@ -26,7 +25,7 @@ const ListingType = () => {
           className="w-5"
           onChange={handleChange}
         />
-        <span>Rent</span>
+        <span>Rent House</span>
       </div>
     </div>
   );

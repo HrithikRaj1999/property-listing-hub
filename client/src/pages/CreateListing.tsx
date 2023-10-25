@@ -27,36 +27,38 @@ const CreateListing = () => {
     >
       {({ values, isSubmitting, errors }) => {
         return (
-          <div className="p-3 max-w-4xl  min-w-[375px] mx-auto">
+          <div className="p-3 max-w-4xl gap-3 min-w-[375px] mx-auto">
             <h1 className="text-3xl font-bold text-center my-11">
               {LABELS.CREATE_LISTING_HEADING}
             </h1>
-            <Form
-              id="listing-create"
-              className="flex flex-col border-4 gap-7 sm:flex-row  m-2 p-3 rounded-xl "
-            >
-              <div className="flex flex-col  text-black gap-2 flex-1">
-                <ListingType />
-                <ListingInformation />
-                <ListingFacilities />
-                <ListingRoomType />
-              </div>
-              <div className="flex flex-col  gap-2 flex-1">
-                <div className="flex flex-col  rounded-md text-white flex-1 gap-5">
-                  <ListingSpecifications />
-                  {values.imageUrls.length < 6 ? (
-                    <ListingImageProperty />
-                  ) : null}
-                  <ViewSelectedImages />
+            <div className="border-4 border-blue-500">
+              <ListingType />
+              <Form
+                id="listing-create"
+                className="flex flex-col gap-5 sm:flex-row   p-5 rounded-xl "
+              >
+                <div className="flex flex-col  text-black gap-2 flex-1">
+                  <ListingInformation />
+                  <ListingFacilities />
+                  <ListingRoomType />
                 </div>
-                <button
-                  type="submit"
-                  className="p-3 hover:bg-white hover:shadow-lg hover:text-black bg-slate-900 text-white font-bold uppercase rounded-lg"
-                >
-                  {isSubmitting ? <Spinner /> : LABELS.CREATE_LIST}
-                </button>
-              </div>
-            </Form>
+                <div className="flex flex-col  gap-2 flex-1">
+                  <div className="flex flex-col  rounded-md text-black flex-1 gap-5">
+                    <ListingSpecifications />
+                    {values.imageUrls.length < 6 ? (
+                      <ListingImageProperty />
+                    ) : null}
+                    <ViewSelectedImages />
+                  </div>
+                  <button
+                    type="submit"
+                    className="p-3 hover:bg-white hover:shadow-lg hover:text-black bg-slate-900 text-white font-bold uppercase rounded-lg"
+                  >
+                    {isSubmitting ? <Spinner /> : LABELS.CREATE_LIST}
+                  </button>
+                </div>
+              </Form>
+            </div>
           </div>
         );
       }}

@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-/// Client Side types
-
+/// Client Side types just for refernce
 interface SpecificationsType {
   bathroom: number;
   bedrooms: number;
@@ -9,24 +8,18 @@ interface SpecificationsType {
   regularPrice: number;
   discountedPrice: number;
 }
-interface ListingFormDataType {
-  imageUrls: string[];
+export interface ListingFormDataType {
   name: string;
   description: string;
   address: string;
+  phone: string;
   type: string;
   specifications: SpecificationsType;
-  facilities: FacilitiesType;
+  roomType: string;
+  facilities: string[];
+  imageUrls: File[];
   userRef: string;
 }
-interface FacilitiesType {
-  parkingSpot: boolean;
-  furnished: boolean;
-  semiFurnished: boolean;
-  unfurnished: boolean;
-  swimmingPool: boolean;
-}
-
 const listingSchema = new Schema<ListingFormDataType>(
   {
     name: {
@@ -42,7 +35,7 @@ const listingSchema = new Schema<ListingFormDataType>(
       required: true,
     },
     facilities: {
-      type: Object,
+      type: [String],
       required: true,
     },
     specifications: {

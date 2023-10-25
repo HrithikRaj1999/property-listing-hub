@@ -4,6 +4,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "react-toastify";
 import { CLIENT_MESSAGE, TOAST_ID } from "../../constants/clientMessage";
 import { app } from "../../firebase/firebase";
@@ -13,11 +14,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
-
-interface FacilitiesType {
-  parkingSpot: boolean;
-  swimmingPool: boolean;
-}
+import { LABELS } from "../../constants/labels";
+import { MultiValue } from "react-select/dist/declarations/src";
 interface SpecificationsType {
   bathroom: number;
   bedrooms: number;
@@ -33,7 +31,7 @@ export interface ListingFormDataType {
   type: string;
   specifications: SpecificationsType;
   roomType: string;
-  facilities: FacilitiesType;
+  facilities: string[];
   imageUrls: File[];
 }
 const inititalFormikData: ListingFormDataType = {
@@ -42,10 +40,7 @@ const inititalFormikData: ListingFormDataType = {
   address: "",
   phone: "",
   type: "rent",
-  facilities: {
-    parkingSpot: false,
-    swimmingPool: false,
-  },
+  facilities: ["Tennis Court", "Football Ground"],
   roomType: "furnished",
   specifications: {
     bathroom: 1,
@@ -63,23 +58,15 @@ const validationSchema = Yup.object().shape({
     .max(23, "Name must be at most 23 characters")
     .required("Name is required"),
   address: Yup.string().required("Address is required"),
-  phone: Yup.string()
-    .required("Please provide a phone number")
-    .matches(/^[0-9]+$/, "Phone number must consist of digits only")
-    .min(10, "Phone number must be at least 10 digits long")
-    .max(15, "Phone number must be at most 15 digits long"),
   description: Yup.string().required("Description is required"),
+  phone: Yup.string().test(
+    "is-valid-phone",
+    "Invalid phone number",
+    (value) => !value || isValidPhoneNumber(value)
+  ),
   type: Yup.string()
     .oneOf(["sell", "rent"], 'Type must be either "sell" or "rent"')
     .required("Property type is required"),
-  facilities: Yup.object().shape({
-    parkingSpot: Yup.boolean().required(
-      "Parking spot availability must be specified"
-    ),
-    swimmingPool: Yup.boolean().required(
-      "Swimming pool availability must be specified"
-    ),
-  }),
   specifications: Yup.object().shape({
     bathroom: Yup.number()
       .min(1, "There must be at least 1 bathroom")
@@ -101,7 +88,21 @@ const validationSchema = Yup.object().shape({
       .required("Discounted price is required"),
   }),
 });
-
+const facilityOptions = [
+  { value: "parkingSpot", label: LABELS.PARKING },
+  { value: "swimmingPool", label: LABELS.POOL },
+  { value: "security", label: LABELS.SECURITY },
+  { value: "powerBackup", label: LABELS.POWER_BACKUP },
+  { value: "waterSupply", label: LABELS.WATER_SUPPLY },
+  { value: "elevators", label: LABELS.ELEVATORS },
+  { value: "gym", label: LABELS.GYM },
+  { value: "playground", label: LABELS.PLAYGROUND },
+  { value: "communityHall", label: LABELS.COMMUNITY_HALL },
+  { value: "gardens", label: LABELS.GARDENS },
+  { value: "carParking", label: LABELS.CAR_PARKING },
+  { value: "wasteDisposal", label: LABELS.WASTE_DISPOSAL },
+  { value: "fireSafety", label: LABELS.FIRE_SAFETY },
+];
 const useListing = () => {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
@@ -110,6 +111,18 @@ const useListing = () => {
     const img = Array.from(values.imageUrls);
     img.splice(id, 1);
     return img;
+  };
+
+  const handleChangeOfSelect = (
+    selectedOptions: MultiValue<{
+      value: string;
+      label: string;
+      __isNew__?: boolean;
+    }>,
+    setFieldValue: (arg0: string, arg1: string[]) => void
+  ) => {
+    const filteredOptions = selectedOptions.map(({ label, ...rest }) => label);
+    setFieldValue("facilities", filteredOptions);
   };
   const handleImagesSubmit = async (
     values: ListingFormDataType,
@@ -175,12 +188,15 @@ const useListing = () => {
       );
     });
   };
+
   return {
     inititalFormikData,
     validationSchema,
+    facilityOptions,
     handleImagesSubmit,
     handleChange,
     updatedPictureList,
+    handleChangeOfSelect,
   };
 };
 
