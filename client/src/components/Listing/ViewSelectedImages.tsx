@@ -13,12 +13,12 @@ const ViewSelectedImages = () => {
         {Array.from(values.imageUrls).map((file, index) => {
           const imgUrl = URL.createObjectURL(file);
           return (
-            <div className="relative group w-24 border-black rounded-lg">
+            <div className="relative group flex gap-1 w-[5rem] sm:w-[8rem] h-[5rem] sm:h-[10rem] border-black rounded-lg">
               <img
                 key={index}
                 src={imgUrl}
                 alt={`img-${index}`}
-                className="w-full h-full rounded-lg"
+                className="  rounded-lg"
               />
               <div
                 className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50 opacity-0 group-hover:opacity-100"

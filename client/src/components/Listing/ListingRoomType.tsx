@@ -1,0 +1,48 @@
+import { Field, useFormikContext } from "formik";
+import React from "react";
+import { LABELS } from "../../constants/labels";
+import { ListingFormDataType } from "../../hooks/Listing/useListing";
+
+const ListingRoomType = () => {
+  const { values, handleChange } = useFormikContext<ListingFormDataType>();
+  return (
+    <div className="border-2 border-black rounded-lg p-2">
+      <h1 className="font-bold"> Room Type</h1>
+      <div className="flex gap-2">
+        <Field
+          name="roomType"
+          type="radio"
+          value="furnished"
+          className="w-5"
+          onChange={handleChange}
+          checked={values.roomType === "furnished"}
+        />
+        <span>{LABELS.FULL}</span>
+      </div>
+      <div className="flex gap-2">
+        <Field
+          name="roomType"
+          type="radio"
+          value="semifurnished"
+          className="w-5"
+          onChange={handleChange}
+          checked={values.roomType === "semifurnished"}
+        />
+        <span>{LABELS.SEMI}</span>
+      </div>
+      <div className="flex gap-2">
+        <Field
+          name="roomType"
+          type="radio"
+          value="unfurnished"
+          className="w-5"
+          onChange={handleChange}
+          checked={values.roomType === "unfurnished"}
+        />
+        <span>{LABELS.NOT}</span>
+      </div>
+    </div>
+  );
+};
+
+export default ListingRoomType;

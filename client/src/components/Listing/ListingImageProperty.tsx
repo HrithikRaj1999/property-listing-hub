@@ -4,6 +4,7 @@ import useListing, {
   ListingFormDataType,
 } from "../../hooks/Listing/useListing";
 import { LABELS } from "../../constants/labels";
+import { toast } from "react-toastify";
 
 const ListingImageProperty = () => {
   const { setFieldValue } = useFormikContext<ListingFormDataType>();
@@ -22,7 +23,9 @@ const ListingImageProperty = () => {
           unselectable="off"
           multiple
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            if (e.target.files) setFieldValue("imageUrls", e.target.files);
+            if (e.target.files && e.target.files.length < 7)
+              setFieldValue("imageUrls", e.target.files);
+            else toast.error("6 images at Allowed");
           }}
           className="p-3 text-sm  border-2 border-black rounded-lg w-full"
         />
