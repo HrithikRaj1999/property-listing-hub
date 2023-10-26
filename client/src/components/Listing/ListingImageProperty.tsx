@@ -25,7 +25,7 @@ const ListingImageProperty = () => {
               setFieldValue("imageUrls", e.target.files);
             else toast.error("6 images at Allowed");
           }}
-          className="p-3 text-sm  border-2 border-black rounded-lg w-full"
+          className="p-3 text-sm  border rounded-lg w-full"
         />
       </div>
     </>

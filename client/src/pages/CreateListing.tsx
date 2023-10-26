@@ -27,17 +27,17 @@ const CreateListing = () => {
     >
       {({ values, isSubmitting, errors }) => {
         return (
-          <div className="p-3 max-w-4xl gap-3 min-w-[375px] mx-auto">
+          <div className="p-1 max-w-4xl gap-3 min-w-[375px] mx-auto h-full">
             <h1 className="text-3xl font-bold text-center my-11">
               {LABELS.CREATE_LISTING_HEADING}
             </h1>
-            <div className="border-4 border-blue-500">
+            <div className="border">
               <ListingType />
               <Form
                 id="listing-create"
-                className="flex flex-col gap-5 sm:flex-row   p-5 rounded-xl "
+                className="flex flex-col gap-2 sm:flex-row   p-2 rounded-full "
               >
-                <div className="flex flex-col  text-black gap-2 flex-1">
+                <div className="flex flex-col  text-black  flex-1">
                   <ListingInformation />
                   <ListingFacilities />
                   <ListingRoomType />

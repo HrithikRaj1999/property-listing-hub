@@ -11,7 +11,7 @@ const CustomInput = forwardRef<
   <input
     {...props}
     ref={ref}
-    className="bg-indigo-50 text-black border p-2 w-full rounded-lg"
+    className=" text-black no-border p-2 w-full rounded-lg"
   />
 ));
 
@@ -19,7 +19,7 @@ const ListingInformation = () => {
   const { values, handleChange, errors, setFieldValue, setFieldError } =
     useFormikContext<ListingDataType>();
   return (
-    <div className="border-2 p-4 rounded-xl mb-3 border-black">
+    <div className=" p-4 rounded-xl mb-3 -black">
       <label className="text-sm font-bold">Name</label>
       <Field
         name="name"
@@ -28,7 +28,7 @@ const ListingInformation = () => {
         maxLength={23}
         required
         onChange={handleChange}
-        className="bg-indigo-50 text-black border p-2 w-full rounded-lg"
+        className="border  text-black  p-2 w-full rounded-lg"
       />
       <ErrorMessage name="name" className="text-red-600" component="div" />
       <label className="text-sm font-bold">Address</label>
@@ -38,15 +38,16 @@ const ListingInformation = () => {
         placeholder="address"
         required
         onChange={handleChange}
-        className="bg-indigo-50 text-black before:border p-3 w-full rounded-lg"
+        className="border  text-black before: p-3 w-full rounded-lg"
       />
       <ErrorMessage name="address" className="text-red-600" component="div" />
       <label className="text-sm font-bold">Phone Number</label>
       <PhoneInput
         placeholder="Enter phone number"
         value={values.phone}
-        
+        defaultCountry="IN"
         onChange={(e) => setFieldValue("phone", e?.toString())}
+        className="border  text-black p-1  w-full rounded-lg"
         inputComponent={CustomInput}
       />
       {errors.phone ? <div className="text-red-600">{errors.phone}</div> : null}
@@ -59,7 +60,7 @@ const ListingInformation = () => {
         placeholder="description"
         required
         onChange={handleChange}
-        className="bg-indigo-50  text-black border p-3 w-full rounded-lg"
+        className="border   text-black  p-3 w-full rounded-lg"
       />
       <ErrorMessage
         name="description"

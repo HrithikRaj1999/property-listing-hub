@@ -15,7 +15,7 @@ const ListingFacilities = () => {
     return { label: item, value: item };
   });
   return (
-    <div className="flex gap-2 border-2 border-black p-4 rounded-xl mb-3 text-black text-[0.8rem] sm:text-md flex-col">
+    <div className="flex gap-1  p-4 rounded-xl mb-3 text-black text-[0.8rem] sm:text-md flex-col">
       <label className="font-bold text-sm sm:text-lg">Facilities</label>
       <Creatable
         isMulti

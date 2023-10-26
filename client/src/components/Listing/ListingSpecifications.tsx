@@ -6,7 +6,7 @@ import { ListingDataType } from "../../hooks/Listing/useListing";
 const ListingSpecifications = () => {
   const { values, handleChange } = useFormikContext<ListingDataType>();
   return (
-    <div className="border-2 border-black rounded-lg p-2">
+    <div className="rounded-lg p-2">
       <label className="font-bold  text-lg sm:text-xl ">
         {LABELS.SPECIFICATIONS}
       </label>
