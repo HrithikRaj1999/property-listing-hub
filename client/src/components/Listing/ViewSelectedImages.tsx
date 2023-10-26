@@ -1,11 +1,9 @@
 import { useFormikContext } from "formik";
 import React from "react";
-import useListing, {
-  ListingFormDataType,
-} from "../../hooks/Listing/useListing";
+import useListing, { ListingDataType } from "../../hooks/Listing/useListing";
 
 const ViewSelectedImages = () => {
-  const { values, setFieldValue } = useFormikContext<ListingFormDataType>();
+  const { values, setFieldValue } = useFormikContext<ListingDataType>();
   const { updatedPictureList } = useListing();
   return (
     <>

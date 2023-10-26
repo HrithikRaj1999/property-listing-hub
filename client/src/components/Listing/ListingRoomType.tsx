@@ -1,10 +1,10 @@
 import { Field, useFormikContext } from "formik";
 import React from "react";
 import { LABELS } from "../../constants/labels";
-import { ListingFormDataType } from "../../hooks/Listing/useListing";
+import { ListingDataType } from "../../hooks/Listing/useListing";
 
 const ListingRoomType = () => {
-  const { values, handleChange } = useFormikContext<ListingFormDataType>();
+  const { values, handleChange } = useFormikContext<ListingDataType>();
   return (
     <div className="border-2 border-black rounded-lg p-2">
       <h1 className="font-bold"> Room Type</h1>

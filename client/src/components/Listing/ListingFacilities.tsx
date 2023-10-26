@@ -2,14 +2,12 @@ import { Field, useFormikContext } from "formik";
 import React from "react";
 import Creatable from "react-select/creatable";
 import { LABELS } from "../../constants/labels";
-import useListing, {
-  ListingFormDataType,
-} from "../../hooks/Listing/useListing";
+import useListing, { ListingDataType } from "../../hooks/Listing/useListing";
 import { MultiValue } from "react-select/dist/declarations/src";
 
 const ListingFacilities = () => {
   const { values, setFieldValue, initialValues } =
-    useFormikContext<ListingFormDataType>();
+    useFormikContext<ListingDataType>();
 
   const { handleChangeOfSelect, facilityOptions } = useListing();
   // Define the options for the react-select component

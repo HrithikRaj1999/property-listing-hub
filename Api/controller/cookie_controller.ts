@@ -5,7 +5,7 @@ export const cookieController: RequestHandler<
   unknown,
   unknown,
   unknown
-> = (req, res, next) => {
+> = (req, res) => {
   res
     .status(HTTP_STATUS_CODES.OK)
     .send({ success: true, message: "Token Exists" });

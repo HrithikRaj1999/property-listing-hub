@@ -8,7 +8,7 @@ interface SpecificationsType {
   regularPrice: number;
   discountedPrice: number;
 }
-export interface ListingFormDataType {
+export interface ListingDataType {
   name: string;
   description: string;
   address: string;
@@ -20,7 +20,7 @@ export interface ListingFormDataType {
   imageUrls: File[];
   userRef: string;
 }
-const listingSchema = new Schema<ListingFormDataType>(
+const listingSchema = new Schema<ListingDataType>(
   {
     name: {
       type: String,
@@ -58,7 +58,7 @@ const listingSchema = new Schema<ListingFormDataType>(
   { timestamps: true }
 );
 
-export const Listing = mongoose.model<ListingFormDataType>(
+export const Listing = mongoose.model<ListingDataType>(
   "Listing",
   listingSchema
 ); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))

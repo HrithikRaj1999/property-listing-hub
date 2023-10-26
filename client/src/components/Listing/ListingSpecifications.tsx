@@ -1,10 +1,10 @@
 import { ErrorMessage, Field, useFormikContext } from "formik";
 import React from "react";
 import { LABELS } from "../../constants/labels";
-import { ListingFormDataType } from "../../hooks/Listing/useListing";
+import { ListingDataType } from "../../hooks/Listing/useListing";
 
 const ListingSpecifications = () => {
-  const { values, handleChange } = useFormikContext<ListingFormDataType>();
+  const { values, handleChange } = useFormikContext<ListingDataType>();
   return (
     <div className="border-2 border-black rounded-lg p-2">
       <label className="font-bold  text-lg sm:text-xl ">
@@ -22,6 +22,12 @@ const ListingSpecifications = () => {
           />
           <span>{LABELS.BEDROOMS}</span>
         </div>
+        <ErrorMessage
+          name="specifications.bedrooms"
+          className="text-red-600"
+          component="div"
+        />
+
         <div className="flex mx-3 gap-1">
           <Field
             placeholder="1"
@@ -32,8 +38,13 @@ const ListingSpecifications = () => {
             onChange={handleChange}
           />
           <span>{LABELS.BATHROOMS}</span>
+          <ErrorMessage
+            name="specifications.bathroom"
+            className="text-red-600"
+            component="div"
+          />
         </div>
-        <div className="flex  mx-3  gap-1">
+        <div className="flex mx-3 gap-1">
           <Field
             placeholder="1"
             type="number"
@@ -43,6 +54,11 @@ const ListingSpecifications = () => {
             onChange={handleChange}
           />
           <span>{LABELS.HALL}</span>
+          <ErrorMessage
+            name="specifications.hall"
+            className="text-red-600"
+            component="div"
+          />
         </div>
         <div className="flex  mx-3  gap-1">
           <div className="flex flex-col">

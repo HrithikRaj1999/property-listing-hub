@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, useFormikContext } from "formik";
-import { ListingFormDataType } from "../../hooks/Listing/useListing";
+import { ListingDataType } from "../../hooks/Listing/useListing";
 import "react-phone-number-input/style.css";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import { InputHTMLAttributes, forwardRef, useEffect } from "react";
@@ -17,7 +17,7 @@ const CustomInput = forwardRef<
 
 const ListingInformation = () => {
   const { values, handleChange, errors, setFieldValue, setFieldError } =
-    useFormikContext<ListingFormDataType>();
+    useFormikContext<ListingDataType>();
   return (
     <div className="border-2 p-4 rounded-xl mb-3 border-black">
       <label className="text-sm font-bold">Name</label>
@@ -45,6 +45,7 @@ const ListingInformation = () => {
       <PhoneInput
         placeholder="Enter phone number"
         value={values.phone}
+        
         onChange={(e) => setFieldValue("phone", e?.toString())}
         inputComponent={CustomInput}
       />

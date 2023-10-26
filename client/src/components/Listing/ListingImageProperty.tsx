@@ -1,13 +1,11 @@
 import { Field, useFormikContext } from "formik";
 import React, { useRef } from "react";
-import useListing, {
-  ListingFormDataType,
-} from "../../hooks/Listing/useListing";
+import useListing, { ListingDataType } from "../../hooks/Listing/useListing";
 import { LABELS } from "../../constants/labels";
 import { toast } from "react-toastify";
 
 const ListingImageProperty = () => {
-  const { setFieldValue } = useFormikContext<ListingFormDataType>();
+  const { setFieldValue } = useFormikContext<ListingDataType>();
   return (
     <>
       <span className="font-semibold text-black">

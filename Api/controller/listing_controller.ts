@@ -16,7 +16,7 @@ interface SpecificationsType {
   regularPrice: number;
   discountedPrice: number;
 }
-export interface ListingFormDataType {
+export interface ListingDataType {
   name?: string;
   description?: string;
   address?: string;
@@ -29,7 +29,7 @@ export interface ListingFormDataType {
 export const createListing: RequestHandler<
   unknown,
   unknown,
-  ListingFormDataType,
+  ListingDataType,
   unknown
 > = async (req, res, next) => {
   try {

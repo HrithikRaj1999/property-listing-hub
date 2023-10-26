@@ -23,7 +23,7 @@ interface SpecificationsType {
   regularPrice: number;
   discountedPrice: number;
 }
-export interface ListingFormDataType {
+export interface ListingDataType {
   name: string;
   description: string;
   address: string;
@@ -34,7 +34,7 @@ export interface ListingFormDataType {
   facilities: string[];
   imageUrls: File[];
 }
-const inititalFormikData: ListingFormDataType = {
+const inititalFormikData: ListingDataType = {
   name: "",
   description: "",
   address: "",
@@ -107,7 +107,7 @@ const useListing = () => {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
-  const updatedPictureList = (id: number, values: ListingFormDataType) => {
+  const updatedPictureList = (id: number, values: ListingDataType) => {
     const img = Array.from(values.imageUrls);
     img.splice(id, 1);
     return img;
@@ -125,7 +125,7 @@ const useListing = () => {
     setFieldValue("facilities", filteredOptions);
   };
   const handleImagesSubmit = async (
-    values: ListingFormDataType,
+    values: ListingDataType,
     setFieldValue: (arg0: string, arg1: string[]) => void
   ) => {
     if (_.isEmpty(values.imageUrls))
