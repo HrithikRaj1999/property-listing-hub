@@ -1,5 +1,6 @@
 export const LABELS = {
   GOOGLE_LOGIN: `Sign in with google`,
+  UPDATE:"UPDATE",
   SIGN_IN: `Sign In`,
   SIGN_UP: `Sign Up`,
   UPLOAD: `UPLOAD`,

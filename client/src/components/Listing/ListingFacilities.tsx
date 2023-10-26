@@ -11,7 +11,7 @@ const ListingFacilities = () => {
 
   const { handleChangeOfSelect, facilityOptions } = useListing();
   // Define the options for the react-select component
-  const defaultDisplayData = initialValues.facilities.map((item) => {
+  const defaultDisplayData = initialValues?.facilities?.map((item) => {
     return { label: item, value: item };
   });
   return (

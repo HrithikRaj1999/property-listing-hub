@@ -35,7 +35,7 @@ export interface ListingDataType {
   facilities: string[];
   imageUrls: File[];
 }
-const inititalFormikData: ListingDataType = {
+export const inititalFormikData: ListingDataType = {
   name: "",
   description: "",
   address: "",
@@ -53,7 +53,7 @@ const inititalFormikData: ListingDataType = {
   imageUrls: [],
 };
 
-const validationSchema = Yup.object().shape({
+export const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(3, "Name must be at least 3 characters")
     .max(23, "Name must be at most 23 characters")

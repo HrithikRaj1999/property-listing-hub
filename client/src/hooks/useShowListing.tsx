@@ -28,10 +28,9 @@ const useShowListing = () => {
       const res = await api.get(`user/listings/${currentUser?._id}`, {
         withCredentials: true,
       });
-      toast.success(res.data.message);
       userDispatch(setListing([...res.data.listings]));
     } catch (error: any) {
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Server Error");
     }
   };
   const { currentUser } = useSelector((state: RootState) => state.userReducer);

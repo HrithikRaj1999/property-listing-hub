@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import useShowListing, { SingleListProps } from "../../hooks/useShowListing";
-import { FaIntercom, FaWatchmanMonitoring } from "react-icons/fa";
-import { Home, Info, Trash } from "react-feather";
+
+import { ArrowLeft, ArrowRight, Home, Info, Trash } from "react-feather";
 import CustomModal from "../CustomModal";
+import { Link } from "react-router-dom";
 
 const SingleList = (props: SingleListProps) => {
   const { item } = props;
@@ -51,14 +52,16 @@ const SingleList = (props: SingleListProps) => {
   );
   const { handleDeleteListing } = useShowListing();
   return isImagesLoaded ? (
-    <div className="max-w-[24rem]  overflow-hidden bg-white rounded-lg shadow-md hover:shadow-2xl">
-      <div className="relative">
-        <img
-          className="w-full h-48 object-cover"
-          src={typeof item.imageUrls[0] === "string" ? item.imageUrls[0] : ""}
-          alt={item.name}
-        />
-      </div>
+    <div className="max-w-[24rem] mx-auto  hover:opacity-90 overflow-hidden bg-white rounded-lg shadow-md hover:shadow-2xl">
+      <Link to={`/update-listing/${item._id}`}>
+        <div className="">
+          <img
+            className="w-full h-48 object-cover"
+            src={typeof item.imageUrls[0] === "string" ? item.imageUrls[0] : ""}
+            alt={item.name}
+          />
+        </div>
+      </Link>
       <div className="p-4">
         <h4 className="text-2xl font-semibold text-blue-gray-700">
           {item.name}
@@ -70,14 +73,19 @@ const SingleList = (props: SingleListProps) => {
           <Home size={20} />
           {item.address.split("").slice(0, 25).join("")}
         </h5>
+
+        <h6 className="flex flex-wrap text-sm gap-3 text-blue-gray-700">
+          <ArrowRight size={20} />
+          {item.roomType.toUpperCase()}
+        </h6>
       </div>
-      <div className="flex items-center justify-between gap-2 p-4 bg-gray-100">
-        <div>
+      <div className="flex items-center justify-between  p-5 bg-gray-100">
+        <div className="flex items-center gap-2">
+          <span>Price </span>
           <span className="line-through">
             ₹{item.specifications.regularPrice}
           </span>
           <span>₹{item.specifications.discountedPrice}</span>
-          <span>{item.roomType}</span>
         </div>
         <span>
           <Trash

@@ -9,6 +9,7 @@ import { Profile } from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import ShowListings from "./pages/ShowListings";
+import UpdateListing from "./components/Listing/UpdateListing";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />
           <Route path="/show-listings" element={<ShowListings />} />
+          <Route path="/update-listing/:listId" element={<UpdateListing />} />
         </Route>
       </Routes>
     </CookieProvider>

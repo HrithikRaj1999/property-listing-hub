@@ -1,8 +1,9 @@
 import { Field, useFormikContext } from "formik";
 import React from "react";
+import { itemType } from "../../hooks/useShowListing";
 
 const ListingType = () => {
-  const { handleChange } = useFormikContext();
+  const { values, handleChange } = useFormikContext<itemType>();
   return (
     <div className="m-3 flex flex-wrap justify-start gap-2">
       <div className="flex gap-2 ">
@@ -13,6 +14,7 @@ const ListingType = () => {
           placeholder="sell"
           className="w-5 "
           onChange={handleChange}
+          checked={values.type === "sell"}
         />
         <span>Sell House</span>
       </div>
@@ -24,6 +26,7 @@ const ListingType = () => {
           placeholder="rent"
           className="w-5"
           onChange={handleChange}
+          checked={values.type !== "sell"}
         />
         <span>Rent House</span>
       </div>

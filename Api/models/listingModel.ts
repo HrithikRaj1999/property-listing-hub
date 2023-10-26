@@ -34,6 +34,10 @@ const listingSchema = new Schema<ListingDataType>(
       type: String,
       required: true,
     },
+    phone: {
+      type: String,
+      required: true,
+    },
     facilities: {
       type: [String],
       required: true,

@@ -10,6 +10,7 @@ export const CLIENT_MESSAGE = {
   SUCCESS_PHOTO_UPLOAD: "Profile Picture Uploaded Successfully",
   SUCCESS_LISTING_CREATED: "Listing created Successfully",
   FAILED_LISTING_PHOTO_UPLOAD: "Only 6 Images can be uploaded",
+  SUCCESS_LISTING_EDIT: "Listing Edited Successfully",
   NO_PHOTO_SELECTED: "Kindly, upload some photos",
   LISTINGS_GATHERED: "Listing Fetched Successfully",
 };

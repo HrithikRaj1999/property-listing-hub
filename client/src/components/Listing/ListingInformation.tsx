@@ -7,13 +7,17 @@ import { InputHTMLAttributes, forwardRef, useEffect } from "react";
 const CustomInput = forwardRef<
   HTMLInputElement,
   InputHTMLAttributes<HTMLInputElement>
->((props, ref) => (
-  <input
-    {...props}
-    ref={ref}
-    className=" text-black no-border p-2 w-full rounded-lg"
-  />
-));
+>((props, ref) => {
+  const { values } = useFormikContext<ListingDataType>();
+  return (
+    <input
+      {...props}
+      ref={ref}
+      value={values.phone}
+      className=" text-black no-border p-2 w-full rounded-lg"
+    />
+  );
+});
 
 const ListingInformation = () => {
   const { values, handleChange, errors, setFieldValue, setFieldError } =

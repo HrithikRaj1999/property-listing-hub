@@ -10,14 +10,11 @@ const ShowListings = () => {
     fetchListings();
   }, []);
   return (
-    <div>
-      <h1>{LABELS.LISTING}</h1>
-      <div className="flex m-3 p-1 flex-wrap gap-6  ">
-        {currentUser?.listings &&
-          currentUser?.listings.map((item: itemType) => (
-            <SingleList key={item._id} item={item} />
-          ))}
-      </div>
+    <div className="flex m-3 p-1 flex-wrap gap-6  ">
+      {currentUser?.listings &&
+        currentUser?.listings.map((item: itemType) => (
+          <SingleList key={item._id} item={item} />
+        ))}
     </div>
   );
 };
