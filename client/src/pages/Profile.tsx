@@ -145,6 +145,13 @@ export const Profile = () => {
           >
             {LABELS.CREATE_LISTING}
           </button>
+          <button
+            type="button"
+            className="bg-blue-800 text-white p-2 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
+            onClick={() => navigate("/show-listings")}
+          >
+            {LABELS.SHOW_LISTINGS}
+          </button>
         </form>
         <div className="min-w-fit max-w-sm flex justify-between">
           <button

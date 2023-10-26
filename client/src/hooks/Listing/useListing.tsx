@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 import { LABELS } from "../../constants/labels";
 import { MultiValue } from "react-select/dist/declarations/src";
-interface SpecificationsType {
+export interface SpecificationsType {
   bathroom: number;
   bedrooms: number;
   hall: number;
@@ -24,6 +24,7 @@ interface SpecificationsType {
   discountedPrice: number;
 }
 export interface ListingDataType {
+  _id?: string;
   name: string;
   description: string;
   address: string;
@@ -146,7 +147,7 @@ const useListing = () => {
           },
           { withCredentials: true }
         );
-        navigate(`/listing/${res.data.listing._id}`);
+        // navigate(`/listing/${res.data.listing._id}`);
         toast.success(CLIENT_MESSAGE.SUCCESS_LISTING_CREATED);
         toast.dismiss(TOAST_ID);
       } catch (error: any) {

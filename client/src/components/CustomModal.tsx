@@ -4,7 +4,7 @@ interface CustomModalProps {
   isOpen: boolean;
   onClose: () => void;
   onDelete: () => void;
-  title: string;
+  title: string | ReactNode;
   children?: ReactNode;
   footer?: ReactNode;
   header?: ReactNode;

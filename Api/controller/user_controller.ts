@@ -7,6 +7,7 @@ import {
   MESSAGES,
 } from "../constants/codes-messages";
 import { User } from "../models/userModel";
+import { Listing } from "../models/listingModel";
 
 export const testUserApiController: RequestHandler<
   unknown,
@@ -173,6 +174,33 @@ export const updateUserPicController: RequestHandler<
         password: undefined,
         __v: undefined,
       },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const showUserListingController: RequestHandler<
+  { id: string },
+  unknown,
+  { tokenUserId: string },
+  unknown
+> = async (req, res, next) => {
+  const { tokenUserId } = req.body;
+  const { id } = req.params;
+  try {
+    if (tokenUserId !== id)
+      return next(
+        createHttpError(
+          HTTP_STATUS_CODES.UNAUTHORIZED,
+          HTTP_STATUS_MESSAGE.UNAUTHORIZED
+        )
+      );
+    const listings = await Listing.find({ userRef: id });
+    return res.status(HTTP_STATUS_CODES.OK).send({
+      success: true,
+      message: MESSAGES.SUCESS_LISTING_GATHERED,
+      listings,
     });
   } catch (error) {
     next(error);

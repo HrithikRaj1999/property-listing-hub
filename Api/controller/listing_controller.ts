@@ -1,7 +1,12 @@
 import { RequestHandler } from "express";
-import { HTTP_STATUS_CODES, MESSAGES } from "../constants/codes-messages";
+import {
+  HTTP_STATUS_CODES,
+  HTTP_STATUS_MESSAGE,
+  MESSAGES,
+} from "../constants/codes-messages";
 import { Listing } from "../models/listingModel";
 import { logger } from "../logger/logger";
+import createHttpError from "http-errors";
 interface FacilitiesType {
   parkingSpot: boolean;
   furnished: boolean;
@@ -37,6 +42,33 @@ export const createListing: RequestHandler<
     return res
       .status(HTTP_STATUS_CODES.OK)
       .send({ success: true, message: MESSAGES.SUCCESS_LISTING, listing });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteListing: RequestHandler<
+  { userId: string; listId: string },
+  unknown,
+  { tokenUserId: string },
+  unknown
+> = async (req, res, next) => {
+  const { tokenUserId } = req.body;
+  const { userId, listId } = req.params;
+  try {
+    if (tokenUserId !== userId) {
+      return next(
+        createHttpError(
+          HTTP_STATUS_CODES.UNAUTHORIZED,
+          HTTP_STATUS_MESSAGE.UNAUTHORIZED
+        )
+      );
+    }
+    await Listing.findByIdAndDelete(listId);
+    return res.status(HTTP_STATUS_CODES.OK).send({
+      success: true,
+      message: "Listing Deleted Successfully",
+    });
   } catch (error) {
     next(error);
   }

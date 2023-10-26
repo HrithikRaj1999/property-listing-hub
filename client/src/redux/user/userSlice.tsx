@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ListingDataType } from "../../hooks/Listing/useListing";
+import { itemType } from "../../hooks/useShowListing";
 
 interface userType {
   username: string;
@@ -6,6 +8,7 @@ interface userType {
   avatar: string;
   _id: string;
   createdAt: string;
+  listings: itemType[];
   updatedAt: string;
 }
 interface UserSliceType {
@@ -79,7 +82,10 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-
+    setListing: (state, actions) => {
+      if (state.currentUser !== null)
+        state.currentUser.listings = actions.payload;
+    },
     clearUserData: (state) => {
       state.currentUser = null;
       state.loading = false;
@@ -104,5 +110,6 @@ export const {
   signOutUserFailure,
   setKeepMeSignedIn,
   clearUserData,
+  setListing,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -2,6 +2,7 @@ import express from "express";
 import {
   deleteUserController,
   removeUserPicController,
+  showUserListingController,
   updateUserController,
   updateUserPicController,
 } from "../controller/user_controller";
@@ -12,3 +13,4 @@ userRouter.put("/update/:id", verifyToken, updateUserController);
 userRouter.delete("/delete/:id", verifyToken, deleteUserController);
 userRouter.put("/removePic/:id", verifyToken, removeUserPicController);
 userRouter.put("/updatePic/:id", verifyToken, updateUserPicController);
+userRouter.get("/listings/:id", verifyToken, showUserListingController);

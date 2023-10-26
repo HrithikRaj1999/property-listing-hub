@@ -61,4 +61,5 @@ export const MESSAGES = {
   SUCCESS_UPDATE: "User Updated Successfully",
   ENDPOINT_NOT_FOUND: "There is no Route ,  Endpoint Not Found",
   SUCCESS_LISTING: "User cist created Successfully",
+  SUCESS_LISTING_GATHERED: "Listing Gathered Successfully",
 };

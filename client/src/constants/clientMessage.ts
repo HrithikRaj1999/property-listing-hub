@@ -11,6 +11,7 @@ export const CLIENT_MESSAGE = {
   SUCCESS_LISTING_CREATED: "Listing created Successfully",
   FAILED_LISTING_PHOTO_UPLOAD: "Only 6 Images can be uploaded",
   NO_PHOTO_SELECTED: "Kindly, upload some photos",
+  LISTINGS_GATHERED: "Listing Fetched Successfully",
 };
 
 export const TOAST_ID = "upload";

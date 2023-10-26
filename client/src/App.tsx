@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import { Profile } from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import ShowListings from "./pages/ShowListings";
 
 function App() {
   return (
@@ -22,8 +23,9 @@ function App() {
         {/*These are Private Route Sign in or Login is Must */}
 
         <Route element={<PrivateRoute />}>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/create-listing" element={<CreateListing />}></Route>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/create-listing" element={<CreateListing />} />
+          <Route path="/show-listings" element={<ShowListings />} />
         </Route>
       </Routes>
     </CookieProvider>

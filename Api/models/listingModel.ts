@@ -46,6 +46,10 @@ const listingSchema = new Schema<ListingDataType>(
       type: String,
       required: true,
     },
+    roomType: {
+      type: String,
+      required: true,
+    },
     imageUrls: {
       type: [String],
       required: true,
