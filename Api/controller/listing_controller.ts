@@ -5,7 +5,6 @@ import {
   MESSAGES,
 } from "../constants/codes-messages";
 import { Listing } from "../models/listingModel";
-import { logger } from "../logger/logger";
 import createHttpError from "http-errors";
 import { itemType } from "../../client/src/hooks/useShowListing";
 interface FacilitiesType {
@@ -100,7 +99,26 @@ export const UpdateListProperty: RequestHandler<
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "Listing Updated Successfully",
-      updatedListing,
+      listing: updatedListing,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getListingById: RequestHandler<
+  { listingId: string },
+  unknown,
+  unknown,
+  unknown
+> = async (req, res, next) => {
+  const { listingId } = req.params;
+  try {
+    const listing = await Listing.findById(listingId);
+    return res.status(HTTP_STATUS_CODES.OK).send({
+      success: true,
+      message: "Listing Retrieved Successfully",
+      listing: listing,
     });
   } catch (error) {
     next(error);

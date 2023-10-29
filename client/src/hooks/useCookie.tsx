@@ -20,22 +20,28 @@ const useCookie = () => {
   const checkCookieExists = async () => {
     try {
       // Try to make an API call to check if the cookie exists
+      // if cookies exists that means user is in same browser instance. so do nothing
+      // if there is no cookies that means user has logged out or reopen the browser
       const res = await api.get("/checkCookie", {
         withCredentials: true, // withCredentials is set to true to send cookies with the request
       });
-      // If the API call is successful and the cookie exists, render the Outlet component
+      // If the API call is successful and the cookie exists its valid user and still on the same instance of browser
       if (res.data.success) {
       }
     } catch (error) {
-      // If an error occurs while making the API call
+      // If an error occurs while making the API call that means cookie is not there
+      // so check user has opted for keepMeSign In
       if (keepMeSignedIn) {
         // If the user has opted to stay signed in
         try {
-          // Try to refresh the token by making another API call
+          // Try to get token
+          // token will be only present if the user had not logged out, as upon log out/sign out token will be deleted from mongo db document and redux persist will set
+          // local storage data to null
           await api.get(`auth/getToken/${currentUser?._id}`, {
             withCredentials: true,
           });
-          // If the token is refreshed successfully, update the session storage and render the Outlet component
+          // If the no error is there that means  token exits that means user must have closed the browser or manually deleted the cookie from the browser
+          // After checking token is refreshed successfully, update the session storage and render the Outlet component
           sessionStorage.setItem("status", "user is cookies refreshed");
         } catch (error) {
           // If an error occurs while refreshing the token, clear the user data from the Redux store and redirect to sign-in page

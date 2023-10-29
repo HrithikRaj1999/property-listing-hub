@@ -13,18 +13,11 @@ import ListingSpecifications from "./ListingSpecifications";
 import ListingImageProperty from "./ListingImageProperty";
 import ViewSelectedImages from "./ViewSelectedImages";
 import Spinner from "../Spinner";
-import useShowListing from "../../hooks/useShowListing";
 import useUpdateListing from "../../hooks/Listing/useUpdateListing";
 import { LABELS } from "../../constants/labels";
 
 const UpdateListing = () => {
-  const {
-    currentUser,
-    initialFormikData,
-    handleUpdate,
-    updatedPictureList,
-    handleChangeOfSelect,
-  } = useUpdateListing();
+  const { initialFormikData, handleUpdate } = useUpdateListing();
   return (
     <Formik
       initialValues={initialFormikData as FormikValues}
@@ -32,7 +25,7 @@ const UpdateListing = () => {
       onSubmit={async (values, formikHelpers) => {
         const { setFieldValue } = formikHelpers;
         formikHelpers.setSubmitting(true);
-        handleUpdate(values as ListingDataType, setFieldValue);
+        await handleUpdate(values as ListingDataType, setFieldValue);
         formikHelpers.setSubmitting(false);
       }}
     >
@@ -40,7 +33,7 @@ const UpdateListing = () => {
         return (
           <div className="p-1 max-w-4xl gap-3 min-w-[375px] mx-auto h-full">
             <h1 className="text-3xl font-bold text-center my-11">
-              {LABELS.CREATE_LISTING_HEADING}
+              {LABELS.UPDATE_LISTING_HEADING}
             </h1>
             <div className="border">
               <ListingType />

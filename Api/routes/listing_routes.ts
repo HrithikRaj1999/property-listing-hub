@@ -3,6 +3,7 @@ import {
   UpdateListProperty,
   createListing,
   deleteListing,
+  getListingById,
 } from "../controller/listing_controller";
 import { verifyToken } from "../util/verifyUser";
 
@@ -19,3 +20,5 @@ listingRouter.delete(
   verifyToken,
   deleteListing
 );
+
+listingRouter.get("/show-listing/:listingId", getListingById);

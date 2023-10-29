@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import useShowListing, { SingleListProps } from "../../hooks/useShowListing";
 
-import { ArrowLeft, ArrowRight, Home, Info, Trash } from "react-feather";
+import { ArrowRight, Home, Info, Trash } from "react-feather";
 import CustomModal from "../CustomModal";
 import { Link } from "react-router-dom";
 

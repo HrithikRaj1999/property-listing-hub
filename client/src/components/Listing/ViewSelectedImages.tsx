@@ -1,5 +1,4 @@
 import { useFormikContext } from "formik";
-import React from "react";
 import useListing, { ListingDataType } from "../../hooks/Listing/useListing";
 
 const ViewSelectedImages = () => {
@@ -14,7 +13,10 @@ const ViewSelectedImages = () => {
             const imgUrl =
               typeof file === "string" ? file : URL.createObjectURL(file); //TODO:: for update we are sendinging direct Url but for create we are storing FileList so this might cause error
             return (
-              <div className="relative group flex gap-1 w-[5rem] sm:w-[8rem] h-[5rem] sm:h-[10rem] border-black rounded-lg">
+              <div
+                key={index}
+                className="relative group flex gap-1 w-[5rem] sm:w-[8rem] h-[5rem] sm:h-[10rem] border-black rounded-lg"
+              >
                 <img
                   key={index}
                   src={imgUrl}

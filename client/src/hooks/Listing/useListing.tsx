@@ -90,19 +90,19 @@ export const validationSchema = Yup.object().shape({
   }),
 });
 const facilityOptions = [
-  { value: "parkingSpot", label: LABELS.PARKING },
-  { value: "swimmingPool", label: LABELS.POOL },
-  { value: "security", label: LABELS.SECURITY },
-  { value: "powerBackup", label: LABELS.POWER_BACKUP },
-  { value: "waterSupply", label: LABELS.WATER_SUPPLY },
-  { value: "elevators", label: LABELS.ELEVATORS },
-  { value: "gym", label: LABELS.GYM },
-  { value: "playground", label: LABELS.PLAYGROUND },
-  { value: "communityHall", label: LABELS.COMMUNITY_HALL },
-  { value: "gardens", label: LABELS.GARDENS },
-  { value: "carParking", label: LABELS.CAR_PARKING },
-  { value: "wasteDisposal", label: LABELS.WASTE_DISPOSAL },
-  { value: "fireSafety", label: LABELS.FIRE_SAFETY },
+  { value: LABELS.PARKING, label: LABELS.PARKING },
+  { value: LABELS.POOL, label: LABELS.POOL },
+  { value: LABELS.SECURITY, label: LABELS.SECURITY },
+  { value: LABELS.POWER_BACKUP, label: LABELS.POWER_BACKUP },
+  { value: LABELS.WATER_SUPPLY, label: LABELS.WATER_SUPPLY },
+  { value: LABELS.ELEVATORS, label: LABELS.ELEVATORS },
+  { value: LABELS.GYM, label: LABELS.GYM },
+  { value: LABELS.PLAYGROUND, label: LABELS.PLAYGROUND },
+  { value: LABELS.COMMUNITY_HALL, label: LABELS.COMMUNITY_HALL },
+  { value: LABELS.GARDENS, label: LABELS.GARDENS },
+  { value: LABELS.CAR_PARKING, label: LABELS.CAR_PARKING },
+  { value: LABELS.WASTE_DISPOSAL, label: LABELS.WASTE_DISPOSAL },
+  { value: LABELS.FIRE_SAFETY, label: LABELS.FIRE_SAFETY },
 ];
 const useListing = () => {
   const navigate = useNavigate();

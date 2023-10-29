@@ -92,6 +92,9 @@ const userSlice = createSlice({
       state.error = null;
       state.keepMeSignedIn = false;
     },
+    setLoading: (state, actions) => {
+      state.loading = actions.payload;
+    },
   },
 });
 
@@ -111,5 +114,6 @@ export const {
   setKeepMeSignedIn,
   clearUserData,
   setListing,
+  setLoading,
 } = userSlice.actions;
 export default userSlice.reducer;

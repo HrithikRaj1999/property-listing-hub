@@ -15,6 +15,7 @@ import _ from "lodash";
 import { MultiValue } from "react-select/dist/declarations/src";
 import { ListingDataType } from "./useListing";
 import { useNavigate, useParams } from "react-router-dom";
+import e from "express";
 const useUpdateListing = () => {
   const { listId } = useParams();
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
@@ -45,12 +46,15 @@ const useUpdateListing = () => {
     if (_.isEmpty(values.imageUrls))
       toast.error(CLIENT_MESSAGE.NO_PHOTO_SELECTED);
     else if (values.imageUrls.length > 0 && values.imageUrls.length < 7) {
-      const promises = [];
-      for (let i = 0; i < values.imageUrls.length; i++) {
-        promises.push(storageImage(values.imageUrls[i] as File));
-      }
       try {
-        const urls: string[] = await Promise.all(promises);
+        const promises = [];
+        let urls: string[] | File[] = values.imageUrls;
+        if (typeof values.imageUrls[0] !== "string") {
+          for (let i = 0; i < values.imageUrls.length; i++) {
+            promises.push(storageImage(values.imageUrls[i] as File));
+          }
+          urls = await Promise.all(promises);
+        }
         const res = await api.put(
           `/listing/update-listing/${currentUser?._id}/${listId}`,
           {
@@ -59,7 +63,7 @@ const useUpdateListing = () => {
           },
           { withCredentials: true }
         );
-        navigate(`/show-listings`);
+        navigate(`/show-listing/${res.data.listing._id}`);
         toast.success(CLIENT_MESSAGE.SUCCESS_LISTING_EDIT);
         toast.dismiss(TOAST_ID);
       } catch (error: any) {

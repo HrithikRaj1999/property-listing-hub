@@ -24,7 +24,7 @@ export const verifyToken = (
   jwt.verify(
     token,
     process.env.JWT_SECRET!,
-    (err: jwt.VerifyErrors | null, payload: any) => {
+    (err: jwt.VerifyErrors | null, payload: unknown) => {
       if (err) {
         return next(
           createHttpError(

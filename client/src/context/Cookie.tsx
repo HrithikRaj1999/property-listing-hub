@@ -33,11 +33,3 @@ export const CookieProvider: React.FC<CookieProviderProps> = ({ children }) => {
     </CookieContext.Provider>
   );
 };
-
-export const useCookieContext = () => {
-  const context = useContext(CookieContext);
-  if (context === undefined) {
-    throw new Error("useCookieContext must be used within a CookieProvider");
-  }
-  return context;
-};

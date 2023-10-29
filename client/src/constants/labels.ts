@@ -1,6 +1,6 @@
 export const LABELS = {
   GOOGLE_LOGIN: `Sign in with google`,
-  UPDATE:"UPDATE",
+  UPDATE: "UPDATE",
   SIGN_IN: `Sign In`,
   SIGN_UP: `Sign Up`,
   UPLOAD: `UPLOAD`,
@@ -13,6 +13,7 @@ export const LABELS = {
   SIGN_OUT: " Sign out",
   CREATE_LISTING_HEADING: "Create a listing of property",
   CREATE_LIST: "Create List",
+  UPDATE_LISTING_HEADING: "Update the listing of property",
   LISTING_IMG_UPLOAD_WARNING:
     "The first image will be the cover (max 6 allowed)",
   SPECIFICATIONS: "Specifications",

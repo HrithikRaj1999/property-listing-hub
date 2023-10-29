@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import ShowListings from "./pages/ShowListings";
 import UpdateListing from "./components/Listing/UpdateListing";
+import ShowSingleList from "./pages/ShowSingleList";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/about" element={<About />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/show-listing/:listId" element={<ShowSingleList />} />
 
         {/*These are Private Route Sign in or Login is Must */}
 
