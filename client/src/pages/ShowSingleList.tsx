@@ -104,7 +104,7 @@ const ShowSingleList = () => {
             {" "}
             <FaAudioDescription /> Discription -{" "}
           </span>{" "}
-          <p className="ml- text-lg sm:text-lg p-8  max-w-[1000px]">
+          <p className=" text-sm sm:text-xl p-8  max-w-[1000px]">
             {listing?.description}
           </p>
         </div>
