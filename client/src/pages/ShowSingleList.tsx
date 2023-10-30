@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../config/customApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { setLoading } from "../redux/user/userSlice";
+
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
-import { Navigation } from "swiper/modules";
+
 import "swiper/css/bundle";
-import {
-  ListingDataType,
-  SpecificationsType,
-} from "../hooks/Listing/useListing";
+import { SpecificationsType } from "../hooks/Listing/useListing";
 import {
   FaAudioDescription,
   FaFeatherAlt,
@@ -21,6 +15,9 @@ import {
   FaHandPointRight,
   FaHome,
 } from "react-icons/fa";
+import { current } from "@reduxjs/toolkit";
+import CustomModal from "../components/CustomModal";
+import useShowSingleList from "../hooks/Listing/useShowSingleList";
 
 export interface ListingType {
   _id?: string;
@@ -33,24 +30,24 @@ export interface ListingType {
   roomType: string;
   facilities: string[];
   imageUrls: string[];
+  userRef: string;
 }
 const ShowSingleList = () => {
-  const { listId } = useParams();
-  const [listing, setListing] = useState<ListingType | null>(null);
-  SwiperCore.use([Navigation]);
-  const { loading } = useSelector((state: RootState) => state.userReducer);
-  const userDispatch = useDispatch();
-  const fetchListing = async () => {
-    try {
-      userDispatch(setLoading(true));
-      const res = await api.get(`/listing/show-listing/${listId}`);
-      setListing({ ...res.data.listing });
-      userDispatch(setLoading(false));
-    } catch (error: any) {
-      toast.error(error);
-      userDispatch(setLoading(false));
-    }
-  };
+  const {
+    navigate,
+    userDispatch,
+    fetchListing,
+    handleEmailSend,
+    message,
+    setMessage,
+    currentUser,
+    loading,
+    showContactModal,
+    listing,
+    listId,
+    setShowContactModal,
+  } = useShowSingleList();
+
   useEffect(() => {
     fetchListing();
   }, [listId]);
@@ -80,11 +77,11 @@ const ShowSingleList = () => {
             ))}
         </Swiper>
       </div>
-      <div className="flex bg-zinc-50 mt-3 p-4 pt-5 sm:pt-16  s mx-0 sm:mx-12 md:mx-16 flex-col rounded-xl gap-9">
-        <span className="text-lg sm:text-2xl md:text-5xl font-semibold">
+      <div className="flex bg-zinc-50 mt-3 p-4 pt-5 sm:pt-16  mx-0 sm:mx-12 md:mx-16 flex-col rounded-xl gap-9">
+        <span className="text-lg sm:text-xl md:text-2xl font-semibold">
           {listing?.name} - ₹{listing?.specifications.regularPrice}/per month
         </span>
-        <span className="text-base sm:text-base md:text-2xl font-thin flex gap-4 items-center">
+        <span className="text-base sm:text-lg md:text-xl font-thin flex gap-4 items-center">
           <FaHome size={40} /> {listing?.address}
         </span>
         <div className="flex flex-wrap gap-4">
@@ -150,6 +147,34 @@ const ShowSingleList = () => {
           </div>
         </div>
       </div>
+      {currentUser && listing?.userRef !== currentUser._id ? (
+        <div className="flex justify-center my-3">
+          <button
+            onClick={() => setShowContactModal(true)}
+            className="bg-gray-700 p-3 rounded-xl text-white text-xs sm:text-xl"
+          >
+            Contact to Owner{" "}
+          </button>
+        </div>
+      ) : null}
+
+      <CustomModal
+        title={"Contact to the Owner"}
+        isOpen={showContactModal}
+        okLabel={"Send"}
+        onOk={handleEmailSend}
+        onClose={() => setShowContactModal(false)}
+      >
+        <textarea
+          className="p-2 m-2 border-slate-600 rounded-xl h-24"
+          name="message"
+          placeholder="Message to owner...."
+          id="message"
+          rows={2}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+      </CustomModal>
     </>
   );
 };

@@ -10,13 +10,8 @@ export const Profile = () => {
     currentUser,
     fileRef,
     profilePic,
-    file,
-    formData,
-    filePercentage,
-    fileUploadError,
     state,
     loading,
-    error,
     passwordShowIcon,
     showImageOptionsDiv,
     divRef,
@@ -27,8 +22,6 @@ export const Profile = () => {
     closeModal,
     setShowImageOptionsDiv,
     setShowModal,
-    handleViewPicture,
-    dispatch,
     handlePicClick,
     handlePicRemove,
     handlePicSelect,
@@ -52,7 +45,6 @@ export const Profile = () => {
             type="file"
             onChange={handlePicSelect}
           />
-
           {showModal ? (
             <ImageViewer
               src={profilePic}
@@ -182,7 +174,7 @@ export const Profile = () => {
         isOpen={modalConditions.isOpen}
         onClose={closeModal}
         title={modalConditions.title}
-        onDelete={modalConditions.handler}
+        onOk={modalConditions.handler}
       />
     </>
   );

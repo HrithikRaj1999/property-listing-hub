@@ -206,3 +206,35 @@ export const showUserListingController: RequestHandler<
     next(error);
   }
 };
+
+export const getUserDetailsController: RequestHandler<
+  { userId: string },
+  unknown,
+  unknown,
+  unknown
+> = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    console.log(user);
+    if (!user) {
+      return next(
+        createHttpError(
+          HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+          "No user Found"
+        )
+      );
+    }
+    return res.status(HTTP_STATUS_CODES.OK).send({
+      success: true,
+      message: "User Details fetched Successfully",
+      user: {
+        ...user.toObject(),
+        password: undefined,
+        __v: undefined,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};

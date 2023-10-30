@@ -147,7 +147,7 @@ const useListing = () => {
           },
           { withCredentials: true }
         );
-        // navigate(`/listing/${res.data.listing._id}`);
+        navigate(`/show-listing/${res.data.listing._id}`);
         toast.success(CLIENT_MESSAGE.SUCCESS_LISTING_CREATED);
         toast.dismiss(TOAST_ID);
       } catch (error: any) {
