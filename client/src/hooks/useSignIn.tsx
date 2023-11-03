@@ -17,9 +17,7 @@ const useSignIn = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
   const userDispatch = useDispatch(); //It allows you to send (or "dispatch") actions to your Redux store, which in turn triggers changes in your application's state.
-  const { loading, error, keepMeSignedIn } = useSelector(
-    (state: RootState) => state.userReducer
-  ); //useSelector in a Redux-based application is to access and manage the application's state stored in the Redux store ir. user Store
+  const { loading, error, keepMeSignedIn } = useSelector((state: RootState) => state.userReducer); //useSelector in a Redux-based application is to access and manage the application's state stored in the Redux store ir. user Store
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     userDispatch(signInStart());
@@ -41,7 +39,8 @@ const useSignIn = () => {
       });
       navigate("/");
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.message || "Server Not Ready";
+      console.log(error);
+      const errorMessage = error?.response?.data?.message ?? "Invalid Credentials";
       userDispatch(signInFailure(errorMessage));
       return toast.error(errorMessage, {
         toastId: errorMessage,

@@ -27,9 +27,7 @@ const useSignUp = () => {
       dispatch({ type: "SET_LOADING", payload: false });
     } catch (error: any) {
       dispatch({ type: "SET_LOADING", payload: false });
-      return toast.error(error.response.data.message, {
-        toastId: error.response.data.message,
-      });
+      toast.error(error?.response?.data?.message ?? "Invalid Credentials");
     }
   };
 

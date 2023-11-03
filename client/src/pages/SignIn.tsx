@@ -5,25 +5,18 @@ import Spinner from "../components/Spinner";
 import { LABELS } from "../constants/labels";
 import useSignIn from "../hooks/useSignIn";
 const SignIn = () => {
-  const { handleSubmit, handleKeepMeSignIn, loading, error, state, dispatch } =
-    useSignIn();
+  const { handleSubmit, handleKeepMeSignIn, loading, error, state, dispatch } = useSignIn();
   return (
     <div className="max-w-sm min-w-fit p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign In</h1>
-      <form
-        id="signInForm"
-        className="flex flex-col gap-5"
-        onSubmit={handleSubmit}
-      >
+      <form id="signInForm" className="flex flex-col gap-5" onSubmit={handleSubmit}>
         <input
           className="bg-indigo-50 border-2 hover:border-blue-500 p-3 rounded-lg"
           type="email"
           id="email"
           placeholder="Email"
           value={state.email}
-          onChange={(e) =>
-            dispatch({ type: "SET_EMAIL", payload: e.target.value })
-          }
+          onChange={(e) => dispatch({ type: "SET_EMAIL", payload: e.target.value })}
         />
         <div className="relative">
           <input
@@ -32,9 +25,7 @@ const SignIn = () => {
             id="password"
             placeholder="Password"
             value={state.password}
-            onChange={(e) =>
-              dispatch({ type: "SET_PASSWORD", payload: e.target.value })
-            }
+            onChange={(e) => dispatch({ type: "SET_PASSWORD", payload: e.target.value })}
           />
           <span
             className="absolute inset-y-0 right-5 flex items-center text-black"
@@ -63,7 +54,7 @@ const SignIn = () => {
           disabled={loading}
           className="bg-slate-900 text-white p-2 rounded-lg uppercase hover:opacity-80 disabled:opacity-75"
         >
-          {loading ? <Spinner /> : "Sign In"}
+          {loading ? <Spinner width={40} height={40} /> : "Sign In"}
         </button>
         <GoogleAuth />
       </form>
