@@ -216,7 +216,6 @@ export const getUserDetailsController: RequestHandler<
   const { userId } = req.params;
   try {
     const user = await User.findById(userId);
-    console.log(user);
     if (!user) {
       return next(
         createHttpError(

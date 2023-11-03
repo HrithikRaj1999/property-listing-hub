@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import ShowListings from "./pages/ShowListings";
 import UpdateListing from "./components/Listing/UpdateListing";
 import ShowSingleList from "./pages/ShowSingleList";
+import Search from "./components/Search";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/show-listing/:listId" element={<ShowSingleList />} />
-
+        <Route path="/search" element={<Search />} />
         {/*These are Private Route Sign in or Login is Must */}
 
         <Route element={<PrivateRoute />}>

@@ -12,7 +12,7 @@ const ListingType = () => {
           type="radio"
           value="sell"
           placeholder="sell"
-          className="w-5 "
+          className="w-5"
           onChange={handleChange}
           checked={values.type === "sell"}
         />

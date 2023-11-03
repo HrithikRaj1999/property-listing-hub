@@ -1,9 +1,7 @@
-import { Field, useFormikContext } from "formik";
-import React from "react";
+import { useFormikContext } from "formik";
 import Creatable from "react-select/creatable";
-import { LABELS } from "../../constants/labels";
+
 import useListing, { ListingDataType } from "../../hooks/Listing/useListing";
-import { MultiValue } from "react-select/dist/declarations/src";
 
 const ListingFacilities = () => {
   const { setFieldValue, initialValues } = useFormikContext<ListingDataType>();
