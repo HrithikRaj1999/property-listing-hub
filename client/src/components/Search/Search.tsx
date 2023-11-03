@@ -6,7 +6,7 @@ import Spinner from "../Spinner";
 import { useState, useEffect } from "react";
 
 const Search = () => {
-  const { options, initialValues, setInitialValue, handleSubmit } = useSearch();
+  const { options, initialValues, setInitialValue, handleLoadMore, handleSubmit } = useSearch();
   const urlParams = new URLSearchParams(window.location.search).get("searchText");
   useEffect(() => {
     // Get the data from localStorage only when the 'param' changes
@@ -25,9 +25,9 @@ const Search = () => {
         await handleSubmit(values, formikHelpers)
       }
     >
-      {({ values, isSubmitting, errors }) => {
+      {({ values, isSubmitting, setFieldValue }) => {
         return (
-          <div className="flex flex-col sm:flex-col md:flex-row ">
+          <div className="flex flex-col sm:flex-col md:flex-row mx-4">
             <div className="p-7 min-w-[375px] max-w-full sm:h-[calc(100vh-76px)] sm:max-w-sm border-b-4 sm:border-r-4 md:border-r-4 ">
               <Form>
                 {/*Sort */}
@@ -145,7 +145,7 @@ const Search = () => {
                     type="submit"
                     className="p-2  bg-slate-700 w-full hover:shadow-2xl text-white rounded"
                   >
-                    Search
+                    {isSubmitting ? <Spinner width={45} height={45} /> : "Search"}
                   </button>{" "}
                 </div>
               </Form>
@@ -155,8 +155,19 @@ const Search = () => {
                 <Spinner width={20} height={20} />
               </div>
             ) : (
-              <div className="flex m-6 flex-wrap justify-center sm:justify-start gap-6 sm:w-full ">
-                <FilteredListings />
+              <div className="flex flex-col">
+                <div className="flex m-6 flex-wrap justify-center sm:justify-center gap-6 sm:w-full  ">
+                  <FilteredListings />
+                </div>
+                {values.filteredListings.length ? (
+                  <button
+                    className="text-bold p-3 text-green-700"
+                    type="button"
+                    onClick={() => handleLoadMore(values, setFieldValue)}
+                  >
+                    Show more
+                  </button>
+                ) : null}
               </div>
             )}
           </div>

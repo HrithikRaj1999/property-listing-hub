@@ -3,7 +3,7 @@ import { HTTP_STATUS_CODES, HTTP_STATUS_MESSAGE, MESSAGES } from "../constants/c
 import { Listing } from "../models/listingModel";
 import createHttpError from "http-errors";
 import { itemType } from "../../client/src/hooks/useShowListing";
-import { logger } from "../logger/logger";
+
 interface FacilitiesType {
   parkingSpot: boolean;
   furnished: boolean;
@@ -140,7 +140,7 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
     const { query } = req;
     const { searchText, limit, startIndex, sortBy, type, amenities, roomType } = query;
     const [sortField, sortOrder] = sortBy ? sortBy.split("_") : ["createdAt", "asc"];
-    const intLimit = parseInt(limit, 10) || 6;
+    const intLimit = parseInt(limit, 10) || 4;
     const intStartIndex = parseInt(startIndex, 10) || 0;
     const searchQuery: Partial<searchQueryType> = {};
     if (searchText) {
@@ -160,8 +160,9 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
       .sort({ [sortField]: sortOrder === "asc" ? 1 : -1 })
       .limit(intLimit)
       .skip(intStartIndex);
-   
 
+    if (!filteredListing.length)
+      return next(createHttpError(HTTP_STATUS_CODES.FORBIDDEN, "No More Results"));
     return res.status(HTTP_STATUS_CODES.CREATED).send({
       success: true,
       message: "searched successfully",

@@ -11,8 +11,7 @@ import Spinner from "../components/Spinner";
 import _ from "lodash";
 import ListingRoomType from "../components/Listing/ListingRoomType";
 const CreateListing = () => {
-  const { validationSchema, inititalFormikData, handleImagesSubmit } =
-    useListing();
+  const { validationSchema, inititalFormikData, handleImagesSubmit } = useListing();
 
   return (
     <Formik
@@ -27,34 +26,28 @@ const CreateListing = () => {
     >
       {({ values, isSubmitting, errors }) => {
         return (
-          <div className="p-1 max-w-4xl gap-3 min-w-[375px] mx-auto h-full">
-            <h1 className="text-3xl font-bold text-center my-11">
-              {LABELS.CREATE_LISTING_HEADING}
+          <div className="container mx-auto  ">
+            <h1 className="text-3xl font-bold text-center text-gray-800 my-8 ">
+              Create Your Listing
             </h1>
-            <div className="border">
-              <ListingType />
-              <Form
-                id="listing-create"
-                className="flex flex-col gap-2 sm:flex-row   p-2 rounded-full "
-              >
-                <div className="flex flex-col  text-black  flex-1">
+            <div className="overflow-hidden sm:rounded-lg ">
+              <Form className="p-3 gap-4 bg-white space-y-4 space-x-10 sm:p-3  flex flex-col sm:flex-row justify-center">
+                <div className="flex flex-col gap-4">
+                  <ListingType />
                   <ListingInformation />
                   <ListingFacilities />
                   <ListingRoomType />
+                  <ListingSpecifications />
                 </div>
-                <div className="flex flex-col  gap-2 flex-1">
-                  <div className="flex flex-col  rounded-md text-black flex-1 gap-5">
-                    <ListingSpecifications />
-                    {values.imageUrls.length < 6 ? (
-                      <ListingImageProperty />
-                    ) : null}
-                    <ViewSelectedImages />
-                  </div>
+                <div className="flex flex-col gap-5 p-2 items-center">
+                  <ListingImageProperty />
+                  <ViewSelectedImages />
                   <button
                     type="submit"
-                    className="p-3 hover:bg-white hover:shadow-lg hover:text-black bg-slate-900 text-white font-bold uppercase rounded-lg"
+                    disabled={isSubmitting}
+                    className=" w-full px-4 border border-transparent shadow-sm text-lg font-medium rounded-md text-white p-3 hover:bg-blue-600 bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300"
                   >
-                    {isSubmitting ? <Spinner /> : LABELS.CREATE_LIST}
+                    {isSubmitting ? <Spinner /> : "Create Listing"}
                   </button>
                 </div>
               </Form>

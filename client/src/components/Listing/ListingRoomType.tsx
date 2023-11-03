@@ -6,7 +6,7 @@ import { ListingDataType } from "../../hooks/Listing/useListing";
 const ListingRoomType = () => {
   const { values, handleChange } = useFormikContext<ListingDataType>();
   return (
-    <div className="rounded-lg p-2">
+    <div className=" shadow rounded-lg p-3 flex flex-col sm:flex-row  gap-3">
       <h1 className="font-bold"> Room Type</h1>
       <div className="flex gap-2">
         <Field

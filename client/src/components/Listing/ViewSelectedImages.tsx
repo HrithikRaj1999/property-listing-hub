@@ -7,29 +7,19 @@ const ViewSelectedImages = () => {
 
   return (
     <>
-      <div className="flex  flex-wrap gap-2">
+      <div className="flex flex-col sm:flex-wrap gap-2">
         {values?.imageUrls &&
           Array.from(values?.imageUrls).map((file, index) => {
-            const imgUrl =
-              typeof file === "string" ? file : URL.createObjectURL(file); // for update we are sendinging direct Url but for create we are storing FileList so this might cause error
+            const imgUrl = typeof file === "string" ? file : URL.createObjectURL(file); // for update we are sendinging direct Url but for create we are storing FileList so this might cause error
             return (
               <div
                 key={index}
-                className="relative group flex gap-1 w-[5rem] sm:w-[8rem] h-[5rem] sm:h-[10rem] border-black rounded-lg"
+                className="relative group flex gap-1 w-[1rem] sm:w-[15rem] h-[10rem] sm:h-[15rem] border-black rounded-lg"
               >
-                <img
-                  key={index}
-                  src={imgUrl}
-                  alt={`img-${index}`}
-                  className="  rounded-lg"
-                />
+                <img key={index} src={imgUrl} alt={`img-${index}`} className="  rounded-lg" />
                 <div
                   className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50 opacity-0 group-hover:opacity-100"
-                  onClick={() =>
-                    setFieldValue("imageUrls", [
-                      ...updatedPictureList(index, values),
-                    ])
-                  }
+                  onClick={() => setFieldValue("imageUrls", [...updatedPictureList(index, values)])}
                 >
                   <span key={index} className="text-white text-2xl">
                     X

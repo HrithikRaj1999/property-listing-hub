@@ -1,4 +1,4 @@
-import { FormikHelpers } from "formik";
+import { FormikErrors, FormikHelpers, useFormikContext } from "formik";
 import { useNavigate } from "react-router-dom";
 import api from "../../config/customApi";
 import { itemType } from "../../hooks/useShowListing";
@@ -16,6 +16,7 @@ export interface SearchValuesType {
 }
 
 const useSearch = () => {
+  const navigate = useNavigate();
   const fetchListings = async (searchQueryParams: string) => {
     try {
       const { data } = await api.get(`listing/get-filtered-listings?${searchQueryParams}`);
@@ -24,7 +25,28 @@ const useSearch = () => {
       toast.error(error?.response.data.message);
     }
   };
-  const navigate = useNavigate();
+
+  const handleLoadMore = async (
+    values: SearchValuesType,
+    setFieldValue: (
+      field: string,
+      value: any,
+      shouldValidate?: boolean | undefined
+    ) => Promise<void | FormikErrors<SearchValuesType>>
+  ) => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set("startIndex", values?.filteredListings?.length.toString());
+      const searchQueryParams = urlParams.toString();
+      const data = await fetchListings(searchQueryParams);
+      navigate(`/search?${searchQueryParams}`);
+      setFieldValue("filteredListings", [...values.filteredListings, ...data?.listings]);
+      toast.success("Fetched");
+    } catch (error: any) {
+      toast.error(error?.response?.data.message || "No more results");
+    }
+  };
+
   const handleSubmit = async (
     values: SearchValuesType,
     formikHelpers: FormikHelpers<SearchValuesType>
@@ -32,6 +54,7 @@ const useSearch = () => {
     try {
       formikHelpers.setSubmitting(true);
       const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set("searchText", values.searchText);
       urlParams.set("sortBy", values.sortBy);
       urlParams.set("type", values.type.join(","));
       urlParams.set("amenities", values.amenities.join(","));
@@ -62,7 +85,7 @@ const useSearch = () => {
     roomType: "",
     filteredListings: [],
   });
-  return { options, initialValues, setInitialValue, handleSubmit };
+  return { options, initialValues, setInitialValue, handleLoadMore, handleSubmit };
 };
 
 export default useSearch;

@@ -5,7 +5,7 @@ import { itemType } from "../../hooks/useShowListing";
 const ListingType = () => {
   const { values, handleChange } = useFormikContext<itemType>();
   return (
-    <div className="m-3 flex flex-wrap justify-start gap-2">
+    <div className=" flex shadow  p-2 flex-wrap justify-start gap-2">
       <div className="flex gap-2 ">
         <Field
           name="type"

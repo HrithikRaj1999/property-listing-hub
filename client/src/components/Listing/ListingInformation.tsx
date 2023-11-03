@@ -4,26 +4,25 @@ import "react-phone-number-input/style.css";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import { InputHTMLAttributes, forwardRef, useEffect } from "react";
 
-const CustomInput = forwardRef<
-  HTMLInputElement,
-  InputHTMLAttributes<HTMLInputElement>
->((props, ref) => {
-  const { values } = useFormikContext<ListingDataType>();
-  return (
-    <input
-      {...props}
-      ref={ref}
-      value={values.phone}
-      className=" text-black no-border p-2 w-full rounded-lg"
-    />
-  );
-});
+const CustomInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+  (props, ref) => {
+    const { values } = useFormikContext<ListingDataType>();
+    return (
+      <input
+        {...props}
+        ref={ref}
+        value={values.phone}
+        className=" text-black no-border p-2 w-full rounded-lg"
+      />
+    );
+  }
+);
 
 const ListingInformation = () => {
   const { values, handleChange, errors, setFieldValue, setFieldError } =
     useFormikContext<ListingDataType>();
   return (
-    <div className=" p-4 rounded-xl mb-3 -black">
+    <div className=" shadow-lg p-4 rounded-xl mb-3 text-black">
       <label className="text-sm font-bold">Name</label>
       <Field
         name="name"
@@ -66,11 +65,7 @@ const ListingInformation = () => {
         onChange={handleChange}
         className="border   text-black  p-3 w-full rounded-lg"
       />
-      <ErrorMessage
-        name="description"
-        className="text-red-600"
-        component="div"
-      />
+      <ErrorMessage name="description" className="text-red-600" component="div" />
     </div>
   );
 };
