@@ -11,7 +11,7 @@ const Search = () => {
   useEffect(() => {
     // Get the data from localStorage only when the 'param' changes
     const data = localStorage.getItem("searchedData");
-    const newData = data ? JSON.parse(data) : [""];
+    const newData = data ? JSON.parse(data) : [];
     setInitialValue({
       ...initialValues, // other form initial values
       filteredListings: [...newData], // set searchedData as part of the initial form state

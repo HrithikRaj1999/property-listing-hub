@@ -160,7 +160,7 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
       .sort({ [sortField]: sortOrder === "asc" ? 1 : -1 })
       .limit(intLimit)
       .skip(intStartIndex);
-    console.log(filteredListing);
+   
 
     return res.status(HTTP_STATUS_CODES.CREATED).send({
       success: true,
