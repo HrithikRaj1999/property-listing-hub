@@ -11,7 +11,7 @@ import SignUp from "./pages/SignUp";
 import ShowListings from "./pages/ShowListings";
 import UpdateListing from "./components/Listing/UpdateListing";
 import ShowSingleList from "./pages/ShowSingleList";
-import Search from "./components/Search";
+import Search from "./components/Search/Search";
 
 function App() {
   return (

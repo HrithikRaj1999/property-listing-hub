@@ -3,6 +3,7 @@ import { HTTP_STATUS_CODES, HTTP_STATUS_MESSAGE, MESSAGES } from "../constants/c
 import { Listing } from "../models/listingModel";
 import createHttpError from "http-errors";
 import { itemType } from "../../client/src/hooks/useShowListing";
+import { logger } from "../logger/logger";
 interface FacilitiesType {
   parkingSpot: boolean;
   furnished: boolean;
@@ -117,15 +118,19 @@ export const getListingById: RequestHandler<
 interface QueryParams {
   limit: string;
   startIndex: string;
-  offer?: boolean;
-  furnished?: boolean;
-  parkingQuery?: boolean;
+  amenities?: string;
   type?: string;
-  searchTerm?: string;
-  sort?: string;
-  order?: string;
+  searchText?: string;
+  sortBy?: string;
+  roomType?: string;
 }
 
+interface searchQueryType {
+  name?: { $regex: string; $options: string };
+  roomType?: { $regex: string; $options: string };
+  type?: { $in: string[] };
+  facilities?: { $in: string[] };
+}
 export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams> = async (
   req,
   res,
@@ -133,35 +138,51 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
 ) => {
   try {
     const { query } = req;
-    const limit = parseInt(query.limit) || 6;
-    const startIndex = parseInt(query.startIndex) || 0;
-    const offerQuery = query.offer || { $in: [false, true] };
-    const furnishedQuery = query.furnished || { $in: [false, true] };
-    const parkingQuery = query.parkingQuery || { $in: [false, true] };
-    const typeQuery = !query.type || query.type === "all" ? { $in: ["sale", "rent"] } : query.type;
-    const searchTerm = query.searchTerm || "";
+    const { searchText, limit, startIndex, sortBy, type, amenities, roomType } = query;
+    const [sortField, sortOrder] = sortBy ? sortBy.split("_") : ["createdAt", "asc"];
+    const intLimit = parseInt(limit, 10) || 6;
+    const intStartIndex = parseInt(startIndex, 10) || 0;
+    const searchQuery: Partial<searchQueryType> = {};
+    if (searchText) {
+      searchQuery.name = { $regex: searchText, $options: "i" };
+    }
+    if (roomType) {
+      searchQuery.roomType = { $regex: roomType, $options: "i" };
+    }
+    if (type && type.length > 0) {
+      searchQuery.type = { $in: type.split(",").filter((t) => t) };
+    }
+    if (amenities && amenities.length > 0) {
+      searchQuery.facilities = { $in: amenities.split(",").filter((a) => a) };
+    }
+    console.log(sortField, sortOrder);
+    const filteredListing = await Listing.find(searchQuery)
+      .sort({ [sortField]: sortOrder === "asc" ? 1 : -1 })
+      .limit(intLimit)
+      .skip(intStartIndex);
+    console.log(filteredListing);
 
-    //By using the Record utility type, we are explicitly telling TypeScript that
-    //sortObject is an object with string keys and values of type 'asc' | 'desc'.
-    const sortField = query.sort || "createdAt";
-    const sortOrder = query.order || "desc";
-    const sortObject: Record<string, "asc" | "desc"> = {};
-    sortObject[sortField] = sortOrder as "asc" | "desc";
-
-    const filteredListing = await Listing.find({
-      name: { $regex: searchTerm, $options: "i" },
-      offerQuery,
-      furnishedQuery,
-      parkingQuery,
-      typeQuery,
-    })
-      .sort(sortObject)
-      .limit(limit)
-      .skip(startIndex);
     return res.status(HTTP_STATUS_CODES.CREATED).send({
       success: true,
       message: "searched successfully",
-      Listing: { ...filteredListing },
+      listings: [...filteredListing],
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllListings: RequestHandler<unknown, unknown, unknown, unknown> = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const listings = await Listing.find({});
+    return res.status(HTTP_STATUS_CODES.OK).send({
+      success: true,
+      message: "All Listings Retrieved Successfully",
+      listings,
     });
   } catch (error) {
     next(error);

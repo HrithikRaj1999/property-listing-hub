@@ -1,9 +1,4 @@
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "react-toastify";
 import { CLIENT_MESSAGE, TOAST_ID } from "../../constants/clientMessage";
@@ -129,8 +124,7 @@ const useListing = () => {
     values: ListingDataType,
     setFieldValue: (arg0: string, arg1: string[]) => void
   ) => {
-    if (_.isEmpty(values.imageUrls))
-      toast.error(CLIENT_MESSAGE.NO_PHOTO_SELECTED);
+    if (_.isEmpty(values.imageUrls)) toast.error(CLIENT_MESSAGE.NO_PHOTO_SELECTED);
     else if (values.imageUrls.length > 0 && values.imageUrls.length < 7) {
       const promises = [];
       for (let i = 0; i < values.imageUrls.length; i++) {
@@ -172,8 +166,7 @@ const useListing = () => {
             toastId: TOAST_ID,
             hideProgressBar: true,
           });
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           toast.update(TOAST_ID, {
             render: `Uploading ${Math.round(progress)}%`,
           });

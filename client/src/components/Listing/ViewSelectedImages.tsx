@@ -11,7 +11,7 @@ const ViewSelectedImages = () => {
         {values?.imageUrls &&
           Array.from(values?.imageUrls).map((file, index) => {
             const imgUrl =
-              typeof file === "string" ? file : URL.createObjectURL(file); //TODO:: for update we are sendinging direct Url but for create we are storing FileList so this might cause error
+              typeof file === "string" ? file : URL.createObjectURL(file); // for update we are sendinging direct Url but for create we are storing FileList so this might cause error
             return (
               <div
                 key={index}

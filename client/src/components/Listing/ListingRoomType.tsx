@@ -26,7 +26,7 @@ const ListingRoomType = () => {
           value="semifurnished"
           className="w-5"
           onChange={handleChange}
-          checked={values.roomType === "semifurnished"}
+          checked={values.roomType === "semi-furnished"}
         />
         <span>{LABELS.SEMI}</span>
       </div>
@@ -37,7 +37,7 @@ const ListingRoomType = () => {
           value="unfurnished"
           className="w-5"
           onChange={handleChange}
-          checked={values.roomType === "unfurnished"}
+          checked={values.roomType === "un-furnished"}
         />
         <span>{LABELS.NOT}</span>
       </div>

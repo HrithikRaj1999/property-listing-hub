@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-import api from "../config/customApi";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
-
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css/bundle";
 import { SpecificationsType } from "../hooks/Listing/useListing";
 import {
@@ -15,7 +10,6 @@ import {
   FaHandPointRight,
   FaHome,
 } from "react-icons/fa";
-import { current } from "@reduxjs/toolkit";
 import CustomModal from "../components/CustomModal";
 import useShowSingleList from "../hooks/Listing/useShowSingleList";
 
@@ -34,8 +28,6 @@ export interface ListingType {
 }
 const ShowSingleList = () => {
   const {
-    navigate,
-    userDispatch,
     fetchListing,
     handleEmailSend,
     message,
@@ -67,12 +59,7 @@ const ShowSingleList = () => {
           {listing?.imageUrls &&
             listing?.imageUrls.map((url, index) => (
               <SwiperSlide zoom={true} key={index}>
-                <img
-                  key={index}
-                  alt="images"
-                  className="coverbg-no-repeat"
-                  src={url}
-                ></img>
+                <img key={index} alt="images" className="coverbg-no-repeat" src={url}></img>
               </SwiperSlide>
             ))}
         </Swiper>
@@ -89,8 +76,7 @@ const ShowSingleList = () => {
             For {listing?.type}
           </button>{" "}
           <button className="bg-blue-800 text-white p-2 rounded-xl text-xs sm:text-sm ">
-            Discount Price - ₹{listing?.specifications.discountedPrice}/per
-            month
+            Discount Price - ₹{listing?.specifications.discountedPrice}/per month
           </button>
           <button className="bg-green-800 text-white p-2 rounded-xl text-xs sm:text-sm ">
             Room Type - {listing?.roomType.toUpperCase()}
@@ -101,9 +87,7 @@ const ShowSingleList = () => {
             {" "}
             <FaAudioDescription /> Discription -{" "}
           </span>{" "}
-          <p className=" text-sm sm:text-xl p-8  max-w-[1000px]">
-            {listing?.description}
-          </p>
+          <p className=" text-sm sm:text-xl p-8  max-w-[1000px]">{listing?.description}</p>
         </div>
         <div className="flex flex-col gap-4">
           <span className="text-2xl flex gap-3 items-center font-semibold text-green-800">
@@ -114,9 +98,7 @@ const ShowSingleList = () => {
             {listing?.facilities.map((item) => (
               <>
                 <FaHandPointRight size={15} />
-                <span className="text-xs sm:text-lg  font-bold text-black ">
-                  {item}
-                </span>
+                <span className="text-xs sm:text-lg  font-bold text-black ">{item}</span>
               </>
             ))}
           </div>
@@ -129,11 +111,7 @@ const ShowSingleList = () => {
           <div className="flex items-center ml-12 flex-wrap gap-4">
             {listing?.specifications &&
               Object.entries(listing?.specifications).map((specification) => {
-                if (
-                  !["regularPrice", "discountedPrice"].includes(
-                    specification[0]
-                  )
-                ) {
+                if (!["regularPrice", "discountedPrice"].includes(specification[0])) {
                   return (
                     <React.Fragment>
                       <FaHandPointRight size={15} />
