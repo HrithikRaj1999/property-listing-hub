@@ -6,6 +6,7 @@ import {
   getAllListings,
   getListingById,
   getListings,
+  getSearchedListings,
 } from "../controller/listing_controller";
 import { verifyToken } from "../util/verifyUser";
 
@@ -15,4 +16,5 @@ listingRouter.put("/update-listing/:userId/:listId", verifyToken, UpdateListProp
 listingRouter.delete("/delete-listing/:userId/:listId", verifyToken, deleteListing);
 listingRouter.get("/show-listing/:listingId", getListingById);
 listingRouter.get("/get-filtered-listings", getListings);
+listingRouter.get("/get-searched-item", getSearchedListings);
 listingRouter.get("/get-all-listings", getAllListings);

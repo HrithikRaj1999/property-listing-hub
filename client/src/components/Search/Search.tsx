@@ -3,13 +3,24 @@ import useSearch, { SearchValuesType } from "./useSearch";
 import { LABELS } from "../../constants/labels";
 import FilteredListings from "./FilteredListings";
 import Spinner from "../Spinner";
+import { useState, useEffect } from "react";
 
 const Search = () => {
-  const { options, initialValues, handleSubmit } = useSearch();
-   
+  const { options, initialValues, setInitialValue, handleSubmit } = useSearch();
+  const urlParams = new URLSearchParams(window.location.search).get("searchText");
+  useEffect(() => {
+    // Get the data from localStorage only when the 'param' changes
+    const data = localStorage.getItem("searchedData");
+    const newData = data ? JSON.parse(data) : [""];
+    setInitialValue({
+      ...initialValues, // other form initial values
+      filteredListings: [...newData], // set searchedData as part of the initial form state
+    });
+  }, [urlParams, localStorage.getItem("searchedData")]); // Only re-run the effect if 'param' changes
   return (
     <Formik
       initialValues={initialValues}
+      enableReinitialize // this tells Formik to reset the form when initialValues change
       onSubmit={async (values, formikHelpers: FormikHelpers<SearchValuesType>) =>
         await handleSubmit(values, formikHelpers)
       }
@@ -19,16 +30,6 @@ const Search = () => {
           <div className="flex flex-col sm:flex-col md:flex-row ">
             <div className="p-7 min-w-[375px] max-w-full sm:h-[calc(100vh-76px)] sm:max-w-sm border-b-4 sm:border-r-4 md:border-r-4 ">
               <Form>
-                {/**Search */}
-                <div className="flex items-center gap-5 border-b-2 py-2 ">
-                  <label className="whitespace-nowrap font-bold">Search Text: </label>
-                  <Field
-                    name="searchText"
-                    type="text"
-                    placeholder="Search..."
-                    className="p-3 rounded-lg w-full"
-                  />
-                </div>
                 {/*Sort */}
                 <div className="flex items-center gap-5 border-b-2  py-2 ">
                   <label className="whitespace-nowrap font-bold">Sort Listings:</label>
@@ -154,7 +155,7 @@ const Search = () => {
                 <Spinner width={20} height={20} />
               </div>
             ) : (
-              <div className="flex m-6 flex-wrap justify-center sm:justify-start gap-6 sm:w-full  ">
+              <div className="flex m-6 flex-wrap justify-center sm:justify-start gap-6 sm:w-full ">
                 <FilteredListings />
               </div>
             )}

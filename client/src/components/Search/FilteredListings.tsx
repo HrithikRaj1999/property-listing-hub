@@ -4,7 +4,6 @@ import ShowSingleFilteredListing from "./ShowSingleFilteredListing";
 import { SearchValuesType } from "./useSearch";
 const FilteredListings = () => {
   const { values } = useFormikContext<SearchValuesType>();
-
   return values?.filteredListings.length > 0 ? (
     <>
       {values?.filteredListings.map((item: itemType) => (

@@ -150,12 +150,12 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
       searchQuery.roomType = { $regex: roomType, $options: "i" };
     }
     if (type && type.length > 0) {
-      searchQuery.type = { $in: type.split(",").filter((t) => t) };
+      searchQuery.type = { $in: type.split(",").filter((type) => type) };
     }
     if (amenities && amenities.length > 0) {
-      searchQuery.facilities = { $in: amenities.split(",").filter((a) => a) };
+      searchQuery.facilities = { $in: amenities.split(",").filter((amenities) => amenities) };
     }
-    console.log(sortField, sortOrder);
+
     const filteredListing = await Listing.find(searchQuery)
       .sort({ [sortField]: sortOrder === "asc" ? 1 : -1 })
       .limit(intLimit)
@@ -183,6 +183,29 @@ export const getAllListings: RequestHandler<unknown, unknown, unknown, unknown> 
       success: true,
       message: "All Listings Retrieved Successfully",
       listings,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+export const getSearchedListings: RequestHandler<unknown, unknown, unknown, QueryParams> = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { query } = req;
+    const { searchText, limit, startIndex } = query;
+    const intLimit = parseInt(limit, 10) || 6;
+    const intStartIndex = parseInt(startIndex, 10) || 0;
+    const searchedItem = await Listing.find({ $text: { $search: searchText || "" } })
+      .limit(intLimit)
+      .skip(intStartIndex);
+    console.log(searchText, searchedItem);
+    return res.status(HTTP_STATUS_CODES.CREATED).send({
+      success: true,
+      message: "searched successfully",
+      listings: [...searchedItem],
     });
   } catch (error) {
     next(error);

@@ -24,14 +24,17 @@ const listingSchema = new Schema<ListingDataType>(
   {
     name: {
       type: String,
+      text: true,
       required: true,
     },
     description: {
       type: String,
+      text: true,
       required: true,
     },
     address: {
       type: String,
+      text: true,
       required: true,
     },
     phone: {
@@ -39,7 +42,7 @@ const listingSchema = new Schema<ListingDataType>(
       required: true,
     },
     facilities: {
-      type: [String],
+      type: [{ type: String, text: true }],
       required: true,
     },
     specifications: {
@@ -48,10 +51,12 @@ const listingSchema = new Schema<ListingDataType>(
     },
     type: {
       type: String,
+      text: true,
       required: true,
     },
     roomType: {
       type: String,
+      text: true,
       required: true,
     },
     imageUrls: {
@@ -66,7 +71,5 @@ const listingSchema = new Schema<ListingDataType>(
   { timestamps: true }
 );
 
-export const Listing = mongoose.model<ListingDataType>(
-  "Listing",
-  listingSchema
-); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))
+
+export const Listing = mongoose.model<ListingDataType>("Listing", listingSchema); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))

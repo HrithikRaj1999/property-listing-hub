@@ -15,7 +15,6 @@ const ListingRoomType = () => {
           value="furnished"
           className="w-5"
           onChange={handleChange}
-          checked={values.roomType === "furnished"}
         />
         <span>{LABELS.FULL}</span>
       </div>
@@ -23,10 +22,9 @@ const ListingRoomType = () => {
         <Field
           name="roomType"
           type="radio"
-          value="semifurnished"
+          value="semi-furnished"
           className="w-5"
           onChange={handleChange}
-          checked={values.roomType === "semi-furnished"}
         />
         <span>{LABELS.SEMI}</span>
       </div>
@@ -34,10 +32,9 @@ const ListingRoomType = () => {
         <Field
           name="roomType"
           type="radio"
-          value="unfurnished"
+          value="un-furnished"
           className="w-5"
           onChange={handleChange}
-          checked={values.roomType === "un-furnished"}
         />
         <span>{LABELS.NOT}</span>
       </div>

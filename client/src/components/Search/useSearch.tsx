@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../../config/customApi";
 import { itemType } from "../../hooks/useShowListing";
 import { toast } from "react-toastify";
+import FilteredListings from "./FilteredListings";
+import { useState } from "react";
 
 export interface SearchValuesType {
   searchText: string;
@@ -30,13 +32,13 @@ const useSearch = () => {
     try {
       formikHelpers.setSubmitting(true);
       const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set("searchText", values.searchText);
       urlParams.set("sortBy", values.sortBy);
       urlParams.set("type", values.type.join(","));
       urlParams.set("amenities", values.amenities.join(","));
       urlParams.set("roomType", values.roomType);
       const searchQueryParams = urlParams.toString();
       navigate(`/search?${searchQueryParams}`);
+      console.log(searchQueryParams);
       const data = await fetchListings(searchQueryParams);
       formikHelpers.setFieldValue("filteredListings", [...data?.listings]);
       formikHelpers.setSubmitting(false);
@@ -52,15 +54,15 @@ const useSearch = () => {
     { value: "createdAt_asc", label: "Oldest" },
   ];
 
-  const initialValues = {
+  const [initialValues, setInitialValue] = useState<SearchValuesType>({
     searchText: "",
     sortBy: "",
     type: [""],
     amenities: [""],
     roomType: "",
     filteredListings: [],
-  };
-  return { options, initialValues, handleSubmit };
+  });
+  return { options, initialValues, setInitialValue, handleSubmit };
 };
 
 export default useSearch;
