@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const errorHandler = (error: unknown, req: Request, res: Response) => {
   let statusCode = 500;
   let message = "Internal Server Error";
-  console.log("Sending error response:", { success: false, message });
+
   if (error instanceof mongoose.Error.ValidationError) {
     return res.status(400).send({ error: error.message });
   }

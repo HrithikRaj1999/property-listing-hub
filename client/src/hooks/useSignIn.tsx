@@ -39,7 +39,6 @@ const useSignIn = () => {
       });
       navigate("/");
     } catch (error: any) {
-      console.log(error);
       const errorMessage = error?.response?.data?.message ?? "Invalid Credentials";
       userDispatch(signInFailure(errorMessage));
       return toast.error(errorMessage, {

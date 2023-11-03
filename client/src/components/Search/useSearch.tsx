@@ -61,7 +61,7 @@ const useSearch = () => {
       urlParams.set("roomType", values.roomType);
       const searchQueryParams = urlParams.toString();
       navigate(`/search?${searchQueryParams}`);
-      console.log(searchQueryParams);
+
       const data = await fetchListings(searchQueryParams);
       formikHelpers.setFieldValue("filteredListings", [...data?.listings]);
       formikHelpers.setSubmitting(false);

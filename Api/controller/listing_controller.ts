@@ -202,7 +202,7 @@ export const getSearchedListings: RequestHandler<unknown, unknown, unknown, Quer
     const searchedItem = await Listing.find({ $text: { $search: searchText || "" } })
       .limit(intLimit)
       .skip(intStartIndex);
-    console.log(searchText, searchedItem);
+
     return res.status(HTTP_STATUS_CODES.CREATED).send({
       success: true,
       message: "searched successfully",
