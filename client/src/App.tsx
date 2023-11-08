@@ -13,28 +13,31 @@ import UpdateListing from "./components/Listing/UpdateListing";
 import ShowSingleList from "./pages/ShowSingleList";
 import Search from "./components/Search/Search";
 import ContactUs from "./pages/ContactUs";
+import { SearchedDataProvider } from "./context/SearchedData";
 
 function App() {
   return (
     <CookieProvider>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/signin" element={<SignIn />}></Route>
-        <Route path="/contactUs" element={<ContactUs />}></Route>
-        <Route path="/signup" element={<SignUp />}></Route>
-        <Route path="/show-listing/:listId" element={<ShowSingleList />} />
-        <Route path="/search" element={<Search />} />
-        {/*These are Private Route Sign in or Login is Must */}
+      <SearchedDataProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/signin" element={<SignIn />}></Route>
+          <Route path="/contactUs" element={<ContactUs />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/show-listing/:listId" element={<ShowSingleList />} />
+          <Route path="/search" element={<Search />} />
+          {/*These are Private Route Sign in or Login is Must */}
 
-        <Route element={<PrivateRoute />}>
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/create-listing" element={<CreateListing />} />
-          <Route path="/show-listings" element={<ShowListings />} />
-          <Route path="/update-listing/:listId" element={<UpdateListing />} />
-        </Route>
-      </Routes>
+          <Route element={<PrivateRoute />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/create-listing" element={<CreateListing />} />
+            <Route path="/show-listings" element={<ShowListings />} />
+            <Route path="/update-listing/:listId" element={<UpdateListing />} />
+          </Route>
+        </Routes>
+      </SearchedDataProvider>
     </CookieProvider>
   );
 }

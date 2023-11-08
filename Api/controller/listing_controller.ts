@@ -127,7 +127,7 @@ interface QueryParams {
 
 interface searchQueryType {
   name?: { $regex: string; $options: string };
-  roomType?: { $regex: string; $options: string };
+  roomType?: { $regex: string };
   type?: { $in: string[] };
   facilities?: { $in: string[] };
 }
@@ -147,7 +147,7 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
       searchQuery.name = { $regex: searchText, $options: "i" };
     }
     if (roomType) {
-      searchQuery.roomType = { $regex: roomType, $options: "i" };
+      searchQuery.roomType = { $regex: roomType };
     }
     if (type && type.length > 0) {
       searchQuery.type = { $in: type.split(",").filter((type) => type) };
@@ -161,11 +161,15 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
       .limit(intLimit)
       .skip(intStartIndex);
 
-    if (!filteredListing.length)
-      return next(createHttpError(HTTP_STATUS_CODES.FORBIDDEN, "No More Results"));
-    return res.status(HTTP_STATUS_CODES.CREATED).send({
+    if (!filteredListing.length) {
+      // No results found, trigger a 404 with a custom error message.
+      return next(createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No More Results"));
+    }
+
+    // Successfully found listings, return them with a 200 status code.
+    return res.status(HTTP_STATUS_CODES.OK).json({
       success: true,
-      message: "searched successfully",
+      message: "Search completed successfully",
       listings: [...filteredListing],
     });
   } catch (error) {

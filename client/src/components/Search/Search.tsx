@@ -3,29 +3,35 @@ import useSearch, { SearchValuesType } from "./useSearch";
 import { LABELS } from "../../constants/labels";
 import FilteredListings from "./FilteredListings";
 import Spinner from "../Spinner";
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useLayoutEffect } from "react";
+import { useSearchData } from "../../context/SearchedData";
 
 const Search = () => {
-  const { options, initialValues, setInitialValue, handleLoadMore, handleSubmit } = useSearch();
-  const urlParams = new URLSearchParams(window.location.search).get("searchText");
-  useEffect(() => {
-    // Get the data from localStorage only when the 'param' changes
-    const data = localStorage.getItem("searchedData");
-    const newData = data ? JSON.parse(data) : [];
+  const { options, initialValue, setInitialValue, fetchListings, handleLoadMore, handleSubmit } =
+    useSearch();
+
+  const { searchedLisitingData } = useSearchData();
+  useLayoutEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialSearchText = urlParams.get("searchText");
+    console.log(initialValue);
     setInitialValue({
-      ...initialValues, // other form initial values
-      filteredListings: [...newData], // set searchedData as part of the initial form state
+      ...initialValue,
+      searchText: initialSearchText || "",
+      filteredListings: [...searchedLisitingData],
     });
-  }, [urlParams, localStorage.getItem("searchedData")]); // Only re-run the effect if 'param' changes
+  }, [searchedLisitingData]);
+
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{ ...initialValue }}
       enableReinitialize // this tells Formik to reset the form when initialValues change
       onSubmit={async (values, formikHelpers: FormikHelpers<SearchValuesType>) =>
         await handleSubmit(values, formikHelpers)
       }
     >
       {({ values, isSubmitting, setFieldValue }) => {
+        console.log({ values });
         return (
           <div className="flex flex-col sm:flex-col md:flex-row mx-4">
             <div className="p-7 min-w-[375px] max-w-full sm:h-[calc(100vh-76px)] sm:max-w-sm border-b-4 sm:border-r-4 md:border-r-4 ">
@@ -145,7 +151,7 @@ const Search = () => {
                     type="submit"
                     className="p-2  bg-slate-700 w-full hover:shadow-2xl text-white rounded"
                   >
-                    {isSubmitting ? <Spinner width={45} height={45} /> : "Search"}
+                    {isSubmitting ? <Spinner width={15} height={15} /> : "Search"}
                   </button>{" "}
                 </div>
               </Form>

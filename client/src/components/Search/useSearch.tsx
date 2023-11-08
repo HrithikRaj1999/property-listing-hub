@@ -5,6 +5,7 @@ import { itemType } from "../../hooks/useShowListing";
 import { toast } from "react-toastify";
 import FilteredListings from "./FilteredListings";
 import { useState } from "react";
+import { useSearchData } from "../../context/SearchedData";
 
 export interface SearchValuesType {
   searchText: string;
@@ -17,12 +18,15 @@ export interface SearchValuesType {
 
 const useSearch = () => {
   const navigate = useNavigate();
-  const fetchListings = async (searchQueryParams: string) => {
+  const { searchText, setSearchedLisitingData } = useSearchData();
+  const fetchListings = async (searchQueryParams: string = "") => {
     try {
       const { data } = await api.get(`listing/get-filtered-listings?${searchQueryParams}`);
+      navigate(`/search?${searchQueryParams}`);
       return data;
     } catch (error: any) {
-      toast.error(error?.response.data.message);
+      console.log(error);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -41,6 +45,7 @@ const useSearch = () => {
       const data = await fetchListings(searchQueryParams);
       navigate(`/search?${searchQueryParams}`);
       setFieldValue("filteredListings", [...values.filteredListings, ...data?.listings]);
+      setSearchedLisitingData([...values.filteredListings, ...data?.listings]);
       toast.success("Fetched");
     } catch (error: any) {
       toast.error(error?.response?.data.message || "No more results");
@@ -54,16 +59,31 @@ const useSearch = () => {
     try {
       formikHelpers.setSubmitting(true);
       const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set("searchText", values.searchText);
+      urlParams.set("searchText", searchText);
       urlParams.set("sortBy", values.sortBy);
       urlParams.set("type", values.type.join(","));
       urlParams.set("amenities", values.amenities.join(","));
       urlParams.set("roomType", values.roomType);
       const searchQueryParams = urlParams.toString();
-      navigate(`/search?${searchQueryParams}`);
-
       const data = await fetchListings(searchQueryParams);
-      formikHelpers.setFieldValue("filteredListings", [...data?.listings]);
+      localStorage.setItem(
+        "formik values",
+        JSON.stringify({
+          searchText,
+          filteredListings: [...data?.listings],
+          sortBy: values.sortBy,
+          type: values.type,
+          amenities: values.amenities,
+          roomType: values.roomType,
+        })
+      );
+      if (data?.listings?.length) {
+        formikHelpers.setFieldValue("filteredListings", [...data?.listings]);
+        setSearchedLisitingData([...data?.listings]);
+      } else {
+        setSearchedLisitingData([]);
+      }
+
       formikHelpers.setSubmitting(false);
     } catch (error) {
       formikHelpers.setSubmitting(false);
@@ -76,16 +96,21 @@ const useSearch = () => {
     { value: "createdAt_desc", label: "Latest" },
     { value: "createdAt_asc", label: "Oldest" },
   ];
+  const d = localStorage.getItem("formik values") || "";
+  console.log(JSON.parse(d));
+  const initVal = d
+    ? JSON.parse(d)
+    : {
+        searchText: "",
+        sortBy: "",
+        type: [""],
+        amenities: [""],
+        roomType: "",
+        filteredListings: [],
+      };
 
-  const [initialValues, setInitialValue] = useState<SearchValuesType>({
-    searchText: "",
-    sortBy: "",
-    type: [""],
-    amenities: [""],
-    roomType: "",
-    filteredListings: [],
-  });
-  return { options, initialValues, setInitialValue, handleLoadMore, handleSubmit };
+  const [initialValue, setInitialValue] = useState<SearchValuesType>({ ...initVal });
+  return { options, initialValue, setInitialValue, fetchListings, handleLoadMore, handleSubmit };
 };
 
 export default useSearch;
