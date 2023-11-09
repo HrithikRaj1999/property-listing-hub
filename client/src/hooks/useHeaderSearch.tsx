@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../config/customApi";
-import React, { useState } from "react";
+import React from "react";
 import { useSearchData } from "../context/SearchedData";
 
 const useHeaderSearch = () => {
-  const {searchText, setSearchText,setSearchedLisitingData } = useSearchData();
+  const { searchText, setSearchText, setSearchedLisitingData } = useSearchData();
   const fetchData = async (searchQueryParams: string) => {
     try {
       const { data } = await api.get(`listing/get-searched-item?${searchQueryParams}`);
@@ -18,10 +18,10 @@ const useHeaderSearch = () => {
   const navigate = useNavigate();
   const handleSearch = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
     e.preventDefault();
-    const urlParams = new URLSearchParams();
+    const urlParams = new URLSearchParams(window.location.search);
     urlParams.set("searchText", searchText);
-    urlParams.set("startIndex", "0");
     const searchQueryParams = urlParams.toString();
+    console.log(searchQueryParams);
     fetchData(searchQueryParams);
     navigate(`/search?${searchQueryParams}`);
   };

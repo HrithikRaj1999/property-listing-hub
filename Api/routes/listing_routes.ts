@@ -4,8 +4,8 @@ import {
   createListing,
   deleteListing,
   getAllListings,
+  getFilteredListings,
   getListingById,
-  getListings,
   getSearchedListings,
 } from "../controller/listing_controller";
 import { verifyToken } from "../util/verifyUser";
@@ -15,6 +15,6 @@ listingRouter.post("/create", verifyToken, createListing);
 listingRouter.put("/update-listing/:userId/:listId", verifyToken, UpdateListProperty);
 listingRouter.delete("/delete-listing/:userId/:listId", verifyToken, deleteListing);
 listingRouter.get("/show-listing/:listingId", getListingById);
-listingRouter.get("/get-filtered-listings", getListings);
-listingRouter.get("/get-searched-item", getSearchedListings);
+listingRouter.get("/get-filtered-listings", getFilteredListings);
+listingRouter.get("/get-searched-item", getFilteredListings);
 listingRouter.get("/get-all-listings", getAllListings);

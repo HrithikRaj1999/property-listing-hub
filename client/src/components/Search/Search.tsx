@@ -3,28 +3,15 @@ import useSearch, { SearchValuesType } from "./useSearch";
 import { LABELS } from "../../constants/labels";
 import FilteredListings from "./FilteredListings";
 import Spinner from "../Spinner";
-import { useEffect, useMemo, useLayoutEffect } from "react";
 import { useSearchData } from "../../context/SearchedData";
 
 const Search = () => {
-  const { options, initialValue, setInitialValue, fetchListings, handleLoadMore, handleSubmit } =
-    useSearch();
-
-  const { searchedLisitingData } = useSearchData();
-  useLayoutEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialSearchText = urlParams.get("searchText");
-    console.log(initialValue);
-    setInitialValue({
-      ...initialValue,
-      searchText: initialSearchText || "",
-      filteredListings: [...searchedLisitingData],
-    });
-  }, [searchedLisitingData]);
-
+  const { options, initVal, handleLoadMore, handleSubmit } = useSearch();
+  const { searchText, searchedLisitingData, setSearchedLisitingData } = useSearchData();
+  console.log(searchedLisitingData);
   return (
     <Formik
-      initialValues={{ ...initialValue }}
+      initialValues={{ ...initVal }}
       enableReinitialize // this tells Formik to reset the form when initialValues change
       onSubmit={async (values, formikHelpers: FormikHelpers<SearchValuesType>) =>
         await handleSubmit(values, formikHelpers)
@@ -158,23 +145,24 @@ const Search = () => {
             </div>
             {isSubmitting ? (
               <div className="flex justify-center items-center h-sreen w-full ">
-                <Spinner width={20} height={20} />
+                <Spinner width={30} height={30} />
               </div>
-            ) : (
+            ) : searchedLisitingData.length ? (
               <div className="flex flex-col">
                 <div className="flex m-6 flex-wrap justify-center sm:justify-center gap-6 sm:w-full  ">
                   <FilteredListings />
                 </div>
-                {values.filteredListings.length ? (
-                  <button
-                    className="text-bold p-3 text-green-700"
-                    type="button"
-                    onClick={() => handleLoadMore(values, setFieldValue)}
-                  >
-                    Show more
-                  </button>
-                ) : null}
+
+                <button
+                  className="text-bold p-3 text-green-700"
+                  type="button"
+                  onClick={() => handleLoadMore(values)}
+                >
+                  Show more
+                </button>
               </div>
+            ) : (
+              <h1>No more Items</h1>
             )}
           </div>
         );

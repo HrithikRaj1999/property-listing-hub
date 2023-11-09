@@ -13,12 +13,11 @@ export interface SearchValuesType {
   type: string[];
   amenities: string[];
   roomType: string;
-  filteredListings: itemType[];
 }
 
 const useSearch = () => {
   const navigate = useNavigate();
-  const { searchText, setSearchedLisitingData } = useSearchData();
+  const { searchText, searchedLisitingData, setSearchedLisitingData } = useSearchData();
   const fetchListings = async (searchQueryParams: string = "") => {
     try {
       const { data } = await api.get(`listing/get-filtered-listings?${searchQueryParams}`);
@@ -30,22 +29,14 @@ const useSearch = () => {
     }
   };
 
-  const handleLoadMore = async (
-    values: SearchValuesType,
-    setFieldValue: (
-      field: string,
-      value: any,
-      shouldValidate?: boolean | undefined
-    ) => Promise<void | FormikErrors<SearchValuesType>>
-  ) => {
+  const handleLoadMore = async (values: SearchValuesType) => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set("startIndex", values?.filteredListings?.length.toString());
+      urlParams.set("startIndex", searchedLisitingData?.length.toString());
       const searchQueryParams = urlParams.toString();
       const data = await fetchListings(searchQueryParams);
       navigate(`/search?${searchQueryParams}`);
-      setFieldValue("filteredListings", [...values.filteredListings, ...data?.listings]);
-      setSearchedLisitingData([...values.filteredListings, ...data?.listings]);
+      setSearchedLisitingData([...searchedLisitingData, ...data?.listings]);
       toast.success("Fetched");
     } catch (error: any) {
       toast.error(error?.response?.data.message || "No more results");
@@ -66,26 +57,16 @@ const useSearch = () => {
       urlParams.set("roomType", values.roomType);
       const searchQueryParams = urlParams.toString();
       const data = await fetchListings(searchQueryParams);
-      localStorage.setItem(
-        "formik values",
-        JSON.stringify({
-          searchText,
-          filteredListings: [...data?.listings],
-          sortBy: values.sortBy,
-          type: values.type,
-          amenities: values.amenities,
-          roomType: values.roomType,
-        })
-      );
+      navigate(`/search?${searchQueryParams}`);
       if (data?.listings?.length) {
-        formikHelpers.setFieldValue("filteredListings", [...data?.listings]);
         setSearchedLisitingData([...data?.listings]);
       } else {
         setSearchedLisitingData([]);
       }
-
-      formikHelpers.setSubmitting(false);
-    } catch (error) {
+    } catch (error: any) {
+      setSearchedLisitingData([]);
+      toast.error(error?.response.data.message);
+    } finally {
       formikHelpers.setSubmitting(false);
     }
   };
@@ -96,21 +77,16 @@ const useSearch = () => {
     { value: "createdAt_desc", label: "Latest" },
     { value: "createdAt_asc", label: "Oldest" },
   ];
-  const d = localStorage.getItem("formik values") || "";
-  console.log(JSON.parse(d));
-  const initVal = d
-    ? JSON.parse(d)
-    : {
-        searchText: "",
-        sortBy: "",
-        type: [""],
-        amenities: [""],
-        roomType: "",
-        filteredListings: [],
-      };
 
-  const [initialValue, setInitialValue] = useState<SearchValuesType>({ ...initVal });
-  return { options, initialValue, setInitialValue, fetchListings, handleLoadMore, handleSubmit };
+  const initVal = {
+    searchText: "",
+    sortBy: "",
+    type: [""],
+    amenities: [""],
+    roomType: "",
+  };
+
+  return { options, initVal, fetchListings, handleLoadMore, handleSubmit };
 };
 
 export default useSearch;

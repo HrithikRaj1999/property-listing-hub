@@ -3,15 +3,16 @@ import useSearch, { SearchValuesType } from "./useSearch";
 import { FaHome, FaInfoCircle, FaRoute } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Eye } from "react-feather";
+import { useSearchData } from "../../context/SearchedData";
 
 const FilteredListings = () => {
-  const { values } = useFormikContext<SearchValuesType>();
-  return values?.filteredListings.length > 0 ? (
+  const { searchedLisitingData } = useSearchData();
+  return searchedLisitingData.length > 0 ? (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      {values?.filteredListings?.length > 0 ? (
+      {searchedLisitingData?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ">
           {/* Map over your items here */}
-          {values?.filteredListings?.map((item, index) => {
+          {searchedLisitingData?.map((item, index) => {
             if (item._id)
               return (
                 <div

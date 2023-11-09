@@ -1,5 +1,10 @@
 import { RequestHandler } from "express";
-import { HTTP_STATUS_CODES, HTTP_STATUS_MESSAGE, MESSAGES } from "../constants/codes-messages";
+import {
+  HTTP_STATUS_CODES,
+  HTTP_STATUS_MESSAGE,
+  MESSAGES,
+  ROOMTYPE,
+} from "../constants/codes-messages";
 import { Listing } from "../models/listingModel";
 import createHttpError from "http-errors";
 import { itemType } from "../../client/src/hooks/useShowListing";
@@ -122,16 +127,20 @@ interface QueryParams {
   type?: string;
   searchText?: string;
   sortBy?: string;
-  roomType?: string;
+  roomType?: "furnished" | "un-furnished" | "semi-furnished" | undefined;
 }
 
 interface searchQueryType {
   name?: { $regex: string; $options: string };
-  roomType?: { $regex: string };
+  $text?: { $search: string };
+  score: { $meta: "textScore" };
+  roomType?: "furnished" | "un-furnished" | "semi-furnished" | undefined;
   type?: { $in: string[] };
   facilities?: { $in: string[] };
+  address: { $regex: string; $options: "i" };
 }
-export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams> = async (
+
+export const getFilteredListings: RequestHandler<unknown, unknown, unknown, QueryParams> = async (
   req,
   res,
   next
@@ -144,10 +153,11 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
     const intStartIndex = parseInt(startIndex, 10) || 0;
     const searchQuery: Partial<searchQueryType> = {};
     if (searchText) {
-      searchQuery.name = { $regex: searchText, $options: "i" };
+      searchQuery.$text = { $search: searchText };
     }
-    if (roomType) {
-      searchQuery.roomType = { $regex: roomType };
+
+    if (roomType && ROOMTYPE.includes(roomType)) {
+      searchQuery.roomType = roomType as searchQueryType["roomType"];
     }
     if (type && type.length > 0) {
       searchQuery.type = { $in: type.split(",").filter((type) => type) };
@@ -155,7 +165,7 @@ export const getListings: RequestHandler<unknown, unknown, unknown, QueryParams>
     if (amenities && amenities.length > 0) {
       searchQuery.facilities = { $in: amenities.split(",").filter((amenities) => amenities) };
     }
-
+    console.log(searchQuery);
     const filteredListing = await Listing.find(searchQuery)
       .sort({ [sortField]: sortOrder === "asc" ? 1 : -1 })
       .limit(intLimit)
