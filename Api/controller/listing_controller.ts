@@ -151,19 +151,27 @@ export const getFilteredListings: RequestHandler<unknown, unknown, unknown, Quer
     const [sortField, sortOrder] = sortBy ? sortBy.split("_") : ["createdAt", "asc"];
     const intLimit = parseInt(limit, 10) || 4;
     const intStartIndex = parseInt(startIndex, 10) || 0;
-    const searchQuery: Partial<searchQueryType> = {};
+    const searchQuery: any = {};
     if (searchText) {
-      searchQuery.$text = { $search: searchText };
+      searchQuery.$text = { $search: searchText || "" };
     }
-
+    if (type) searchQuery.type = type;
     if (roomType && ROOMTYPE.includes(roomType)) {
       searchQuery.roomType = roomType as searchQueryType["roomType"];
     }
-    if (type && type.length > 0) {
-      searchQuery.type = { $in: type.split(",").filter((type) => type) };
+    const andFilters = [];
+    // Only add the $and filter if there are any conditions to apply
+    if (amenities) {
+      const amenitiesArray = amenities.split(",").filter((item) => item !== "");
+
+      // Now use $all to ensure all amenities must be present
+      const amenitiesCondition = { facilities: { $all: amenitiesArray } };
+
+      // If there are other conditions, you should push this to the andFilters array
+      andFilters.push(amenitiesCondition);
     }
-    if (amenities && amenities.length > 0) {
-      searchQuery.facilities = { $in: amenities.split(",").filter((amenities) => amenities) };
+    if (andFilters.length > 0) {
+      searchQuery.$and = andFilters;
     }
     console.log(searchQuery);
     const filteredListing = await Listing.find(searchQuery)
