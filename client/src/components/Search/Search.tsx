@@ -20,9 +20,9 @@ const Search = () => {
       {({ values, isSubmitting, setFieldValue }) => {
         console.log({ values });
         return (
-          <div className="flex flex-col sm:flex-col md:flex-row mx-4">
-            <div className="p-7 min-w-[375px] max-w-full sm:h-[calc(100vh-76px)] sm:max-w-sm border-b-4 sm:border-r-4 md:border-r-4 ">
-              <Form>
+          <div className="flex flex-col sm:flex-col md:flex-row ">
+            <div className="min-w-[375px] max-w-full sm:h-[calc(100vh-76px)] sm:max-w-sm border-b-4 sm:border-r-4 md:border-r-4 ">
+              <Form className=" px-7 ">
                 {/*Sort */}
                 <div className="flex items-center gap-5 border-b-2  py-2 ">
                   <label className="whitespace-nowrap font-bold">Sort Listings:</label>
@@ -143,6 +143,7 @@ const Search = () => {
                 </div>
               </Form>
             </div>
+
             {isSubmitting ? (
               <div className="flex justify-center items-center h-sreen w-full ">
                 <Spinner width={30} height={30} />

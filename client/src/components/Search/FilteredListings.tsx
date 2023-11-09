@@ -12,12 +12,12 @@ const FilteredListings = () => {
       {searchedLisitingData?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ">
           {/* Map over your items here */}
-          {searchedLisitingData?.map((item, index) => {
-            if (item._id)
+          {searchedLisitingData?.map((item) => {
+            if (item?._id)
               return (
                 <div
                   key={item._id}
-                  className="flex flex-col max-w-[300px]  sm:w-[300px] bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out overflow-hidden"
+                  className="flex flex-col max-w-full sm:w-[300px] bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out overflow-hidden"
                 >
                   {/* Image and overlay */}
                   <Link to={`/show-listing/${item?._id}`} className="group">
