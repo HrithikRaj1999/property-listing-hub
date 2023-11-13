@@ -4,9 +4,10 @@ import dotenv from "dotenv";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import jwt from "jsonwebtoken";
-import { HTTP_STATUS_CODES, MESSAGES } from "../constants/codes-messages";
+import { HTTP_STATUS_CODES, MESSAGES } from "../constants/data";
 import { logger } from "../logger/logger";
 import { User } from "../models/userModel";
+import { Redis } from "ioredis";
 
 // get config vars
 dotenv.config();
@@ -148,7 +149,7 @@ export const GoogleController: RequestHandler<
           user: {
             ...newUser.toObject(),
             password: undefined,
-            __v: undefined,
+          __v: undefined,
             token: undefined,
           },
         });
@@ -171,7 +172,8 @@ export const SignOutController: RequestHandler<
     if (user?.token) {
       await User.findByIdAndUpdate(id, { $unset: { token: 1 } });
     }
-
+    const redisClient=Redis.createClient()
+    redisClient.flushall()
     res.clearCookie("access_token");
     res
       .status(HTTP_STATUS_CODES.OK)

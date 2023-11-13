@@ -22,7 +22,6 @@ export default function CustomModal({
   header,
   footer,
 }: CustomModalProps) {
-  console.log("CustomModal");
   return isOpen ? (
     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
       <div className="relative my-6 mx-auto max-w-xl">

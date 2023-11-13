@@ -11,7 +11,6 @@ import useHomePage from "../components/Home/useHomePage";
 
 const Home = () => {
   const { navigate, fetchData, listings, loading, offer, regular } = useHomePage();
-  console.log("home Rendered");
   useEffect(() => {
     fetchData();
   }, []);

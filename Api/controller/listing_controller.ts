@@ -1,13 +1,18 @@
 import { RequestHandler } from "express";
 import {
+  DEFAULT_EXPIRATION,
   HTTP_STATUS_CODES,
   HTTP_STATUS_MESSAGE,
   MESSAGES,
   ROOMTYPE,
-} from "../constants/codes-messages";
+} from "../constants/data";
 import { Listing } from "../models/listingModel";
 import createHttpError from "http-errors";
 import { itemType } from "../../client/src/hooks/useShowListing";
+import Redis from 'ioredis'
+import { getOrSetCache } from "../util/redis";
+const redisClient = Redis.createClient()
+
 
 interface FacilitiesType {
   parkingSpot: boolean;
@@ -23,7 +28,27 @@ interface SpecificationsType {
   regularPrice: number;
   discountedPrice: number;
 }
+interface QueryParams {
+  limit: string;
+  startIndex: string;
+  amenities?: string;
+  type?: string;
+  searchText?: string;
+  sortBy?: string;
+  roomType?: "furnished" | "un-furnished" | "semi-furnished" | undefined;
+}
+
+interface searchQueryType {
+  name?: { $regex: string; $options: string };
+  $text?: { $search: string };
+  score: { $meta: "textScore" };
+  roomType?: "furnished" | "un-furnished" | "semi-furnished" | undefined;
+  type?: { $in: string[] };
+  facilities?: { $in: string[] };
+  address: { $regex: string; $options: "i" };
+}
 export interface ListingDataType {
+  _id?: string
   name?: string;
   description?: string;
   address?: string;
@@ -31,6 +56,7 @@ export interface ListingDataType {
   specifications?: SpecificationsType;
   facilities?: FacilitiesType;
   imageUrls?: string[];
+  userRef?:string
 }
 
 export const createListing: RequestHandler<unknown, unknown, ListingDataType, unknown> = async (
@@ -39,10 +65,26 @@ export const createListing: RequestHandler<unknown, unknown, ListingDataType, un
   next
 ) => {
   try {
-    const listing = await Listing.create({ ...req.body });
-    return res
-      .status(HTTP_STATUS_CODES.OK)
-      .send({ success: true, message: MESSAGES.SUCCESS_LISTING, listing });
+    const newList = await Listing.create(req.body);
+
+    // Convert _id to a simple string ID
+    const simpleIdList = { ...newList.toObject(), _id: newList._id.toString() };
+
+    // Retrieve existing listings from Redis
+    const listings = await redisClient.get('listings');
+    const allListings = listings ? JSON.parse(listings) : [];
+
+    // Add the updated listing with the simple ID to the array
+    allListings.push(simpleIdList);
+
+    // Update Redis cache
+    await redisClient.setex('listings', DEFAULT_EXPIRATION, JSON.stringify(allListings));
+    // Respond with the updated listings
+    return res.status(HTTP_STATUS_CODES.OK).send({
+      success: true,
+      message: MESSAGES.SUCCESS_LISTING,
+      listing: simpleIdList
+    });
   } catch (error) {
     next(error);
   }
@@ -63,6 +105,9 @@ export const deleteListing: RequestHandler<
       );
     }
     await Listing.findByIdAndDelete(listId);
+    const listings = await redisClient.get('listings')
+    const AllListings = (listings ? JSON.parse(listings) : null)?.filter((list: ListingDataType) => listId !== list._id)
+    redisClient.set('listings', JSON.stringify(AllListings))
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "Listing Deleted Successfully",
@@ -90,7 +135,16 @@ export const UpdateListProperty: RequestHandler<
       listId,
       { ...values, imageUrls },
       { new: true }
-    );
+    )
+    const listings = await redisClient.get('listings')
+    const AllListings = listings ? JSON.parse(listings) : null
+    const updatedListings = AllListings?.map((list: any) => {
+      if (list._id === updatedListing?.toObject()._id.toString())
+        return { ...updatedListing?.toObject(), _id: updatedListing?.toObject()._id.toString() }
+      else
+        return { ...list }
+    })
+    redisClient.setex('listings', DEFAULT_EXPIRATION, JSON.stringify(updatedListings))
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "Listing Updated Successfully",
@@ -109,36 +163,22 @@ export const getListingById: RequestHandler<
 > = async (req, res, next) => {
   const { listingId } = req.params;
   try {
-    const listing = await Listing.findById(listingId);
+    // const listing = await Listing.findById(listingId);
+    const listings = await redisClient.get('listings')
+    const AllLisitings = JSON.parse(listings!)
+    const lisiting = AllLisitings.find((item: ListingDataType) => {
+      return item?._id === listingId})
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "Listing Retrieved Successfully",
-      listing: listing,
+      listing: lisiting
     });
   } catch (error) {
     next(error);
   }
 };
 
-interface QueryParams {
-  limit: string;
-  startIndex: string;
-  amenities?: string;
-  type?: string;
-  searchText?: string;
-  sortBy?: string;
-  roomType?: "furnished" | "un-furnished" | "semi-furnished" | undefined;
-}
 
-interface searchQueryType {
-  name?: { $regex: string; $options: string };
-  $text?: { $search: string };
-  score: { $meta: "textScore" };
-  roomType?: "furnished" | "un-furnished" | "semi-furnished" | undefined;
-  type?: { $in: string[] };
-  facilities?: { $in: string[] };
-  address: { $regex: string; $options: "i" };
-}
 
 export const getFilteredListings: RequestHandler<unknown, unknown, unknown, QueryParams> = async (
   req,
@@ -173,7 +213,6 @@ export const getFilteredListings: RequestHandler<unknown, unknown, unknown, Quer
     if (andFilters.length > 0) {
       searchQuery.$and = andFilters;
     }
-    console.log(searchQuery);
     const filteredListing = await Listing.find(searchQuery)
       .sort({ [sortField]: sortOrder === "asc" ? 1 : -1 })
       .limit(intLimit)
@@ -201,11 +240,12 @@ export const getAllListings: RequestHandler<unknown, unknown, unknown, unknown> 
   next
 ) => {
   try {
-    const listings = await Listing.find({});
+    // Retrieve listings from Redis or the database
+    const listings = await getOrSetCache('listings', async () => await Listing.find({}));
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "All Listings Retrieved Successfully",
-      listings,
+      listings: listings ? JSON.parse(listings) : null
     });
   } catch (error) {
     next(error);

@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { logger } from "../logger/logger";
 import app from "./app";
-import { MESSAGES } from "../constants/codes-messages";
+import { MESSAGES } from "../constants/data";
 dotenv.config();
 
 (async () => {

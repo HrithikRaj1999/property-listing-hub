@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { HTTP_STATUS_CODES } from "../constants/codes-messages";
+import { HTTP_STATUS_CODES } from "../constants/data";
 import { logger } from "../logger/logger";
 export const cookieController: RequestHandler<
   unknown,

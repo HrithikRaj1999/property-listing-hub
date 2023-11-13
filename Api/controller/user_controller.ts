@@ -5,9 +5,13 @@ import {
   HTTP_STATUS_CODES,
   HTTP_STATUS_MESSAGE,
   MESSAGES,
-} from "../constants/codes-messages";
+} from "../constants/data";
 import { User } from "../models/userModel";
+import { Redis } from "ioredis";
 import { Listing } from "../models/listingModel";
+import { getOrSetCache } from "../util/redis";
+import { ListingDataType } from "./listing_controller";
+const redisClient = Redis.createClient()
 
 export const testUserApiController: RequestHandler<
   unknown,
@@ -196,7 +200,8 @@ export const showUserListingController: RequestHandler<
           HTTP_STATUS_MESSAGE.UNAUTHORIZED
         )
       );
-    const listings = await Listing.find({ userRef: id });
+    const AllListings = JSON.parse(await redisClient.get('listings') || '[]')
+    const listings = AllListings.filter((list: ListingDataType) =>  list?.userRef === id)
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: MESSAGES.SUCESS_LISTING_GATHERED,

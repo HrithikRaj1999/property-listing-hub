@@ -24,7 +24,6 @@ const useSearch = () => {
       navigate(`/search?${searchQueryParams}`);
       return data;
     } catch (error: any) {
-      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   };

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import {
   HTTP_STATUS_CODES,
   HTTP_STATUS_MESSAGE,
-} from "../constants/codes-messages";
+} from "../constants/data";
 interface JwtPayload {
   id: string; // Assuming 'userId' is a property in the JWT payload
   iat: number;

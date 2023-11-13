@@ -21,7 +21,6 @@ const useHeaderSearch = () => {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set("searchText", searchText);
     const searchQueryParams = urlParams.toString();
-    console.log(searchQueryParams);
     fetchData(searchQueryParams);
     navigate(`/search?${searchQueryParams}`);
   };

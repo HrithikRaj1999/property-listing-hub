@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import { HTTP_STATUS_CODES, MESSAGES } from "../constants/codes-messages";
+import { HTTP_STATUS_CODES, MESSAGES } from "../constants/data";
 
 export const noEndPointController: RequestHandler = (req, res, next) => {
   next(

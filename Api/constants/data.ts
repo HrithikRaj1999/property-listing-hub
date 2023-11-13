@@ -58,3 +58,4 @@ export const MESSAGES = {
   SUCESS_LISTING_GATHERED: "Listing Gathered Successfully",
 };
 export const ROOMTYPE = ["furnished", "un-furnished", "semi-furnished"];
+export const DEFAULT_EXPIRATION = 3600

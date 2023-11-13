@@ -7,8 +7,7 @@ import { useSearchData } from "../../context/SearchedData";
 
 const Search = () => {
   const { options, initVal, handleLoadMore, handleSubmit } = useSearch();
-  const { searchText, searchedLisitingData, setSearchedLisitingData } = useSearchData();
-  console.log(searchedLisitingData);
+  const {  searchedLisitingData, setSearchedLisitingData } = useSearchData();
   return (
     <Formik
       initialValues={{ ...initVal }}
@@ -17,8 +16,7 @@ const Search = () => {
         await handleSubmit(values, formikHelpers)
       }
     >
-      {({ values, isSubmitting, setFieldValue }) => {
-        console.log({ values });
+      {({ values, isSubmitting }) => {
         return (
           <div className="flex flex-col sm:flex-col md:flex-row ">
             <div className="min-w-[375px] max-w-full sm:h-[calc(100vh-76px)] sm:max-w-sm border-b-4 sm:border-r-4 md:border-r-4 ">
