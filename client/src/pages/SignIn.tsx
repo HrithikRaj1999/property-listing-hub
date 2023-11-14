@@ -5,7 +5,7 @@ import Spinner from "../components/Spinner";
 import { LABELS } from "../constants/labels";
 import useSignIn from "../hooks/useSignIn";
 const SignIn = () => {
-  const { handleSubmit, handleKeepMeSignIn, loading, error, state, dispatch } = useSignIn();
+  const { handleSubmit, handleKeepMeSignIn, loading, state, dispatch } = useSignIn();
   return (
     <div className="max-w-sm min-w-fit p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign In</h1>

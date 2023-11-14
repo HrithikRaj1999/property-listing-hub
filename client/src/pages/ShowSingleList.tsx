@@ -30,7 +30,7 @@ const ShowSingleList = () => {
 
   useEffect(() => {
     fetchListing();
-  }, [listId]);
+  }, [fetchListing, listId]);
 
   return loading && listing ? (
     <div className="flex flex-col gap-3 justify-center items-center h-screen">
