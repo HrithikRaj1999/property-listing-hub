@@ -1,26 +1,9 @@
 import mongoose, { Schema } from "mongoose";
+import { MongoListingDataType } from "../../client/src/react-app-env";
 
 /// Client Side types just for refernce
-interface SpecificationsType {
-  bathroom: number;
-  bedrooms: number;
-  hall: number;
-  regularPrice: number;
-  discountedPrice: number;
-}
-export interface ListingDataType {
-  name: string;
-  description: string;
-  address: string;
-  phone: string;
-  type: string;
-  specifications: SpecificationsType;
-  roomType: string;
-  facilities: string[];
-  imageUrls: File[];
-  userRef: string;
-}
-const listingSchema = new Schema<ListingDataType>(
+
+const listingSchema = new Schema<MongoListingDataType>(
   {
     name: {
       type: String,
@@ -72,4 +55,4 @@ const listingSchema = new Schema<ListingDataType>(
 );
 
 
-export const Listing = mongoose.model<ListingDataType>("Listing", listingSchema); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))
+export const Listing = mongoose.model<MongoListingDataType>("Listing", listingSchema); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))

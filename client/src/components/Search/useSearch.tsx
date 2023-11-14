@@ -1,19 +1,10 @@
-import { FormikErrors, FormikHelpers, useFormikContext } from "formik";
+import { FormikHelpers } from "formik";
 import { useNavigate } from "react-router-dom";
 import api from "../../config/customApi";
-import { itemType } from "../../hooks/useShowListing";
 import { toast } from "react-toastify";
-import FilteredListings from "./FilteredListings";
-import { useState } from "react";
 import { useSearchData } from "../../context/SearchedData";
 
-export interface SearchValuesType {
-  searchText: string;
-  sortBy: string;
-  type: string[];
-  amenities: string[];
-  roomType: string;
-}
+
 
 const useSearch = () => {
   const navigate = useNavigate();

@@ -8,21 +8,11 @@ import { HTTP_STATUS_CODES, MESSAGES } from "../constants/data";
 import { logger } from "../logger/logger";
 import { User } from "../models/userModel";
 import { Redis } from "ioredis";
+import { GoogleSignInControllerBodyType, SignInBodyType, SignUpBodyType } from "../../client/src/react-app-env";
 
 // get config vars
 dotenv.config();
 
-interface SignUpBodyType {
-  username?: string;
-  email?: string;
-  password?: string;
-}
-
-interface SignInBodyType {
-  email?: string;
-  password?: string;
-  keepMeSignedIn?: boolean;
-}
 
 export const SignUpController: RequestHandler<
   unknown,
@@ -66,7 +56,7 @@ export const SignInController: RequestHandler<
     const existingUser = await User.findOne({ email });
     if (!existingUser)
       return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
-    const isPassValid = await bcrypt.compare(password, existingUser.password);
+    const isPassValid = await bcrypt.compare(password, existingUser?.password||'');
     if (!isPassValid) return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
     const token = jwt.sign({ id: existingUser._id }, JWT_SECRET);
 
@@ -93,11 +83,6 @@ export const SignInController: RequestHandler<
     next(error);
   }
 };
-interface GoogleSignInControllerBodyType {
-  name: string;
-  email: string;
-  photoUrl: string;
-}
 
 export const GoogleController: RequestHandler<
   unknown,

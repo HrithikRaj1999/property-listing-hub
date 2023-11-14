@@ -1,25 +1,6 @@
 // authReducer.ts
-interface State {
-  username: string;
-  email: string;
-  password: string;
-  loading: boolean;
-  error: any;
-  passwordVisible: boolean;
-}
 
-interface Action {
-  type:
-    | "SET_USER_NAME"
-    | "SET_EMAIL"
-    | "SET_PASSWORD"
-    | "SET_LOADING"
-    | "SET_ERROR"
-    | "TOGGLE_PASSWORD_VISIBILITY";
-  payload: any;
-}
-
-const initialState: State = {
+const initialState: SignUpState = {
   username: "",
   email: "",
   password: "",
@@ -28,7 +9,7 @@ const initialState: State = {
   passwordVisible: false,
 };
 
-function reducer(state: State, action: Action): State {
+function reducer(state: SignUpState, action: SignUpAction): SignUpState {
   switch (action.type) {
     case "SET_USER_NAME":
       return { ...state, username: action.payload };

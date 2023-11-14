@@ -1,4 +1,9 @@
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "react-toastify";
 import { CLIENT_MESSAGE, TOAST_ID } from "../../constants/clientMessage";
@@ -9,44 +14,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
-import { LABELS } from "../../constants/labels";
 import { MultiValue } from "react-select/dist/declarations/src";
-export interface SpecificationsType {
-  bathroom: number;
-  bedrooms: number;
-  hall: number;
-  regularPrice: number;
-  discountedPrice: number;
-}
-export interface ListingDataType {
-  _id?: string;
-  name: string;
-  description: string;
-  address: string;
-  phone: string;
-  type: string;
-  specifications: SpecificationsType;
-  roomType: string;
-  facilities: string[];
-  imageUrls: File[];
-}
-export const inititalFormikData: ListingDataType = {
-  name: "",
-  description: "",
-  address: "",
-  phone: "",
-  type: "rent",
-  facilities: ["Tennis Court", "Football Ground"],
-  roomType: "furnished",
-  specifications: {
-    bathroom: 1,
-    bedrooms: 1,
-    hall: 1,
-    regularPrice: 0,
-    discountedPrice: 0,
-  },
-  imageUrls: [],
-};
+
 
 export const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -84,26 +53,15 @@ export const validationSchema = Yup.object().shape({
       .required("Discounted price is required"),
   }),
 });
-const facilityOptions = [
-  { value: LABELS.PARKING, label: LABELS.PARKING },
-  { value: LABELS.POOL, label: LABELS.POOL },
-  { value: LABELS.SECURITY, label: LABELS.SECURITY },
-  { value: LABELS.POWER_BACKUP, label: LABELS.POWER_BACKUP },
-  { value: LABELS.WATER_SUPPLY, label: LABELS.WATER_SUPPLY },
-  { value: LABELS.ELEVATORS, label: LABELS.ELEVATORS },
-  { value: LABELS.GYM, label: LABELS.GYM },
-  { value: LABELS.PLAYGROUND, label: LABELS.PLAYGROUND },
-  { value: LABELS.COMMUNITY_HALL, label: LABELS.COMMUNITY_HALL },
-  { value: LABELS.GARDENS, label: LABELS.GARDENS },
-  { value: LABELS.CAR_PARKING, label: LABELS.CAR_PARKING },
-  { value: LABELS.WASTE_DISPOSAL, label: LABELS.WASTE_DISPOSAL },
-  { value: LABELS.FIRE_SAFETY, label: LABELS.FIRE_SAFETY },
-];
+
 const useListing = () => {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
-  const updatedPictureList = (id: number, values: ListingDataType) => {
+  const updatedPictureList = (
+    id: number,
+    values: PictureUploadListingDataType
+  ) => {
     const img = Array.from(values.imageUrls);
     img.splice(id, 1);
     return img;
@@ -121,10 +79,11 @@ const useListing = () => {
     setFieldValue("facilities", filteredOptions);
   };
   const handleImagesSubmit = async (
-    values: ListingDataType,
+    values: PictureUploadListingDataType,
     setFieldValue: (arg0: string, arg1: string[]) => void
   ) => {
-    if (_.isEmpty(values.imageUrls)) toast.error(CLIENT_MESSAGE.NO_PHOTO_SELECTED);
+    if (_.isEmpty(values.imageUrls))
+      toast.error(CLIENT_MESSAGE.NO_PHOTO_SELECTED);
     else if (values.imageUrls.length > 0 && values.imageUrls.length < 7) {
       const promises = [];
       for (let i = 0; i < values.imageUrls.length; i++) {
@@ -166,7 +125,8 @@ const useListing = () => {
             toastId: TOAST_ID,
             hideProgressBar: true,
           });
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           toast.update(TOAST_ID, {
             render: `Uploading ${Math.round(progress)}%`,
           });
@@ -184,9 +144,7 @@ const useListing = () => {
   };
 
   return {
-    inititalFormikData,
     validationSchema,
-    facilityOptions,
     handleImagesSubmit,
     handleChange,
     updatedPictureList,

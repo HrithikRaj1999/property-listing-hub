@@ -1,9 +1,7 @@
-import { itemType } from "../../hooks/useShowListing";
+
 import ShowSingleFilteredListing from "./ShowSingleFilteredListing";
 
-interface propType {
-  searchedData: itemType[];
-}
+
 const SearchedItem = (props: propType) => {
   const { searchedData } = props;
 

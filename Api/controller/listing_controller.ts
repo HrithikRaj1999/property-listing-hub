@@ -8,58 +8,16 @@ import {
 } from "../constants/data";
 import { Listing } from "../models/listingModel";
 import createHttpError from "http-errors";
-import { itemType } from "../../client/src/hooks/useShowListing";
+
 import Redis from 'ioredis'
 import { getOrSetCache } from "../util/redis";
+import { MongoListingDataType, QueryParams, itemType, searchQueryType } from "../../client/src/react-app-env";
 const redisClient = Redis.createClient()
 
 
-interface FacilitiesType {
-  parkingSpot: boolean;
-  furnished: boolean;
-  semiFurnished: boolean;
-  unfurnished: boolean;
-  swimmingPool: boolean;
-}
-interface SpecificationsType {
-  bathroom: number;
-  bedrooms: number;
-  hall: number;
-  regularPrice: number;
-  discountedPrice: number;
-}
-interface QueryParams {
-  limit: string;
-  startIndex: string;
-  amenities?: string;
-  type?: string;
-  searchText?: string;
-  sortBy?: string;
-  roomType?: "furnished" | "un-furnished" | "semi-furnished" | undefined;
-}
 
-interface searchQueryType {
-  name?: { $regex: string; $options: string };
-  $text?: { $search: string };
-  score: { $meta: "textScore" };
-  roomType?: "furnished" | "un-furnished" | "semi-furnished" | undefined;
-  type?: { $in: string[] };
-  facilities?: { $in: string[] };
-  address: { $regex: string; $options: "i" };
-}
-export interface ListingDataType {
-  _id?: string
-  name?: string;
-  description?: string;
-  address?: string;
-  type?: string;
-  specifications?: SpecificationsType;
-  facilities?: FacilitiesType;
-  imageUrls?: string[];
-  userRef?:string
-}
 
-export const createListing: RequestHandler<unknown, unknown, ListingDataType, unknown> = async (
+export const createListing: RequestHandler<unknown, unknown, MongoListingDataType, unknown> = async (
   req,
   res,
   next
@@ -106,7 +64,7 @@ export const deleteListing: RequestHandler<
     }
     await Listing.findByIdAndDelete(listId);
     const listings = await redisClient.get('listings')
-    const AllListings = (listings ? JSON.parse(listings) : null)?.filter((list: ListingDataType) => listId !== list._id)
+    const AllListings = (listings ? JSON.parse(listings) : null)?.filter((list: MongoListingDataType) => listId !== list._id)
     redisClient.set('listings', JSON.stringify(AllListings))
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
@@ -166,7 +124,7 @@ export const getListingById: RequestHandler<
     // const listing = await Listing.findById(listingId);
     const listings = await redisClient.get('listings')
     const AllLisitings = JSON.parse(listings!)
-    const lisiting = AllLisitings.find((item: ListingDataType) => {
+    const lisiting = AllLisitings.find((item: MongoListingDataType) => {
       return item?._id === listingId})
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,

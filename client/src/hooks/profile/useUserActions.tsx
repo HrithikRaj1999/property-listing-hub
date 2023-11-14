@@ -14,7 +14,6 @@ import {
   updateUserStart,
   updateUserSuccess,
 } from "../../redux/user/userSlice";
-import { FormDataType } from "./useProfile";
 
 const useUserActions = (
   formData: FormDataType | null,

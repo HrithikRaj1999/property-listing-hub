@@ -1,19 +1,17 @@
 import { useFormikContext } from "formik";
 import Creatable from "react-select/creatable";
-
-import useListing, { ListingDataType } from "../../hooks/Listing/useListing";
+import useListing from "../../hooks/Listing/useListing";
+import { facilityOptions } from "../../constants/labels";
 
 const ListingFacilities = () => {
-  const { setFieldValue, initialValues } = useFormikContext<ListingDataType>();
+  const { setFieldValue, initialValues } = useFormikContext<MongoListingDataType>();
 
-  const { handleChangeOfSelect, facilityOptions } = useListing();
+  const { handleChangeOfSelect } = useListing();
   // Define the options for the react-select component
-  const defaultDisplayData = initialValues?.facilities?.map((item) => {
+  const defaultDisplayData = initialValues?.facilities?.map((item:string) => {
     return { label: item, value: item };
   });
-  const availableOptions = facilityOptions.filter(
-    (item) => !initialValues?.facilities.includes(item.value)
-  );
+  const availableOptions= facilityOptions.filter((item)  => initialValues?.facilities? !initialValues?.facilities.includes(item.value):[])
 
   return (
     <div className="shadow-lg p-4 rounded-xl flex gap-1  mb-3 text-black text-[0.8rem] sm:text-md flex-col">

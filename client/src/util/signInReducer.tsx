@@ -1,14 +1,5 @@
 // authReducer.ts
-interface State {
-  email: string;
-  password: string;
-  passwordVisible: boolean;
-}
 
-interface Action {
-  type: "SET_EMAIL" | "SET_PASSWORD" | "TOGGLE_PASSWORD_VISIBILITY";
-  payload: any;
-}
 
 const initialState: State = {
   email: "",

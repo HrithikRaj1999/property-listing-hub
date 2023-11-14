@@ -1,10 +1,9 @@
 import { Field, useFormikContext } from "formik";
-import React from "react";
+
 import { LABELS } from "../../constants/labels";
-import { ListingDataType } from "../../hooks/Listing/useListing";
 
 const ListingRoomType = () => {
-  const { values, handleChange } = useFormikContext<ListingDataType>();
+  const { handleChange } = useFormikContext<PictureUploadListingDataType>();
   return (
     <div className=" shadow rounded-lg p-3 flex flex-col sm:flex-row  gap-3">
       <h1 className="font-bold"> Room Type</h1>

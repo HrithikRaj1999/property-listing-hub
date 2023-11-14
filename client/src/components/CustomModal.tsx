@@ -1,16 +1,4 @@
-import { ReactNode } from "react";
 
-interface CustomModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onOk: () => void;
-  title: string | ReactNode;
-  children?: ReactNode;
-  footer?: ReactNode;
-  header?: ReactNode;
-  okLabel?: string;
-  className?: string;
-}
 
 export default function CustomModal({
   isOpen,

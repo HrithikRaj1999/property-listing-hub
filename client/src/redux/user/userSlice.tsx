@@ -1,22 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ListingDataType } from "../../hooks/Listing/useListing";
-import { itemType } from "../../hooks/useShowListing";
-
-interface userType {
-  username: string;
-  email: string;
-  avatar: string;
-  _id: string;
-  createdAt: string;
-  listings: itemType[];
-  updatedAt: string;
-}
-interface UserSliceType {
-  currentUser: userType | null;
-  error: any;
-  loading: boolean;
-  keepMeSignedIn: boolean;
-}
 
 const initialState: UserSliceType = {
   currentUser: null,

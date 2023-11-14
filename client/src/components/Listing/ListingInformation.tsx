@@ -1,12 +1,11 @@
 import { ErrorMessage, Field, useFormikContext } from "formik";
-import { ListingDataType } from "../../hooks/Listing/useListing";
 import "react-phone-number-input/style.css";
-import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
-import { InputHTMLAttributes, forwardRef, useEffect } from "react";
+import PhoneInput from "react-phone-number-input";
+import { InputHTMLAttributes, forwardRef } from "react";
 
 const CustomInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   (props, ref) => {
-    const { values } = useFormikContext<ListingDataType>();
+    const { values } = useFormikContext<MongoListingDataType>();
     return (
       <input
         {...props}
@@ -19,8 +18,8 @@ const CustomInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputEl
 );
 
 const ListingInformation = () => {
-  const { values, handleChange, errors, setFieldValue, setFieldError } =
-    useFormikContext<ListingDataType>();
+  const { values, handleChange, errors, setFieldValue } =
+    useFormikContext<MongoListingDataType>();
   return (
     <div className=" shadow-lg p-4 rounded-xl mb-3 text-black">
       <label className="text-sm font-bold">Name</label>

@@ -1,17 +1,15 @@
-import { Formik, Form, FormikValues } from "formik";
-
-import _ from "lodash";
-import { ListingDataType, validationSchema } from "../../hooks/Listing/useListing";
-import ListingType from "./ListingType";
-import ListingInformation from "./ListingInformation";
+import { Form, Formik, FormikValues } from "formik";
+import { LABELS } from "../../constants/labels";
+import { validationSchema } from "../../hooks/Listing/useListing";
+import useUpdateListing from "../../hooks/Listing/useUpdateListing";
+import Spinner from "../Spinner";
 import ListingFacilities from "./ListingFacilities";
+import ListingImageProperty from "./ListingImageProperty";
+import ListingInformation from "./ListingInformation";
 import ListingRoomType from "./ListingRoomType";
 import ListingSpecifications from "./ListingSpecifications";
-import ListingImageProperty from "./ListingImageProperty";
+import ListingType from "./ListingType";
 import ViewSelectedImages from "./ViewSelectedImages";
-import Spinner from "../Spinner";
-import useUpdateListing from "../../hooks/Listing/useUpdateListing";
-import { LABELS } from "../../constants/labels";
 
 const UpdateListing = () => {
   const { initialFormikData, handleUpdate } = useUpdateListing();
@@ -22,11 +20,11 @@ const UpdateListing = () => {
       onSubmit={async (values, formikHelpers) => {
         const { setFieldValue } = formikHelpers;
         formikHelpers.setSubmitting(true);
-        await handleUpdate(values as ListingDataType, setFieldValue);
+        await handleUpdate(values as PictureUploadListingDataType, setFieldValue);
         formikHelpers.setSubmitting(false);
       }}
     >
-      {({ values, isSubmitting, errors }) => {
+      {({ isSubmitting }) => {
         return (
           <div className="container mx-auto  ">
             <h1 className="text-3xl font-bold text-center text-gray-800 my-8 ">

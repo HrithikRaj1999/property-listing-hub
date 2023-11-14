@@ -1,8 +1,4 @@
-interface modalPropsType {
-  src: string | undefined;
-  alt: string;
-  onClose: () => void;
-}
+
 const ImageViewer = ({ src, alt, onClose }: modalPropsType) => {
   return (
     <div

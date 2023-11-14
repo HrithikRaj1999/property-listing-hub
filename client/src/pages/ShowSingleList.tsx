@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Spinner from "../components/Spinner";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
-import { SpecificationsType } from "../hooks/Listing/useListing";
+
 import {
   FaAudioDescription,
   FaFeatherAlt,
@@ -13,19 +13,7 @@ import {
 import CustomModal from "../components/CustomModal";
 import useShowSingleList from "../hooks/Listing/useShowSingleList";
 
-export interface ListingType {
-  _id?: string;
-  name: string;
-  description: string;
-  address: string;
-  phone: string;
-  type: string;
-  specifications: SpecificationsType;
-  roomType: string;
-  facilities: string[];
-  imageUrls: string[];
-  userRef: string;
-}
+
 const ShowSingleList = () => {
   const {
     fetchListing,
@@ -57,7 +45,7 @@ const ShowSingleList = () => {
           className="mySwiper min-w-[375px] bg-black flex items-center h-[250px] sm:h-[500px] md:h-[700px]"
         >
           {listing?.imageUrls &&
-            listing?.imageUrls.map((url, index) => (
+            listing?.imageUrls.map((url:string, index:number) => (
               <SwiperSlide zoom={true} key={index}>
                 <img key={index} alt="images" className="coverbg-no-repeat" src={url}></img>
               </SwiperSlide>
@@ -95,7 +83,7 @@ const ShowSingleList = () => {
             Facilities-{" "}
           </span>
           <div className="flex items-center ml-12 flex-wrap gap-4">
-            {listing?.facilities.map((item) => (
+            {listing?.facilities.map((item:string) => (
               <>
                 <FaHandPointRight size={15} />
                 <span className="text-xs sm:text-lg  font-bold text-black ">{item}</span>
@@ -110,7 +98,7 @@ const ShowSingleList = () => {
           </span>
           <div className="flex items-center ml-12 flex-wrap gap-4">
             {listing?.specifications &&
-              Object.entries(listing?.specifications).map((specification) => {
+              Object.entries(listing?.specifications).map((specification:any) => {
                 if (!["regularPrice", "discountedPrice"].includes(specification[0])) {
                   return (
                     <React.Fragment>

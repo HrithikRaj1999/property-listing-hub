@@ -1,10 +1,5 @@
 import { Eye } from "react-feather";
 import { Link } from "react-router-dom";
-import { itemType } from "../../hooks/useShowListing";
-
-interface FeatureSectionProps {
-  regularListings: itemType[] | null;
-}
 const FeatureSection = (props: FeatureSectionProps) => {
   const { regularListings } = props;
   return (

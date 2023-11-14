@@ -1,6 +1,5 @@
 import { Field, useFormikContext } from "formik";
-import React from "react";
-import { itemType } from "../../hooks/useShowListing";
+
 
 const ListingType = () => {
   const { values, handleChange } = useFormikContext<itemType>();

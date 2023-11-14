@@ -1,6 +1,4 @@
-import { useFormikContext } from "formik";
-import useSearch, { SearchValuesType } from "./useSearch";
-import { FaHome, FaInfoCircle, FaRoute } from "react-icons/fa";
+import { FaHome, FaRoute } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Eye } from "react-feather";
 import { useSearchData } from "../../context/SearchedData";

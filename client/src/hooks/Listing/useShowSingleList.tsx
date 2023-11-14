@@ -10,7 +10,6 @@ import { setLoading } from "../../redux/user/userSlice";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
-import { ListingType } from "../../pages/ShowSingleList";
 
 const useShowSingleList = () => {
   const { listId } = useParams();

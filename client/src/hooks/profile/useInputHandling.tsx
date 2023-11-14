@@ -3,7 +3,6 @@ import { Eye, EyeOff } from "react-feather";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { initialState, reducer } from "../../util/signUpReducer";
-import { FormDataType } from "./useProfile";
 
 export const useInputHandling = (
   formData: FormDataType | null,
@@ -20,7 +19,7 @@ export const useInputHandling = (
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevFormData) => ({
+    setFormData((prevFormData:FormDataType | null) => ({
       ...prevFormData,
       [e.target.id]: e.target.value,
     }));

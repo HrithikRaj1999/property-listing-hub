@@ -1,14 +1,4 @@
 import React, { useState, useContext, createContext } from "react";
-import { itemType } from "../hooks/useShowListing";
-interface SearchProviderProps {
-  children: React.ReactNode;
-}
-interface SearchContextType {
-  searchedLisitingData: itemType[];
-  setSearchedLisitingData: React.Dispatch<React.SetStateAction<itemType[]>>;
-  searchText: string;
-  setSearchText: React.Dispatch<React.SetStateAction<string>>;
-}
 const SearchContext = createContext<SearchContextType>({} as SearchContextType);
 
 export const SearchedDataProvider: React.FC<SearchProviderProps> = ({ children }) => {

@@ -43,3 +43,36 @@ export const LABELS = {
   WASTE_DISPOSAL: "Waste Disposal",
   FIRE_SAFETY: "Fire Safety",
 };
+
+export const facilityOptions = [
+  { value: LABELS.PARKING, label: LABELS.PARKING },
+  { value: LABELS.POOL, label: LABELS.POOL },
+  { value: LABELS.SECURITY, label: LABELS.SECURITY },
+  { value: LABELS.POWER_BACKUP, label: LABELS.POWER_BACKUP },
+  { value: LABELS.WATER_SUPPLY, label: LABELS.WATER_SUPPLY },
+  { value: LABELS.ELEVATORS, label: LABELS.ELEVATORS },
+  { value: LABELS.GYM, label: LABELS.GYM },
+  { value: LABELS.PLAYGROUND, label: LABELS.PLAYGROUND },
+  { value: LABELS.COMMUNITY_HALL, label: LABELS.COMMUNITY_HALL },
+  { value: LABELS.GARDENS, label: LABELS.GARDENS },
+  { value: LABELS.CAR_PARKING, label: LABELS.CAR_PARKING },
+  { value: LABELS.WASTE_DISPOSAL, label: LABELS.WASTE_DISPOSAL },
+  { value: LABELS.FIRE_SAFETY, label: LABELS.FIRE_SAFETY },
+];
+export const inititalFormikData: PictureUploadListingDataType = {
+  name: "",
+  description: "",
+  address: "",
+  phone: "",
+  type: "rent",
+  facilities: ["Tennis Court", "Football Ground"],
+  roomType: "furnished",
+  specifications: {
+    bathroom: 1,
+    bedrooms: 1,
+    hall: 1,
+    regularPrice: 0,
+    discountedPrice: 0,
+  },
+  imageUrls: [],
+};

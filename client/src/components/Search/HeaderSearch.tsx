@@ -2,7 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import useHeaderSearch from "../../hooks/useHeaderSearch";
 
 const HeaderSearch = () => {
-  const { setSearchText, handleSearch, fetchData } = useHeaderSearch();
+  const { setSearchText, handleSearch } = useHeaderSearch();
 
   return (
     <div>

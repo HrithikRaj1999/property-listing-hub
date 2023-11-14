@@ -5,8 +5,7 @@ import {
   deleteListing,
   getAllListings,
   getFilteredListings,
-  getListingById,
-  getSearchedListings,
+  getListingById
 } from "../controller/listing_controller";
 import { verifyToken } from "../util/verifyUser";
 

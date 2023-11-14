@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import SingleList from "../components/Listing/SingleList";
-import useShowListing, { itemType } from "../hooks/useShowListing";
+import useShowListing from "../hooks/useShowListing";
+import { itemType } from "../react-app-env";
 
 const ShowListings = () => {
   const { currentUser } = useShowListing();

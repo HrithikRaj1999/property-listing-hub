@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
-import api from "../config/customApi";
-import { itemType } from "../hooks/useShowListing";
-import { toast } from "react-toastify";
+import { useEffect } from "react";
 import Spinner from "../components/Spinner";
-import { Link, useNavigate } from "react-router-dom";
-import { Eye } from "react-feather";
 import OffersSection from "../components/Home/OfferSection";
 import FeatureSection from "../components/Home/FeatureSection";
 import useHomePage from "../components/Home/useHomePage";
 
 const Home = () => {
-  const { navigate, fetchData, listings, loading, offer, regular } = useHomePage();
+  const { navigate, fetchData, loading, offer, regular } = useHomePage();
   useEffect(() => {
     fetchData();
   }, []);

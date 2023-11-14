@@ -1,27 +1,9 @@
-import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import api from "../config/customApi";
 import { toast } from "react-toastify";
-import { SpecificationsType } from "../hooks/Listing/useListing";
 import { setListing } from "../redux/user/userSlice";
-
-export interface itemType {
-  _id?: string;
-  name: string;
-  description: string;
-  address: string;
-  phone: string;
-  type: string;
-  specifications: SpecificationsType;
-  roomType: string;
-  facilities: string[];
-  imageUrls: string[];
-}
-export interface SingleListProps {
-  item: itemType;
-}
-
+import { itemType, userType } from "../react-app-env";
 const useShowListing = () => {
   const fetchListings = async () => {
     try {
@@ -44,7 +26,7 @@ const useShowListing = () => {
         }
       );
       const deletedListingList: itemType[] | undefined =
-        currentUser?.listings.filter((list) => list._id !== id);
+        currentUser?.listings.filter((list:userType) => list._id !== id);
       userDispatch(setListing(JSON.parse(JSON.stringify(deletedListingList))));
       toast.success(res.data.message);
     } catch (error: any) {

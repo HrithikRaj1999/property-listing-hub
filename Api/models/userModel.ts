@@ -1,13 +1,10 @@
 import mongoose, { Schema } from "mongoose";
+// eslint-disable-next-line import/no-unresolved
+import { userType } from "../../client/src/react-app-env";
 
-interface UserType {
-  username: string;
-  email: string;
-  password: string;
-  avatar: string;
-  token: string;
-}
-const userSchema = new Schema<UserType>(
+
+
+const userSchema = new Schema<userType>(
   {
     username: {
       type: String,
@@ -33,4 +30,4 @@ const userSchema = new Schema<UserType>(
   },
   { timestamps: true }
 );
-export const User = mongoose.model<UserType>("User", userSchema);
+export const User = mongoose.model<userType>("User", userSchema);

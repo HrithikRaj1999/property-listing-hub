@@ -1,10 +1,9 @@
 import { ErrorMessage, Field, useFormikContext } from "formik";
-import React from "react";
 import { LABELS } from "../../constants/labels";
-import { ListingDataType } from "../../hooks/Listing/useListing";
+
 
 const ListingSpecifications = () => {
-  const { values, handleChange } = useFormikContext<ListingDataType>();
+  const { values, handleChange } = useFormikContext<PictureUploadListingDataType>();
   return (
     <div className="rounded-lg p-4 bg-white shadow">
       <label className="font-bold text-lg sm:text-xl mb-3 block">{LABELS.SPECIFICATIONS}</label>

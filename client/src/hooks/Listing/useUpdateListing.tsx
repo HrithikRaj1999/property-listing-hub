@@ -1,4 +1,3 @@
-import { itemType } from "../useShowListing";
 import {
   getDownloadURL,
   getStorage,
@@ -13,21 +12,22 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import _ from "lodash";
 import { MultiValue } from "react-select/dist/declarations/src";
-import { ListingDataType } from "./useListing";
 import { useNavigate, useParams } from "react-router-dom";
-import e from "express";
 const useUpdateListing = () => {
   const { listId } = useParams();
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
   const initialFormikData: itemType | undefined = currentUser?.listings
     .filter((i) => i._id === listId)
     .pop();
-  const updatedPictureList = (id: number, values: ListingDataType) => {
+    
+  const updatedPictureList = (id: number, values: PictureUploadListingDataType
+) => {
     const img = Array.from(values.imageUrls);
     img.splice(id, 1);
     return img;
   };
   const navigate = useNavigate();
+
   const handleChangeOfSelect = (
     selectedOptions: MultiValue<{
       value: string;
@@ -40,7 +40,8 @@ const useUpdateListing = () => {
     setFieldValue("facilities", filteredOptions);
   };
   const handleUpdate = async (
-    values: ListingDataType,
+    values: PictureUploadListingDataType
+,
     setFieldValue: (arg0: string, arg1: string[]) => void
   ) => {
     if (_.isEmpty(values.imageUrls))

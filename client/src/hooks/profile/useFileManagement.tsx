@@ -17,7 +17,6 @@ import {
   updateUserStart,
   updateUserSuccess,
 } from "../../redux/user/userSlice";
-import { FormDataType } from "./useProfile";
 //firebase storage
 //   allow read;
 //   allow write:if
@@ -116,7 +115,7 @@ const useFileManagement = (
           setFilePercentage(100); // Set the percentage to 100 on success
           setFileUploadError(null);
           toast.dismiss(TOAST_ID);
-          setFormData((prevFormData) => ({
+          setFormData((prevFormData:FormDataType|null) => ({
             ...prevFormData,
             avatar: downloadUrl,
           }));

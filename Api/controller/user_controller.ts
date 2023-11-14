@@ -8,9 +8,8 @@ import {
 } from "../constants/data";
 import { User } from "../models/userModel";
 import { Redis } from "ioredis";
-import { Listing } from "../models/listingModel";
-import { getOrSetCache } from "../util/redis";
-import { ListingDataType } from "./listing_controller";
+import { MongoListingDataType, updateUserControllerBody } from "../../client/src/react-app-env";
+
 const redisClient = Redis.createClient()
 
 export const testUserApiController: RequestHandler<
@@ -22,13 +21,7 @@ export const testUserApiController: RequestHandler<
   res.json({ message: "This is a test API" });
 };
 
-interface updateUserControllerBody {
-  username?: string;
-  email?: string;
-  password?: string;
-  avatar?: string;
-  tokenUserId: string;
-}
+
 
 export const updateUserController: RequestHandler<
   { id: string },
@@ -201,7 +194,7 @@ export const showUserListingController: RequestHandler<
         )
       );
     const AllListings = JSON.parse(await redisClient.get('listings') || '[]')
-    const listings = AllListings.filter((list: ListingDataType) =>  list?.userRef === id)
+    const listings = AllListings.filter((list: MongoListingDataType) =>  list?.userRef === id)
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: MESSAGES.SUCESS_LISTING_GATHERED,

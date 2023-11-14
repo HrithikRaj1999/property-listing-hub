@@ -1,18 +1,4 @@
-interface ModalPropsType {
-  showModal: boolean;
-  title?: string;
-  info?: string;
-  okLabel?: string;
-  showOkLabel?: boolean;
-  cancelLabel?: string;
-  showCancelLabel?: boolean;
-  children?: React.ReactNode;
-  showHeader?: boolean;
-  showFooter?: boolean;
-  setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
-  onOk?: () => void;
-  onCancel?: () => void;
-}
+
 const Modal = (props: ModalPropsType) => {
   const {
     showModal = false,

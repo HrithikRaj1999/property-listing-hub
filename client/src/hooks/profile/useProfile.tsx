@@ -6,12 +6,7 @@ import useImageModal from "./useImageModal";
 import { useInputHandling } from "./useInputHandling";
 import useModal from "./useModal";
 import useUserActions from "./useUserActions";
-export interface FormDataType {
-  username?: string;
-  email?: string;
-  password?: string;
-  avatar?: string;
-}
+
 
 const useProfile = () => {
   const [formData, setFormData] = useState<FormDataType | null>(null);

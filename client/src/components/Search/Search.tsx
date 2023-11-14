@@ -1,5 +1,5 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import useSearch, { SearchValuesType } from "./useSearch";
+import useSearch from "./useSearch";
 import { LABELS } from "../../constants/labels";
 import FilteredListings from "./FilteredListings";
 import Spinner from "../Spinner";

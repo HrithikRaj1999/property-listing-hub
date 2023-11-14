@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 
-import useShowListing, { SingleListProps } from "../../hooks/useShowListing";
+import useShowListing from "../../hooks/useShowListing";
 
-import { ArrowRight, Edit, Edit2, Eye, Home, Info, Trash } from "react-feather";
+import { Edit, Eye, Trash } from "react-feather";
 import CustomModal from "../CustomModal";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  FaHome,
-  FaInfo,
-  FaInfoCircle,
-  FaRestroom,
-  FaRoute,
+  FaHome, FaInfoCircle, FaRoute
 } from "react-icons/fa";
+import { SingleListProps } from "../../react-app-env";
 
 const SingleList = (props: SingleListProps) => {
   const { item } = props;

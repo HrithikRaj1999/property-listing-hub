@@ -4,14 +4,14 @@ import ListingSpecifications from "../components/Listing/ListingSpecifications";
 import ListingType from "../components/Listing/ListingType";
 import useListing from "../hooks/Listing/useListing";
 import { Formik, Form } from "formik";
-import { LABELS } from "../constants/labels";
+import { inititalFormikData } from "../constants/labels";
 import ViewSelectedImages from "../components/Listing/ViewSelectedImages";
 import ListingImageProperty from "../components/Listing/ListingImageProperty";
 import Spinner from "../components/Spinner";
 import _ from "lodash";
 import ListingRoomType from "../components/Listing/ListingRoomType";
 const CreateListing = () => {
-  const { validationSchema, inititalFormikData, handleImagesSubmit } = useListing();
+  const { validationSchema, handleImagesSubmit } = useListing();
 
   return (
     <Formik

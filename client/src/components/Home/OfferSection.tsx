@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
-import { itemType } from "../../hooks/useShowListing";
 
-interface OffersSectionpropsType {
-  offerListings: itemType[] | null;
-}
+
 const OffersSection = (props: OffersSectionpropsType) => {
   const { offerListings } = props;
   // Filter listings with price less than Rs.500

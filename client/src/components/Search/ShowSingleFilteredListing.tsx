@@ -1,11 +1,7 @@
 import { Eye } from "react-feather";
 import { FaHome, FaInfoCircle, FaRoute } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { itemType } from "../../hooks/useShowListing";
 
-interface propTypes {
-  item: itemType;
-}
 const ShowSingleFilteredListing = (props: propTypes) => {
   const { item } = props;
   return (

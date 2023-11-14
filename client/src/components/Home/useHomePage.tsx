@@ -1,12 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import api from "../../config/customApi";
-import { itemType } from "../../hooks/useShowListing";
 import { toast } from "react-toastify";
-import Spinner from "../../components/Spinner";
-import { Link, useNavigate } from "react-router-dom";
-import { Eye } from "react-feather";
-import OffersSection from "../../components/Home/OfferSection";
-import FeatureSection from "../../components/Home/FeatureSection";
+import { useNavigate } from "react-router-dom";
 const useHomePage = () => {
   const [listings, setListings] = useState<itemType[] | null>([]);
   const [loading, setLoading] = useState(false);
