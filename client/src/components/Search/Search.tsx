@@ -7,7 +7,7 @@ import { useSearchData } from "../../context/SearchedData";
 
 const Search = () => {
   const { options, initVal, handleLoadMore, handleSubmit } = useSearch();
-  const {  searchedLisitingData, setSearchedLisitingData } = useSearchData();
+  const {  searchedLisitingData } = useSearchData();
   return (
     <Formik
       initialValues={{ ...initVal }}
@@ -139,6 +139,13 @@ const Search = () => {
                     {isSubmitting ? <Spinner width={15} height={15} /> : "Search"}
                   </button>{" "}
                 </div>
+                <button
+                  className="p-2  bg-blue-500 rounded text-white  w-full hover:shadow-2xl "
+                  type="button"
+                  onClick={() => handleLoadMore(values)}
+                >
+                  Show more
+                </button>
               </Form>
             </div>
 
@@ -151,14 +158,6 @@ const Search = () => {
                 <div className="flex m-6 flex-wrap justify-center sm:justify-center gap-6 sm:w-full  ">
                   <FilteredListings />
                 </div>
-
-                <button
-                  className="text-bold p-3 text-green-700"
-                  type="button"
-                  onClick={() => handleLoadMore(values)}
-                >
-                  Show more
-                </button>
               </div>
             ) : (
               <h1>No more Items</h1>

@@ -52,9 +52,9 @@ export const Profile = () => {
               onClose={() => setShowModal(false)}
             />
           ) : null}
-          <div className="relative" ref={divRef}>
+          <div className="relative text-sm sm:text-lg" ref={divRef}>
             {showImageOptionsDiv ? (
-              <div className="absolute top-11 left-[13rem] border border-blue-400 flex flex-col max-w-lg min-w-fit bg-white rounded-xl font-medium">
+              <div className="absolute top-11 left-[13rem] border border-blue-400 flex flex-col max-w-sm sm:max-w-lg min-w-fit bg-white rounded-xl   font-medium">
                 <span
                   className="cursor-pointer  border-b-4 p-3 hover:font-bold"
                   onClick={handlePicRemove}

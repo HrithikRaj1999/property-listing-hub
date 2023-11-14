@@ -123,18 +123,19 @@ const ShowSingleList = () => {
                 }
               })}
           </div>
-        </div>
-      </div>
-      {currentUser && listing?.userRef !== currentUser._id ? (
+          {currentUser && listing?.userRef !== currentUser._id ? (
         <div className="flex justify-center my-3">
           <button
             onClick={() => setShowContactModal(true)}
-            className="bg-gray-700 p-3 rounded-xl text-white text-xs sm:text-xl"
+            className="bg-gray-700 p-3 mb-9 rounded-xl text-white text-xs sm:text-xl"
           >
             Contact to Owner{" "}
           </button>
         </div>
       ) : null}
+        </div>
+      </div>
+     
 
       <CustomModal
         title={"Contact to the Owner"}

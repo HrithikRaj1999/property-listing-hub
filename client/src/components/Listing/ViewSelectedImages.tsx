@@ -14,7 +14,7 @@ const ViewSelectedImages = () => {
             return (
               <div
                 key={index}
-                className="relative group flex gap-1 w-[1rem] sm:w-[15rem] h-[10rem] sm:h-[15rem] border-black rounded-lg"
+                className="relative group flex gap-1 w-[15rem] sm:w-[15rem] h-[10rem] sm:h-[15rem] border-black rounded-lg"
               >
                 <img key={index} src={imgUrl} alt={`img-${index}`} className="  rounded-lg" />
                 <div

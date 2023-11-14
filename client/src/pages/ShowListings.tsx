@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import SingleList from "../components/Listing/SingleList";
-import { LABELS } from "../constants/labels";
 import useShowListing, { itemType } from "../hooks/useShowListing";
 
 const ShowListings = () => {
