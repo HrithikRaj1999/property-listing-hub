@@ -12,7 +12,7 @@ dotenv.config();
     app.listen(process.env.PORT!, () => {
       logger.info(MESSAGES.SERVER_RUNNING + process.env.PORT!);
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error(MESSAGES.MONGO_CON_ERROR, error);
   }
 })();
