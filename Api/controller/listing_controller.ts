@@ -11,7 +11,7 @@ import createHttpError from "http-errors";
 
 import Redis from 'ioredis'
 import { getOrSetCache } from "../util/redis";
-import { MongoListingDataType, QueryParams, itemType, searchQueryType } from "../../client/src/react-app-env";
+import { MongoListingDataType, QueryParams, itemType, searchQueryType } from "../../dataTypes";
 const redisClient = Redis.createClient()
 
 

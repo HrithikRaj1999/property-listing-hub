@@ -1,22 +1,5 @@
 /// <reference types="react-scripts" />
 
-export interface SignUpBodyType {
-    username?: string;
-    email?: string;
-    password?: string;
-  }
-  
-  export interface SignInBodyType {
-    email?: string;
-    password?: string;
-    keepMeSignedIn?: boolean;
-  }
-
-  export interface GoogleSignInControllerBodyType {
-    name: string;
-    email: string;
-    photoUrl: string;
-  }
   interface SpecificationsType {
     bathroom: number;
     bedrooms: number;
@@ -183,7 +166,7 @@ export interface SignUpBodyType {
     imageUrls: string[];
     userRef: string;
   }
-  export interface userType {
+  interface userType {
     username: string;
     email: string;
     avatar: string;
@@ -235,12 +218,6 @@ interface CookieContextProps {
   isCookieChecked: boolean;
 }
 
-
 interface CookieProviderProps {
   children: ReactNode;
-}
-interface JwtPayload {
-  id: string; // Assuming 'userId' is a property in the JWT payload
-  iat: number;
-  // Add other properties you expect in the JWT payload
 }

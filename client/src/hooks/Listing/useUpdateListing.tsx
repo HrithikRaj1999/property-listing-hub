@@ -16,7 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const useUpdateListing = () => {
   const { listId } = useParams();
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
-  const initialFormikData: itemType | undefined = currentUser?.listings
+  const initialFormikData: itemType | undefined = currentUser?.listings!
     .filter((i) => i._id === listId)
     .pop();
     

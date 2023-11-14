@@ -5,7 +5,7 @@ import {
   HTTP_STATUS_CODES,
   HTTP_STATUS_MESSAGE,
 } from "../constants/data";
-import { JwtPayload } from "../../client/src/react-app-env";
+import { JwtPayload } from "../../dataTypes";
 
 export const verifyToken = (
   req: Request,

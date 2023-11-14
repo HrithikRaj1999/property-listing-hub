@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 // eslint-disable-next-line import/no-unresolved
-import { userType } from "../../client/src/react-app-env";
+import { userType } from "../../dataTypes";
 
 
 

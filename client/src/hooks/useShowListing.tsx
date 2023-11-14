@@ -3,7 +3,6 @@ import { RootState } from "../redux/store";
 import api from "../config/customApi";
 import { toast } from "react-toastify";
 import { setListing } from "../redux/user/userSlice";
-import { itemType, userType } from "../react-app-env";
 const useShowListing = () => {
   const fetchListings = async () => {
     try {
@@ -25,8 +24,7 @@ const useShowListing = () => {
           withCredentials: true,
         }
       );
-      const deletedListingList: itemType[] | undefined =
-        currentUser?.listings.filter((list:userType) => list._id !== id);
+      const deletedListingList = currentUser?.listings!==undefined? currentUser?.listings.filter((list) => list._id !== id):[]
       userDispatch(setListing(JSON.parse(JSON.stringify(deletedListingList))));
       toast.success(res.data.message);
     } catch (error: any) {

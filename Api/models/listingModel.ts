@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { MongoListingDataType } from "../../client/src/react-app-env";
+import { MongoListingDataType } from "../../dataTypes";
 
 /// Client Side types just for refernce
 

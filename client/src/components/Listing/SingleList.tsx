@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   FaHome, FaInfoCircle, FaRoute
 } from "react-icons/fa";
-import { SingleListProps } from "../../react-app-env";
 
 const SingleList = (props: SingleListProps) => {
   const { item } = props;

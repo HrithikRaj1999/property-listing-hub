@@ -8,7 +8,7 @@ import {
 } from "../constants/data";
 import { User } from "../models/userModel";
 import { Redis } from "ioredis";
-import { MongoListingDataType, updateUserControllerBody } from "../../client/src/react-app-env";
+import { MongoListingDataType, updateUserControllerBody } from "../../dataTypes";
 
 const redisClient = Redis.createClient()
 

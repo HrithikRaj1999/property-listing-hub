@@ -8,7 +8,7 @@ import { HTTP_STATUS_CODES, MESSAGES } from "../constants/data";
 import { logger } from "../logger/logger";
 import { User } from "../models/userModel";
 import { Redis } from "ioredis";
-import { GoogleSignInControllerBodyType, SignInBodyType, SignUpBodyType } from "../../client/src/react-app-env";
+import { GoogleSignInControllerBodyType, SignInBodyType, SignUpBodyType } from "../../dataTypes";
 
 // get config vars
 dotenv.config();
