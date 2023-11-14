@@ -9,25 +9,11 @@ import { userRouter } from "../routes/user_routes";
 import errorHandler from "../util/error";
 import { verifyToken } from "../util/verifyUser";
 import path from "path";
-import helmet from "helmet";
-
 const app = express();
 app.use(morgan("dev"));
 
-// Add Helmet middleware for setting security headers
-app.use(helmet());
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      connectSrc: ["'self'", "http://localhost:5000", "https://propertylisting-hub.onrender.com"],
-      // ... other directives as needed
-    },
-  })
-);
-
 app.use(cors({
-  origin: ["http://localhost:3000","https://propertylisting-hub.onrender.com"],
+  origin: ["http://localhost:3000","https://propertylisting-hub.onrender.com","http://localhost:5000"],
   methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
   credentials: true,
 }));
