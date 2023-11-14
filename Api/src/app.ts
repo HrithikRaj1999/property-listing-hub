@@ -19,7 +19,7 @@ app.use(helmet());
 app.use(helmet.referrerPolicy({ policy: 'strict-origin-when-cross-origin' }));
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000","https://propertylisting-hub.onrender.com"],
   methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
   credentials: true,
 }));
