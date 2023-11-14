@@ -28,7 +28,7 @@ app.use("/api/listing", listingRouter);
 
 app.use(express.static(path.join(__folderName, "/client/build")));
 app.use("*", (req, res) => {
-  res.sendFile(path.join(__folderName, "client", "build", "index.html"));
+  res.sendFile(path.join(__folderName, "client", "build", "index"));
 });
 app.use(errorHandler);
 export const redisClient = new Redis("redis://default:61fc28fab3724856bc574ceb6f03efa0@usw2-balanced-muskrat-30322.upstash.io:30322")
