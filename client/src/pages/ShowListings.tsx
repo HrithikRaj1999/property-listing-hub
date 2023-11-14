@@ -4,8 +4,10 @@ import useShowListing from "../hooks/useShowListing";
 const ShowListings = () => {
   const { currentUser } = useShowListing();
   const { fetchListings } = useShowListing();
+  
   useEffect(() => {
     fetchListings();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="flex m-6  flex-wrap justify-center sm:justify-start gap-6 ">

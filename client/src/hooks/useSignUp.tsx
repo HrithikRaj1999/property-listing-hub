@@ -14,7 +14,7 @@ const useSignUp = () => {
     dispatch({ type: "SET_LOADING", payload: true });
     const { username, email, password } = state;
     try {
-      const res = await api.post("auth/signup", {
+      await api.post("auth/signup", {
         username,
         email,
         password,

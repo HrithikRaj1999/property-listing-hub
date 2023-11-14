@@ -10,9 +10,9 @@ const FilteredListings = () => {
       {searchedLisitingData?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ">
           {/* Map over your items here */}
-          {searchedLisitingData?.map((item) => {
-            if (item?._id)
-              return (
+          {searchedLisitingData?.map((item) => 
+            item?._id?
+               (
                 <div
                   key={item._id}
                   className="flex flex-col max-w-full sm:w-[300px] bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out overflow-hidden"
@@ -59,8 +59,8 @@ const FilteredListings = () => {
                     </span>
                   </div>
                 </div>
-              );
-          })}
+              ):null
+          )}
         </div>
       ) : (
         <h1 className="text-2xl text-center text-gray-800">No Listing Found</h1>

@@ -8,7 +8,6 @@ import { inititalFormikData } from "../constants/labels";
 import ViewSelectedImages from "../components/Listing/ViewSelectedImages";
 import ListingImageProperty from "../components/Listing/ListingImageProperty";
 import Spinner from "../components/Spinner";
-import _ from "lodash";
 import ListingRoomType from "../components/Listing/ListingRoomType";
 const CreateListing = () => {
   const { validationSchema, handleImagesSubmit } = useListing();
@@ -24,7 +23,7 @@ const CreateListing = () => {
         formikHelpers.setSubmitting(false);
       }}
     >
-      {({ values, isSubmitting, errors }) => {
+      {({ isSubmitting }) => {
         return (
           <div className="container mx-auto  ">
             <h1 className="text-3xl font-bold text-center text-gray-800 my-8 ">
