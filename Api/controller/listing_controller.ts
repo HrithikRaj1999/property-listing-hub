@@ -9,14 +9,9 @@ import {
 import { Listing } from "../models/listingModel";
 import createHttpError from "http-errors";
 
-import Redis from 'ioredis'
-import { getOrSetCache } from "../util/redis";
 import { MongoListingDataType, QueryParams, itemType, searchQueryType } from "../../dataTypes";
-const redisClient = Redis.createClient()
-
-
-
-
+import { redisClient } from "../src/app";
+import { getOrSetCache } from "../util/redis";
 export const createListing: RequestHandler<unknown, unknown, MongoListingDataType, unknown> = async (
   req,
   res,

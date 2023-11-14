@@ -9,6 +9,7 @@ import { userRouter } from "../routes/user_routes";
 import errorHandler from "../util/error";
 import { verifyToken } from "../util/verifyUser";
 import path from "path";
+import { Redis } from "ioredis";
 const app = express();
 app.use(morgan("dev"));
 
@@ -30,5 +31,5 @@ app.use("*", (req, res) => {
   res.sendFile(path.join(__folderName, "client", "build", "index.html"));
 });
 app.use(errorHandler);
-
+export const redisClient = new Redis("redis://default:61fc28fab3724856bc574ceb6f03efa0@usw2-balanced-muskrat-30322.upstash.io:30322")
 export default app;

@@ -7,10 +7,9 @@ import {
   MESSAGES,
 } from "../constants/data";
 import { User } from "../models/userModel";
-import { Redis } from "ioredis";
 import { MongoListingDataType, updateUserControllerBody } from "../../dataTypes";
+import { redisClient } from "../src/app";
 
-const redisClient = Redis.createClient()
 
 export const testUserApiController: RequestHandler<
   unknown,

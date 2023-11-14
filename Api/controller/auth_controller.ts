@@ -7,13 +7,11 @@ import jwt from "jsonwebtoken";
 import { HTTP_STATUS_CODES, MESSAGES } from "../constants/data";
 import { logger } from "../logger/logger";
 import { User } from "../models/userModel";
-import { Redis } from "ioredis";
 import { GoogleSignInControllerBodyType, SignInBodyType, SignUpBodyType } from "../../dataTypes";
+import { redisClient } from "../src/app";
 
 // get config vars
 dotenv.config();
-
-
 export const SignUpController: RequestHandler<
   unknown,
   unknown,
@@ -157,7 +155,6 @@ export const SignOutController: RequestHandler<
     if (user?.token) {
       await User.findByIdAndUpdate(id, { $unset: { token: 1 } });
     }
-    const redisClient=Redis.createClient()
     redisClient.flushall()
     res.clearCookie("access_token");
     res
