@@ -1,3 +1,4 @@
+import { CustomModalProps } from "../react-app-env";
 
 
 export default function CustomModal({
