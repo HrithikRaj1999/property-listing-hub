@@ -8,6 +8,7 @@ const Home = () => {
   const { navigate, fetchData, loading, offer, regular } = useHomePage();
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (loading)
     return (
