@@ -16,7 +16,15 @@ app.use(morgan("dev"));
 
 // Add Helmet middleware for setting security headers
 app.use(helmet());
-app.use(helmet.referrerPolicy({ policy: 'strict-origin-when-cross-origin' }));
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'", "http://localhost:5000", "https://propertylisting-hub.onrender.com"],
+      // ... other directives as needed
+    },
+  })
+);
 
 app.use(cors({
   origin: ["http://localhost:3000","https://propertylisting-hub.onrender.com"],
