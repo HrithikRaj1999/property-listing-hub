@@ -1,12 +1,14 @@
 import { ErrorMessage, Field, useFormikContext } from "formik";
 import { LABELS } from "../../constants/labels";
 
-
 const ListingSpecifications = () => {
-  const { values, handleChange } = useFormikContext<PictureUploadListingDataType>();
+  const { values, handleChange } =
+    useFormikContext<PictureUploadListingDataType>();
   return (
     <div className="rounded-lg p-4 bg-white shadow">
-      <label className="font-bold text-lg sm:text-xl mb-3 block">{LABELS.SPECIFICATIONS}</label>
+      <label className="font-bold text-lg sm:text-xl mb-3 block">
+        {LABELS.SPECIFICATIONS}
+      </label>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="flex flex-col items-center gap-2">
           <Field
@@ -18,7 +20,11 @@ const ListingSpecifications = () => {
             onChange={handleChange}
           />
           <span className="whitespace-nowrap">{LABELS.BEDROOMS}</span>
-          <ErrorMessage name="specifications.bedrooms" className="text-red-600" component="div" />
+          <ErrorMessage
+            name="specifications.bedrooms"
+            className="text-red-600"
+            component="div"
+          />
         </div>
 
         <div className="flex  flex-col items-center gap-2">
@@ -31,7 +37,11 @@ const ListingSpecifications = () => {
             onChange={handleChange}
           />
           <span className="whitespace-nowrap">{LABELS.BATHROOMS}</span>
-          <ErrorMessage name="specifications.bathroom" className="text-red-600" component="div" />
+          <ErrorMessage
+            name="specifications.bathroom"
+            className="text-red-600"
+            component="div"
+          />
         </div>
 
         <div className="flex  flex-col items-center gap-2">
@@ -44,7 +54,11 @@ const ListingSpecifications = () => {
             onChange={handleChange}
           />
           <span className="whitespace-nowrap">{LABELS.HALL}</span>
-          <ErrorMessage name="specifications.hall" className="text-red-600" component="div" />
+          <ErrorMessage
+            name="specifications.hall"
+            className="text-red-600"
+            component="div"
+          />
         </div>
 
         <div className="flex  flex-col items-center gap-2">

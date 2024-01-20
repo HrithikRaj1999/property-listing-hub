@@ -19,5 +19,5 @@ userRouter.get("/listings/:id", verifyToken, showUserListingController);
 userRouter.get(
   `/get-user-details/:userId`,
   verifyToken,
-  getUserDetailsController
+  getUserDetailsController,
 );

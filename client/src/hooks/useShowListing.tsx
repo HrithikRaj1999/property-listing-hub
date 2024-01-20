@@ -22,9 +22,12 @@ const useShowListing = () => {
         `listing/delete-listing/${currentUser?._id}/${id}`,
         {
           withCredentials: true,
-        }
+        },
       );
-      const deletedListingList = currentUser?.listings!==undefined? currentUser?.listings.filter((list) => list._id !== id):[]
+      const deletedListingList =
+        currentUser?.listings !== undefined
+          ? currentUser?.listings.filter((list) => list._id !== id)
+          : [];
       userDispatch(setListing(JSON.parse(JSON.stringify(deletedListingList))));
       toast.success(res.data.message);
     } catch (error: any) {

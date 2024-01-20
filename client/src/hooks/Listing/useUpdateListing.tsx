@@ -16,12 +16,14 @@ import { useNavigate, useParams } from "react-router-dom";
 const useUpdateListing = () => {
   const { listId } = useParams();
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
-  const initialFormikData: itemType | undefined = currentUser?.listings!
-    .filter((i) => i._id === listId)
+  const initialFormikData: itemType | undefined = currentUser
+    ?.listings!.filter((i) => i._id === listId)
     .pop();
-    
-  const updatedPictureList = (id: number, values: PictureUploadListingDataType
-) => {
+
+  const updatedPictureList = (
+    id: number,
+    values: PictureUploadListingDataType,
+  ) => {
     const img = Array.from(values.imageUrls);
     img.splice(id, 1);
     return img;
@@ -34,15 +36,14 @@ const useUpdateListing = () => {
       label: string;
       __isNew__?: boolean;
     }>,
-    setFieldValue: (arg0: string, arg1: string[]) => void
+    setFieldValue: (arg0: string, arg1: string[]) => void,
   ) => {
     const filteredOptions = selectedOptions.map(({ label, ...rest }) => label);
     setFieldValue("facilities", filteredOptions);
   };
   const handleUpdate = async (
-    values: PictureUploadListingDataType
-,
-    setFieldValue: (arg0: string, arg1: string[]) => void
+    values: PictureUploadListingDataType,
+    setFieldValue: (arg0: string, arg1: string[]) => void,
   ) => {
     if (_.isEmpty(values.imageUrls))
       toast.error(CLIENT_MESSAGE.NO_PHOTO_SELECTED);
@@ -62,7 +63,7 @@ const useUpdateListing = () => {
             values,
             imageUrls: [...urls],
           },
-          { withCredentials: true }
+          { withCredentials: true },
         );
         navigate(`/show-listing/${res.data.listing._id}`);
         toast.success(CLIENT_MESSAGE.SUCCESS_LISTING_EDIT);
@@ -102,7 +103,7 @@ const useUpdateListing = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
             resolve(downloadUrl);
           });
-        }
+        },
       );
     });
   };

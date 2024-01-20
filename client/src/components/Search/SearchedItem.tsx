@@ -1,6 +1,4 @@
-
 import ShowSingleFilteredListing from "./ShowSingleFilteredListing";
-
 
 const SearchedItem = (props: propType) => {
   const { searchedData } = props;

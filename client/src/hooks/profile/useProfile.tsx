@@ -7,7 +7,6 @@ import { useInputHandling } from "./useInputHandling";
 import useModal from "./useModal";
 import useUserActions from "./useUserActions";
 
-
 const useProfile = () => {
   const [formData, setFormData] = useState<FormDataType | null>(null);
   const { openModal, closeModal, modalConditions } = useModal();

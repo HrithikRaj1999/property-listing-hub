@@ -3,19 +3,20 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { InputHTMLAttributes, forwardRef } from "react";
 
-const CustomInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
-  (props, ref) => {
-    const { values } = useFormikContext<MongoListingDataType>();
-    return (
-      <input
-        {...props}
-        ref={ref}
-        value={values.phone}
-        className=" text-black no-border p-2 w-full rounded-lg"
-      />
-    );
-  }
-);
+const CustomInput = forwardRef<
+  HTMLInputElement,
+  InputHTMLAttributes<HTMLInputElement>
+>((props, ref) => {
+  const { values } = useFormikContext<MongoListingDataType>();
+  return (
+    <input
+      {...props}
+      ref={ref}
+      value={values.phone}
+      className=" text-black no-border p-2 w-full rounded-lg"
+    />
+  );
+});
 
 const ListingInformation = () => {
   const { values, handleChange, errors, setFieldValue } =
@@ -64,7 +65,11 @@ const ListingInformation = () => {
         onChange={handleChange}
         className="border   text-black  p-3 w-full rounded-lg"
       />
-      <ErrorMessage name="description" className="text-red-600" component="div" />
+      <ErrorMessage
+        name="description"
+        className="text-red-600"
+        component="div"
+      />
     </div>
   );
 };

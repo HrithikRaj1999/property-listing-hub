@@ -7,7 +7,7 @@ const errorHandler = (
   error: unknown,
   req: Request,
   res: Response,
-  next: NextFunction // Including next for completeness, even though it’s not used
+  next: NextFunction, // Including next for completeness, even though it’s not used
 ) => {
   if (res.headersSent) {
     return next(error);

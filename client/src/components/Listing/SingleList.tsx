@@ -5,9 +5,7 @@ import useShowListing from "../../hooks/useShowListing";
 import { Edit, Eye, Trash } from "react-feather";
 import CustomModal from "../CustomModal";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  FaHome, FaInfoCircle, FaRoute
-} from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaRoute } from "react-icons/fa";
 
 const SingleList = (props: SingleListProps) => {
   const { item } = props;
@@ -26,7 +24,7 @@ const SingleList = (props: SingleListProps) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [window.innerWidth]);
   const { handleDeleteListing } = useShowListing();
 

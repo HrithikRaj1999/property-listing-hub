@@ -1,6 +1,5 @@
 // authReducer.ts
 
-
 const initialState: State = {
   email: "",
   password: "",

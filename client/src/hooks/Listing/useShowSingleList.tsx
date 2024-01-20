@@ -18,13 +18,13 @@ const useShowSingleList = () => {
   SwiperCore.use([Navigation]);
   const [message, setMessage] = useState("");
   const { currentUser, loading } = useSelector(
-    (state: RootState) => state.userReducer
+    (state: RootState) => state.userReducer,
   );
   const handleEmailSend = async () => {
     try {
       const { data } = await api.get(
         `/user/get-user-details/${listing?.userRef}`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
       const email = data?.user?.email;
       const subject = `Regarding ${listing?.name}`;

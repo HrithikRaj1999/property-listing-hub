@@ -8,14 +8,20 @@ const SignUp = () => {
   return (
     <div className="max-w-sm mix-w-fit p-5 mx-auto min-w-sm">
       <h1 className="text-3xl font-bold text-center my-4">Sign Up</h1>
-      <form id="signUpFrom" className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <form
+        id="signUpFrom"
+        className="flex flex-col gap-5"
+        onSubmit={handleSubmit}
+      >
         <input
           className="bg-indigo-50  border p-3 rounded-lg"
           type="text"
           id="username"
           placeholder="Username"
           value={state.username}
-          onChange={(e) => dispatch({ type: "SET_USER_NAME", payload: e.target.value })}
+          onChange={(e) =>
+            dispatch({ type: "SET_USER_NAME", payload: e.target.value })
+          }
         />
         <input
           className=" bg-indigo-50  border p-3 rounded-lg"
@@ -23,7 +29,9 @@ const SignUp = () => {
           id="email"
           placeholder="Email"
           value={state.email}
-          onChange={(e) => dispatch({ type: "SET_EMAIL", payload: e.target.value })}
+          onChange={(e) =>
+            dispatch({ type: "SET_EMAIL", payload: e.target.value })
+          }
         />
         <div className="relative">
           <input
@@ -32,7 +40,9 @@ const SignUp = () => {
             id="password"
             placeholder="Password"
             value={state.password}
-            onChange={(e) => dispatch({ type: "SET_PASSWORD", payload: e.target.value })}
+            onChange={(e) =>
+              dispatch({ type: "SET_PASSWORD", payload: e.target.value })
+            }
           />
           <span
             className="absolute inset-y-0 right-5 flex items-center text-black"

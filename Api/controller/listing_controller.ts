@@ -9,14 +9,20 @@ import {
 import { Listing } from "../models/listingModel";
 import createHttpError from "http-errors";
 
-import { MongoListingDataType, QueryParams, itemType, searchQueryType } from "../../dataTypes";
+import {
+  MongoListingDataType,
+  QueryParams,
+  itemType,
+  searchQueryType,
+} from "../../dataTypes";
 import { redisClient } from "../src/app";
 import { getOrSetCache } from "../util/redis";
-export const createListing: RequestHandler<unknown, unknown, MongoListingDataType, unknown> = async (
-  req,
-  res,
-  next
-) => {
+export const createListing: RequestHandler<
+  unknown,
+  unknown,
+  MongoListingDataType,
+  unknown
+> = async (req, res, next) => {
   try {
     const newList = await Listing.create(req.body);
 
@@ -24,19 +30,23 @@ export const createListing: RequestHandler<unknown, unknown, MongoListingDataTyp
     const simpleIdList = { ...newList.toObject(), _id: newList._id.toString() };
 
     // Retrieve existing listings from Redis
-    const listings = await redisClient.get('listings');
+    const listings = await redisClient.get("listings");
     const allListings = listings ? JSON.parse(listings) : [];
 
     // Add the updated listing with the simple ID to the array
     allListings.push(simpleIdList);
 
     // Update Redis cache
-    await redisClient.setex('listings', DEFAULT_EXPIRATION, JSON.stringify(allListings));
+    await redisClient.setex(
+      "listings",
+      DEFAULT_EXPIRATION,
+      JSON.stringify(allListings),
+    );
     // Respond with the updated listings
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: MESSAGES.SUCCESS_LISTING,
-      listing: simpleIdList
+      listing: simpleIdList,
     });
   } catch (error) {
     next(error);
@@ -54,13 +64,18 @@ export const deleteListing: RequestHandler<
   try {
     if (tokenUserId !== userId) {
       return next(
-        createHttpError(HTTP_STATUS_CODES.UNAUTHORIZED, HTTP_STATUS_MESSAGE.UNAUTHORIZED)
+        createHttpError(
+          HTTP_STATUS_CODES.UNAUTHORIZED,
+          HTTP_STATUS_MESSAGE.UNAUTHORIZED,
+        ),
       );
     }
     await Listing.findByIdAndDelete(listId);
-    const listings = await redisClient.get('listings')
-    const AllListings = (listings ? JSON.parse(listings) : null)?.filter((list: MongoListingDataType) => listId !== list._id)
-    redisClient.set('listings', JSON.stringify(AllListings))
+    const listings = await redisClient.get("listings");
+    const AllListings = (listings ? JSON.parse(listings) : null)?.filter(
+      (list: MongoListingDataType) => listId !== list._id,
+    );
+    redisClient.set("listings", JSON.stringify(AllListings));
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "Listing Deleted Successfully",
@@ -81,23 +96,32 @@ export const UpdateListProperty: RequestHandler<
   try {
     if (tokenUserId !== userId) {
       return next(
-        createHttpError(HTTP_STATUS_CODES.UNAUTHORIZED, HTTP_STATUS_MESSAGE.UNAUTHORIZED)
+        createHttpError(
+          HTTP_STATUS_CODES.UNAUTHORIZED,
+          HTTP_STATUS_MESSAGE.UNAUTHORIZED,
+        ),
       );
     }
     const updatedListing = await Listing.findByIdAndUpdate(
       listId,
       { ...values, imageUrls },
-      { new: true }
-    )
-    const listings = await redisClient.get('listings')
-    const AllListings = listings ? JSON.parse(listings) : null
+      { new: true },
+    );
+    const listings = await redisClient.get("listings");
+    const AllListings = listings ? JSON.parse(listings) : null;
     const updatedListings = AllListings?.map((list: any) => {
       if (list._id === updatedListing?.toObject()._id.toString())
-        return { ...updatedListing?.toObject(), _id: updatedListing?.toObject()._id.toString() }
-      else
-        return { ...list }
-    })
-    redisClient.setex('listings', DEFAULT_EXPIRATION, JSON.stringify(updatedListings))
+        return {
+          ...updatedListing?.toObject(),
+          _id: updatedListing?.toObject()._id.toString(),
+        };
+      else return { ...list };
+    });
+    redisClient.setex(
+      "listings",
+      DEFAULT_EXPIRATION,
+      JSON.stringify(updatedListings),
+    );
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "Listing Updated Successfully",
@@ -117,31 +141,34 @@ export const getListingById: RequestHandler<
   const { listingId } = req.params;
   try {
     // const listing = await Listing.findById(listingId);
-    const listings = await redisClient.get('listings')
-    const AllLisitings = JSON.parse(listings!)
+    const listings = await redisClient.get("listings");
+    const AllLisitings = JSON.parse(listings!);
     const lisiting = AllLisitings.find((item: MongoListingDataType) => {
-      return item?._id === listingId})
+      return item?._id === listingId;
+    });
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "Listing Retrieved Successfully",
-      listing: lisiting
+      listing: lisiting,
     });
   } catch (error) {
     next(error);
   }
 };
 
-
-
-export const getFilteredListings: RequestHandler<unknown, unknown, unknown, QueryParams> = async (
-  req,
-  res,
-  next
-) => {
+export const getFilteredListings: RequestHandler<
+  unknown,
+  unknown,
+  unknown,
+  QueryParams
+> = async (req, res, next) => {
   try {
     const { query } = req;
-    const { searchText, limit, startIndex, sortBy, type, amenities, roomType } = query;
-    const [sortField, sortOrder] = sortBy ? sortBy.split("_") : ["createdAt", "asc"];
+    const { searchText, limit, startIndex, sortBy, type, amenities, roomType } =
+      query;
+    const [sortField, sortOrder] = sortBy
+      ? sortBy.split("_")
+      : ["createdAt", "asc"];
     const intLimit = parseInt(limit, 10) || 4;
     const intStartIndex = parseInt(startIndex, 10) || 0;
     const searchQuery: any = {};
@@ -173,7 +200,9 @@ export const getFilteredListings: RequestHandler<unknown, unknown, unknown, Quer
 
     if (!filteredListing.length) {
       // No results found, trigger a 404 with a custom error message.
-      return next(createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No More Results"));
+      return next(
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No More Results"),
+      );
     }
 
     // Successfully found listings, return them with a 200 status code.
@@ -187,34 +216,41 @@ export const getFilteredListings: RequestHandler<unknown, unknown, unknown, Quer
   }
 };
 
-export const getAllListings: RequestHandler<unknown, unknown, unknown, unknown> = async (
-  req,
-  res,
-  next
-) => {
+export const getAllListings: RequestHandler<
+  unknown,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res, next) => {
   try {
     // Retrieve listings from Redis or the database
-    const listings = await getOrSetCache('listings', async () => await Listing.find({}));
+    const listings = await getOrSetCache(
+      "listings",
+      async () => await Listing.find({}),
+    );
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: "All Listings Retrieved Successfully",
-      listings: listings ? JSON.parse(listings) : null
+      listings: listings ? JSON.parse(listings) : null,
     });
   } catch (error) {
     next(error);
   }
 };
-export const getSearchedListings: RequestHandler<unknown, unknown, unknown, QueryParams> = async (
-  req,
-  res,
-  next
-) => {
+export const getSearchedListings: RequestHandler<
+  unknown,
+  unknown,
+  unknown,
+  QueryParams
+> = async (req, res, next) => {
   try {
     const { query } = req;
     const { searchText, limit, startIndex } = query;
     const intLimit = parseInt(limit, 10) || 6;
     const intStartIndex = parseInt(startIndex, 10) || 0;
-    const searchedItem = await Listing.find({ $text: { $search: searchText || "" } })
+    const searchedItem = await Listing.find({
+      $text: { $search: searchText || "" },
+    })
       .limit(intLimit)
       .skip(intStartIndex);
 

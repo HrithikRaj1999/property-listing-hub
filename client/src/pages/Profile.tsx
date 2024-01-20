@@ -153,7 +153,7 @@ export const Profile = () => {
             onClick={() =>
               openModal(
                 "Warning : You are Deleting the Account permanently",
-                handleUserDelete
+                handleUserDelete,
               )
             }
           >

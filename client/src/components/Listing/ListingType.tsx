@@ -1,6 +1,5 @@
 import { Field, useFormikContext } from "formik";
 
-
 const ListingType = () => {
   const { values, handleChange } = useFormikContext<itemType>();
   return (

@@ -12,12 +12,17 @@ import path from "path";
 import { Redis } from "ioredis";
 const app = express();
 app.use(morgan("dev"));
-
-app.use(cors({
-  origin: ["http://localhost:3000","https://propertylisting-hub.onrender.com","http://localhost:5000"],
-  methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://propertylisting-hub.onrender.com",
+      "http://localhost:5000",
+    ],
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
+    credentials: true,
+  }),
+);
 const __folderName = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
@@ -31,5 +36,7 @@ app.use("*", (req, res) => {
   res.sendFile(path.join(__folderName, "client", "build", "index.html"));
 });
 app.use(errorHandler);
-export const redisClient = new Redis("redis://default:61fc28fab3724856bc574ceb6f03efa0@usw2-balanced-muskrat-30322.upstash.io:30322")
+export const redisClient = new Redis(
+  "redis://default:61fc28fab3724856bc574ceb6f03efa0@usw2-balanced-muskrat-30322.upstash.io:30322",
+);
 export default app;

@@ -7,9 +7,11 @@ import {
   MESSAGES,
 } from "../constants/data";
 import { User } from "../models/userModel";
-import { MongoListingDataType, updateUserControllerBody } from "../../dataTypes";
+import {
+  MongoListingDataType,
+  updateUserControllerBody,
+} from "../../dataTypes";
 import { redisClient } from "../src/app";
-
 
 export const testUserApiController: RequestHandler<
   unknown,
@@ -19,8 +21,6 @@ export const testUserApiController: RequestHandler<
 > = (req, res) => {
   res.json({ message: "This is a test API" });
 };
-
-
 
 export const updateUserController: RequestHandler<
   { id: string },
@@ -36,8 +36,8 @@ export const updateUserController: RequestHandler<
       return next(
         createHttpError(
           HTTP_STATUS_CODES.FORBIDDEN,
-          HTTP_STATUS_MESSAGE.UNAUTHORIZED
-        )
+          HTTP_STATUS_MESSAGE.UNAUTHORIZED,
+        ),
       );
     }
     let hashedPassword = undefined;
@@ -54,7 +54,7 @@ export const updateUserController: RequestHandler<
           avatar,
         },
       },
-      { new: true }
+      { new: true },
     );
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
@@ -83,8 +83,8 @@ export const deleteUserController: RequestHandler<
       return next(
         createHttpError(
           HTTP_STATUS_CODES.UNAUTHORIZED,
-          HTTP_STATUS_MESSAGE.UNAUTHORIZED
-        )
+          HTTP_STATUS_MESSAGE.UNAUTHORIZED,
+        ),
       );
     await User.findByIdAndDelete(id);
     return res
@@ -104,23 +104,23 @@ export const removeUserPicController: RequestHandler<
     const { id } = req.params;
     if (!id)
       return next(
-        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.WRONG_ID)
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.WRONG_ID),
       );
     const { avatar } = req.body;
     if (!avatar)
       return next(
-        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.FORBIDDEN)
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.FORBIDDEN),
       );
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { avatar },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedUser)
       return next(
-        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.USER_NOT_FOUND)
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.USER_NOT_FOUND),
       );
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
@@ -146,21 +146,21 @@ export const updateUserPicController: RequestHandler<
     const { id } = req.params;
     if (!id)
       return next(
-        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.WRONG_ID)
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.WRONG_ID),
       );
     const { avatar } = req.body;
     if (!avatar)
       return next(
-        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.FORBIDDEN)
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.FORBIDDEN),
       );
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { avatar },
-      { new: true }
+      { new: true },
     );
     if (!updatedUser)
       return next(
-        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.USER_NOT_FOUND)
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, MESSAGES.USER_NOT_FOUND),
       );
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
@@ -189,11 +189,13 @@ export const showUserListingController: RequestHandler<
       return next(
         createHttpError(
           HTTP_STATUS_CODES.UNAUTHORIZED,
-          HTTP_STATUS_MESSAGE.UNAUTHORIZED
-        )
+          HTTP_STATUS_MESSAGE.UNAUTHORIZED,
+        ),
       );
-    const AllListings = JSON.parse(await redisClient.get('listings') || '[]')
-    const listings = AllListings.filter((list: MongoListingDataType) =>  list?.userRef === id)
+    const AllListings = JSON.parse((await redisClient.get("listings")) || "[]");
+    const listings = AllListings.filter(
+      (list: MongoListingDataType) => list?.userRef === id,
+    );
     return res.status(HTTP_STATUS_CODES.OK).send({
       success: true,
       message: MESSAGES.SUCESS_LISTING_GATHERED,
@@ -217,8 +219,8 @@ export const getUserDetailsController: RequestHandler<
       return next(
         createHttpError(
           HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
-          "No user Found"
-        )
+          "No user Found",
+        ),
       );
     }
     return res.status(HTTP_STATUS_CODES.OK).send({

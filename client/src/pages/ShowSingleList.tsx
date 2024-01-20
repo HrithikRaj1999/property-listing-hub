@@ -111,7 +111,7 @@ const ShowSingleList = () => {
               Object.entries(listing?.specifications).map(
                 (specification: any) =>
                   !["regularPrice", "discountedPrice"].includes(
-                    specification[0]
+                    specification[0],
                   ) ? (
                     <React.Fragment>
                       <FaHandPointRight size={15} />
@@ -119,7 +119,7 @@ const ShowSingleList = () => {
                         {specification[1]} {specification[0]}
                       </span>
                     </React.Fragment>
-                  ) : null
+                  ) : null,
               )}
           </div>
           {currentUser && listing?.userRef !== currentUser._id ? (

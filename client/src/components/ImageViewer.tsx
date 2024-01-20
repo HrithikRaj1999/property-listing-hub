@@ -1,4 +1,3 @@
-
 const ImageViewer = ({ src, alt, onClose }: modalPropsType) => {
   return (
     <div

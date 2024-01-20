@@ -25,7 +25,7 @@ import {
 
 const useFileManagement = (
   formData: FormDataType | null,
-  setFormData: React.Dispatch<React.SetStateAction<FormDataType | null>>
+  setFormData: React.Dispatch<React.SetStateAction<FormDataType | null>>,
 ) => {
   const userDispatch = useDispatch();
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
@@ -43,7 +43,7 @@ const useFileManagement = (
         { avatar: REACT_APP_DEFAULT_PROFILE_IMAGE },
         {
           withCredentials: true,
-        }
+        },
       );
       toast.success(res.data.message);
       userDispatch(updateUserSuccess(res.data.user));
@@ -53,7 +53,6 @@ const useFileManagement = (
     }
   };
   const handlePicClick = () => {
-    
     if (fileRef.current) {
       fileRef.current.click();
       setShowImageOptionsDiv(false);
@@ -68,7 +67,7 @@ const useFileManagement = (
       const res = await api.put(
         `user/updatePic/${currentUser?._id}`,
         { avatar: downloadUrl },
-        { withCredentials: true }
+        { withCredentials: true },
       );
       userDispatch(updateUserSuccess(res.data.user));
       toast.success(res.data.message);
@@ -115,13 +114,13 @@ const useFileManagement = (
           setFilePercentage(100); // Set the percentage to 100 on success
           setFileUploadError(null);
           toast.dismiss(TOAST_ID);
-          setFormData((prevFormData:FormDataType|null) => ({
+          setFormData((prevFormData: FormDataType | null) => ({
             ...prevFormData,
             avatar: downloadUrl,
           }));
-          
+
           handlePictureUpload(downloadUrl);
-        }
+        },
       );
       setFile(newUploadedFile);
     } catch (error: any) {

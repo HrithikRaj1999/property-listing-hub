@@ -9,7 +9,7 @@ import "./index.css";
 import { persistor, store } from "./redux/store";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 root.render(
   <Provider store={store}>
@@ -19,5 +19,5 @@ root.render(
         <ToastContainer position="bottom-left" autoClose={2000} />
       </BrowserRouter>
     </PersistGate>
-  </Provider>
+  </Provider>,
 );

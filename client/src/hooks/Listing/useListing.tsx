@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 import { MultiValue } from "react-select/dist/declarations/src";
 
-
 export const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(3, "Name must be at least 3 characters")
@@ -27,7 +26,7 @@ export const validationSchema = Yup.object().shape({
   phone: Yup.string().test(
     "is-valid-phone",
     "Invalid phone number",
-    (value) => !value || isValidPhoneNumber(value)
+    (value) => !value || isValidPhoneNumber(value),
   ),
   type: Yup.string()
     .oneOf(["sell", "rent"], 'Type must be either "sell" or "rent"')
@@ -60,7 +59,7 @@ const useListing = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
   const updatedPictureList = (
     id: number,
-    values: PictureUploadListingDataType
+    values: PictureUploadListingDataType,
   ) => {
     const img = Array.from(values.imageUrls);
     img.splice(id, 1);
@@ -73,14 +72,14 @@ const useListing = () => {
       label: string;
       __isNew__?: boolean;
     }>,
-    setFieldValue: (arg0: string, arg1: string[]) => void
+    setFieldValue: (arg0: string, arg1: string[]) => void,
   ) => {
     const filteredOptions = selectedOptions.map(({ label, ...rest }) => label);
     setFieldValue("facilities", filteredOptions);
   };
   const handleImagesSubmit = async (
     values: PictureUploadListingDataType,
-    setFieldValue: (arg0: string, arg1: string[]) => void
+    setFieldValue: (arg0: string, arg1: string[]) => void,
   ) => {
     if (_.isEmpty(values.imageUrls))
       toast.error(CLIENT_MESSAGE.NO_PHOTO_SELECTED);
@@ -98,7 +97,7 @@ const useListing = () => {
             imageUrls: [...urls],
             userRef: currentUser?._id,
           },
-          { withCredentials: true }
+          { withCredentials: true },
         );
         navigate(`/show-listing/${res.data.listing._id}`);
         toast.success(CLIENT_MESSAGE.SUCCESS_LISTING_CREATED);
@@ -138,7 +137,7 @@ const useListing = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
             resolve(downloadUrl);
           });
-        }
+        },
       );
     });
   };

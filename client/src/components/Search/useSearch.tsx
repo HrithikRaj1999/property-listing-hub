@@ -4,14 +4,15 @@ import api from "../../config/customApi";
 import { toast } from "react-toastify";
 import { useSearchData } from "../../context/SearchedData";
 
-
-
 const useSearch = () => {
   const navigate = useNavigate();
-  const { searchText, searchedLisitingData, setSearchedLisitingData } = useSearchData();
+  const { searchText, searchedLisitingData, setSearchedLisitingData } =
+    useSearchData();
   const fetchListings = async (searchQueryParams: string = "") => {
     try {
-      const { data } = await api.get(`listing/get-filtered-listings?${searchQueryParams}`);
+      const { data } = await api.get(
+        `listing/get-filtered-listings?${searchQueryParams}`,
+      );
       navigate(`/search?${searchQueryParams}`);
       return data;
     } catch (error: any) {
@@ -35,7 +36,7 @@ const useSearch = () => {
 
   const handleSubmit = async (
     values: SearchValuesType,
-    formikHelpers: FormikHelpers<SearchValuesType>
+    formikHelpers: FormikHelpers<SearchValuesType>,
   ) => {
     try {
       formikHelpers.setSubmitting(true);

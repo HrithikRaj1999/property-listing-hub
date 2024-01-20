@@ -24,7 +24,9 @@ const ShowSingleFilteredListing = (props: propTypes) => {
       </Link>
       {/* Content */}
       <div className="flex flex-col flex-grow p-4">
-        <h4 className="text-xl font-semibold text-gray-800 truncate">{item.name}</h4>
+        <h4 className="text-xl font-semibold text-gray-800 truncate">
+          {item.name}
+        </h4>
         <p
           className="flex-1 text-sm text-gray-600 mt-2 overflow-hidden"
           style={{

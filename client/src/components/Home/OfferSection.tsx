@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-
 const OffersSection = (props: OffersSectionpropsType) => {
   const { offerListings } = props;
   // Filter listings with price less than Rs.500

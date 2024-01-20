@@ -5,10 +5,13 @@ import React from "react";
 import { useSearchData } from "../context/SearchedData";
 
 const useHeaderSearch = () => {
-  const { searchText, setSearchText, setSearchedLisitingData } = useSearchData();
+  const { searchText, setSearchText, setSearchedLisitingData } =
+    useSearchData();
   const fetchData = async (searchQueryParams: string) => {
     try {
-      const { data } = await api.get(`listing/get-searched-item?${searchQueryParams}`);
+      const { data } = await api.get(
+        `listing/get-searched-item?${searchQueryParams}`,
+      );
       setSearchedLisitingData([...data?.listings]);
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "An error occurred");

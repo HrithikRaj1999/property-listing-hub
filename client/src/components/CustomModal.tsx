@@ -1,6 +1,3 @@
-
-
-
 export default function CustomModal({
   isOpen,
   onClose,
@@ -34,7 +31,9 @@ export default function CustomModal({
           {/*body*/}
           {children || (
             <div className="relative p-6 flex-auto">
-              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">Are you sure ?</p>
+              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                Are you sure ?
+              </p>
             </div>
           )}
           {/*footer*/}

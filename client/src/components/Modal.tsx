@@ -1,4 +1,3 @@
-
 const Modal = (props: ModalPropsType) => {
   const {
     showModal = false,

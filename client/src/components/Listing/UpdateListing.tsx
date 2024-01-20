@@ -20,7 +20,10 @@ const UpdateListing = () => {
       onSubmit={async (values, formikHelpers) => {
         const { setFieldValue } = formikHelpers;
         formikHelpers.setSubmitting(true);
-        await handleUpdate(values as PictureUploadListingDataType, setFieldValue);
+        await handleUpdate(
+          values as PictureUploadListingDataType,
+          setFieldValue,
+        );
         formikHelpers.setSubmitting(false);
       }}
     >

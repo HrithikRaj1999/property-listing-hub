@@ -16,24 +16,30 @@ export const HTTP_STATUS_MESSAGE = {
   OK: "Operation was successful",
   CREATED: "Resource was successfully created",
   NO_CONTENT: "Request was successful, but there's no content to return",
-  BAD_REQUEST: "The server couldn't understand the request. Please check your input",
-  UNAUTHORIZED: "Access denied. Authentication required or credentials are invalid",
-  FORBIDDEN: "Access forbidden. You don't have permission to access this resource",
+  BAD_REQUEST:
+    "The server couldn't understand the request. Please check your input",
+  UNAUTHORIZED:
+    "Access denied. Authentication required or credentials are invalid",
+  FORBIDDEN:
+    "Access forbidden. You don't have permission to access this resource",
   NOT_FOUND: "The requested resource was not found on the server",
-  INTERNAL_SERVER_ERROR: "Internal server error. Something went wrong on our end",
+  INTERNAL_SERVER_ERROR:
+    "Internal server error. Something went wrong on our end",
   BAD_GATEWAY:
     "Bad gateway. The server received an invalid response from the upstream server or gateway",
   SERVICE_UNAVAILABLE:
     "Service unavailable. The server is temporarily unable to handle the request. Please try again later",
   GATEWAY_TIMEOUT: "Gateway timeout. The request took too long and timed out",
-  CONFLICT: "Conflict. The request conflicts with the current state of the server's resources",
+  CONFLICT:
+    "Conflict. The request conflicts with the current state of the server's resources",
   UNPROCESSABLE_ENTITY:
     "Unprocessable Entity. The request is well-formed but semantically incorrect",
   NOT_IMPLEMENTED:
     "Not Implemented. The server does not support the functionality required to fulfill the request",
   METHOD_NOT_ALLOWED:
     "Method Not Allowed. The HTTP method used in the request is not allowed for the requested resource",
-  REQUEST_TIMEOUT: "Request Timeout. The server timed out waiting for the request",
+  REQUEST_TIMEOUT:
+    "Request Timeout. The server timed out waiting for the request",
 };
 
 export const MESSAGES = {
@@ -58,4 +64,4 @@ export const MESSAGES = {
   SUCESS_LISTING_GATHERED: "Listing Gathered Successfully",
 };
 export const ROOMTYPE = ["furnished", "un-furnished", "semi-furnished"];
-export const DEFAULT_EXPIRATION = 3600
+export const DEFAULT_EXPIRATION = 3600;

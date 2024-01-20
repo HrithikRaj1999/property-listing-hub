@@ -17,7 +17,7 @@ import {
 
 const useUserActions = (
   formData: FormDataType | null,
-  setFormData: React.Dispatch<React.SetStateAction<FormDataType | null>>
+  setFormData: React.Dispatch<React.SetStateAction<FormDataType | null>>,
 ) => {
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
   const userDispatch = useDispatch();

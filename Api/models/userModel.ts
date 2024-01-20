@@ -2,8 +2,6 @@ import mongoose, { Schema } from "mongoose";
 // eslint-disable-next-line import/no-unresolved
 import { userType } from "../../dataTypes";
 
-
-
 const userSchema = new Schema<userType>(
   {
     username: {
@@ -28,6 +26,6 @@ const userSchema = new Schema<userType>(
       type: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 export const User = mongoose.model<userType>("User", userSchema);

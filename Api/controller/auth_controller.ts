@@ -7,7 +7,11 @@ import jwt from "jsonwebtoken";
 import { HTTP_STATUS_CODES, MESSAGES } from "../constants/data";
 import { logger } from "../logger/logger";
 import { User } from "../models/userModel";
-import { GoogleSignInControllerBodyType, SignInBodyType, SignUpBodyType } from "../../dataTypes";
+import {
+  GoogleSignInControllerBodyType,
+  SignInBodyType,
+  SignUpBodyType,
+} from "../../dataTypes";
 import { redisClient } from "../src/app";
 
 // get config vars
@@ -54,7 +58,10 @@ export const SignInController: RequestHandler<
     const existingUser = await User.findOne({ email });
     if (!existingUser)
       return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
-    const isPassValid = await bcrypt.compare(password, existingUser?.password||'');
+    const isPassValid = await bcrypt.compare(
+      password,
+      existingUser?.password || "",
+    );
     if (!isPassValid) return next(createHttpError(401, MESSAGES.FAILED_SIGNIN)); // to avoid brute force attack send a general message
     const token = jwt.sign({ id: existingUser._id }, JWT_SECRET);
 
@@ -132,7 +139,7 @@ export const GoogleController: RequestHandler<
           user: {
             ...newUser.toObject(),
             password: undefined,
-          __v: undefined,
+            __v: undefined,
             token: undefined,
           },
         });
@@ -155,7 +162,7 @@ export const SignOutController: RequestHandler<
     if (user?.token) {
       await User.findByIdAndUpdate(id, { $unset: { token: 1 } });
     }
-    redisClient.flushall()
+    redisClient.flushall();
     res.clearCookie("access_token");
     res
       .status(HTTP_STATUS_CODES.OK)
@@ -177,12 +184,12 @@ export const GetTokenController: RequestHandler<
     const user = await User.findById(id);
     if (!user)
       return next(
-        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No User Found")
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No User Found"),
       );
     const token = user?.token;
     if (!token)
       return next(
-        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No Token Found")
+        createHttpError(HTTP_STATUS_CODES.NOT_FOUND, "No Token Found"),
       );
     const newToken = jwt.sign({ id: user._id }, JWT_SECRET);
     user.token = newToken; // Assign a new token to existingUser if keep me sign in is used

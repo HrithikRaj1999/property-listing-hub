@@ -51,8 +51,10 @@ const listingSchema = new Schema<MongoListingDataType>(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-
-export const Listing = mongoose.model<MongoListingDataType>("Listing", listingSchema); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))
+export const Listing = mongoose.model<MongoListingDataType>(
+  "Listing",
+  listingSchema,
+); //Listing must Me L capital and singular so collection will be named automatically (l)isting(s))

@@ -9,7 +9,7 @@ import { clearUserData } from "../redux/user/userSlice"; // Importing the action
 const useCookie = () => {
   // Using the useSelector hook to extract currentUser and keepMeSignedIn from the Redux store
   const { currentUser, keepMeSignedIn } = useSelector(
-    (state: RootState) => state.userReducer
+    (state: RootState) => state.userReducer,
   );
 
   // Using the useDispatch hook to get the dispatch function from the Redux store
