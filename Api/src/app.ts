@@ -14,7 +14,14 @@ const app = express();
 app.use(morgan("dev"));
 
 app.use(cors({
-  origin: "*",
+  origin:  (origin, callback) => {
+    const vercelPattern = /^https:\/\/property-listing-\w+\.vercel\.app$/;
+    if (!origin || vercelPattern.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
   credentials: true,
 }));
