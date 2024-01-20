@@ -14,7 +14,7 @@ const app = express();
 app.use(morgan("dev"));
 
 app.use(cors({
-  origin: ["http://localhost:3000","https://propertylisting-hub.onrender.com","http://localhost:5000","https://property-listing-8xevl6bgl-hrithik-rajs-projects.vercel.app"],
+  origin: "*",
   methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
   credentials: true,
 }));
