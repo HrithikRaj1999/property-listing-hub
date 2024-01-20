@@ -4,6 +4,6 @@ import axios from "axios"; // Import the Axios library
 const api = axios.create({
   // baseURL: "http://localhost:5000/api/", // Set your base URL here
   baseURL: "https://propertylisting-hub.onrender.com/api/", // Set your base URL here
-  // baseURL:"api/",
+
 });
 export default api;
