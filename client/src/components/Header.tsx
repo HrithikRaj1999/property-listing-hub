@@ -5,21 +5,22 @@ import { LABELS } from "../constants/labels";
 import { RootState } from "../redux/store";
 
 import HeaderSearch from "./Search/HeaderSearch";
+import { FaHome } from "react-icons/fa";
 
 const Header = () => {
   const { currentUser } = useSelector((state: RootState) => state.userReducer);
   return (
     <header className="bg-zinc-800 shadow-lg">
-      <div className="flex justify-center  items-center p-4">
-        <ul className="flex gap-1 sm:gap-5 text-sm sm:text-lg font-medium  items-center">
+      <div className="flex justify-center   items-end p-4">
+        <ul className="flex gap-1 sm:gap-5 text-sm sm:text-lg font-medium  items-end">
           <li>
-            <h1 className="font-normal sm:font-bold text-sm sm:text-2xl flex items-center ">
-              <span className="text-slate-100 flex items-center gap-2  ">
-                <Home color="Green" size={30} />
+            <span className="font-normal sm:font-bold text-sm sm:text-2xl flex  items-end ">
+              <span className="text-slate-100 flex  items-end gap-2  ">
+                <FaHome color="Green" size={45} className="mx-3" />
                 Property
               </span>
               <span className="text-blue-500">Hub</span>
-            </h1>
+            </span>
           </li>
           <li>
             <HeaderSearch />

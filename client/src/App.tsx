@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import { CookieProvider } from "./context/Cookie";
 import { SearchedDataProvider } from "./context/SearchedData";
+import Spinner from "./components/Spinner";
 
 // Lazy loading components
 const About = lazy(() => import("./pages/About"));
@@ -23,7 +24,13 @@ function App() {
     <CookieProvider>
       <SearchedDataProvider>
         <Header />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className="flex m-3 p-5 flex-wrap justify-center items-center h-screen sm:justify-center gap-6 sm:w-full ">
+              <Spinner height={60} width={60} />
+            </div>
+          }
+        >
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -37,7 +44,10 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/create-listing" element={<CreateListing />} />
               <Route path="/show-listings" element={<ShowListings />} />
-              <Route path="/update-listing/:listId" element={<UpdateListing />} />
+              <Route
+                path="/update-listing/:listId"
+                element={<UpdateListing />}
+              />
             </Route>
           </Routes>
         </Suspense>
