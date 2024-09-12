@@ -21,7 +21,7 @@ app.use(
     ],
     methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
     credentials: true,
-  }),
+  })
 );
 const __folderName = path.resolve();
 app.use(express.json());
@@ -36,7 +36,5 @@ app.use("*", (req, res) => {
   res.sendFile(path.join(__folderName, "client", "build", "index.html"));
 });
 app.use(errorHandler);
-export const redisClient = new Redis(
-  "rediss://default:AfXgAAIjcDFlMTM1YzM4ZDRkMzY0MWYwYWY1OWMyMmY0OWI4NmYzZXAxMA@definite-ibex-62944.upstash.io:6379",
-);
+export const redisClient = new Redis(process.env.REDIS_KEY!);
 export default app;

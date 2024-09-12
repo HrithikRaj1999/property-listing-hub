@@ -4,8 +4,7 @@ import ImageViewer from "../components/ImageViewer";
 import Spinner from "../components/Spinner";
 import { LABELS } from "../constants/labels";
 import useProfile from "../hooks/profile/useProfile";
-
-export const Profile = () => {
+const Profile = () => {
   const {
     currentUser,
     fileRef,
@@ -153,7 +152,7 @@ export const Profile = () => {
             onClick={() =>
               openModal(
                 "Warning : You are Deleting the Account permanently",
-                handleUserDelete,
+                handleUserDelete
               )
             }
           >
@@ -179,3 +178,4 @@ export const Profile = () => {
     </>
   );
 };
+export default Profile;
